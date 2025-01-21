@@ -1,19 +1,11 @@
 {
+  "extends":"@tsconfig/node21/tsconfig.json",
   "compilerOptions": {
-    "target": "ES6",  // Set to ES2020 or higher
-    "module": "ESNext",   // Change from "commonjs" to "ESNext" or "ES6"
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "moduleResolution": "node"  // Ensures node-style module resolution
+    "outDir": "dist",
+    "checkJs": true
+    
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include":["src/**/*"],
+  "exclude": ["node_modules"],
+
 }
