@@ -1,10 +1,10 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import connectDB from './config/connectDB';
-import fetchStatesData from './services/fetchStatesData';
-import stateRoutes from './routes/stateRoute';
-import { SERVER } from './config/config';
-import mongoose from 'mongoose';
+import express from "express";
+import dotenv from "dotenv";
+import connectDB from "./config/connectDB";
+import fetchStatesData from "./services/fetchStatesData";
+import stateRoutes from "./routes/stateRoute";
+import { SERVER } from "./config/config";
+import mongoose from "mongoose";
 
 // Load environment variables
 dotenv.config();
@@ -22,7 +22,7 @@ const startServer = async () => {
     await fetchStatesData();
 
     // Routes
-    app.use('/states', stateRoutes);
+    app.use("/states", stateRoutes);
 
     // Start server
     const PORT = SERVER.PORT || 3000;
@@ -30,7 +30,7 @@ const startServer = async () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start the server:', error);
+    console.error("Failed to start the server:", error);
     process.exit(1);
   }
 };
@@ -38,8 +38,8 @@ const startServer = async () => {
 startServer();
 
 // Handle graceful shutdown
-process.on('SIGINT', async () => {
-  console.log('Closing MongoDB connection...');
+process.on("SIGINT", async () => {
+  console.log("Closing MongoDB connection");
   await mongoose.connection.close();
   process.exit(0);
 });
