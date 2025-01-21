@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import connectDB from './config/connectDB';
 import fetchStatesData from './services/fetchStatesData';
+import { SERVER } from './config/config';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,7 +20,7 @@ connectDB();
 fetchStatesData();
 
 // Set the server to listen on a specific port
-const PORT = process.env.PORT || 3000;
+const PORT = SERVER.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

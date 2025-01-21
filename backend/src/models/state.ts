@@ -1,6 +1,6 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-interface State {
+export interface IState extends Document{
   name: string;
   flag: string;
   population: number;
@@ -14,6 +14,6 @@ const StateSchema: Schema = new Schema({
 });
 
 // Create a model using the schema
-const StateModel = mongoose.model<State>("States", StateSchema);
+const StateModel = mongoose.model<IState>("States", StateSchema);
 
 export default StateModel;
