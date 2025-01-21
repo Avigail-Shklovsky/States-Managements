@@ -15,8 +15,13 @@ const initializeData = async () => {
     return;
   }
 
-  // Fetch data from API
-  fetchStatesData();
+  // Fetch data from external API
+  try {
+    fetchStatesData();
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return;
+  }
 };
 
 export default initializeData;
