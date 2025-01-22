@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@tsconfig/node21": "^21.0.3",
+    "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",

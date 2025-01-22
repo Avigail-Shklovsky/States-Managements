@@ -5,7 +5,7 @@ import fetchStatesData from "./services/fetchStatesData";
 import stateRoutes from "./routes/stateRoutes";
 import { SERVER } from "./config/config";
 import mongoose from "mongoose";
-
+import cors from "cors";
 // Load environment variables
 dotenv.config();
 
@@ -14,6 +14,8 @@ const app = express();
 
 // Middleware for JSON parsing
 app.use(express.json());
+app.use(cors());
+
 
 // Connect to MongoDB and fetch initial data
 const startServer = async () => {
