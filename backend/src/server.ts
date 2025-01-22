@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/connectDB";
 import fetchStatesData from "./services/fetchStatesData";
-import stateRoutes from "./routes/stateRoute";
+import stateRoutes from "./routes/stateRoutes";
 import { SERVER } from "./config/config";
 import mongoose from "mongoose";
 

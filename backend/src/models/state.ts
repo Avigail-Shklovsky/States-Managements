@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IState extends Document{
+export interface IState extends Document {
   name: string;
   flag: string;
   population: number;
