@@ -1,23 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
-import { State } from "../types/state";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import toast from "react-hot-toast";
+import { State } from "../types/state";
 
-const fetchStates = async (): Promise<State[]> => {
+const fetchStates = async () => {
   try {
     const response = await axios.get("http://localhost:5000/states");
     return response.data;
   } catch (error) {
+    toast.error("Error fetching states");
     throw new Error(`Network response was not ok ${error}`);
   }
 };
 
 const States = () => {
-  const { data, error, isLoading } = useQuery<State[], Error>({
+  // Fetching states with React Query
+  const { data, error, isLoading } = useQuery({
     queryKey: ["states"],
-    queryFn: fetchStates,
+    queryFn: async () => {
+      return toast.promise(fetchStates(), {
+        loading: "Fetching states...",
+        success: "States fetched successfully!",
+        error: "Failed to fetch states.",
+      });
+    },
   });
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
@@ -47,19 +56,19 @@ const States = () => {
     {
       field: "region",
       headerName: "Region",
-      description: "This column has a value getter and is not sortable.",
       width: 160,
     },
   ];
 
   const rows =
-    data?.map((state) => ({
+    data?.map((state:State) => ({
       id: state._id, // Map `_id` to `id`
       flag: state.flag,
       name: state.name,
       population: state.population,
       region: state.region,
     })) || [];
+
   if (isLoading) return <div>Loading...</div>;
 
   if (error) {
