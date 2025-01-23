@@ -1,12 +1,12 @@
 import "../src/styles/App.scss";
+import StatesGridLayout from "./components/StatesGrid";
 import Navbar from "./layouts/Navbar";
-import States from "./services/fetchsStates";
 
 function App() {
   return (
     <>
       <Navbar />
-      <States></States>
+      <StatesGridLayout></StatesGridLayout>
     </>
   );
 }

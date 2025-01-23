@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-export interface State {
+export interface IState {
   _id: Types.ObjectId;
   name: string;
   flag: string;
