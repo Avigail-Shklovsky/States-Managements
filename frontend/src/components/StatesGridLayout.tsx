@@ -1,77 +1,91 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import {  useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchStates, deleteState } from "../services/statesApi";
 import { IState } from "../types/state";
+import toast from "react-hot-toast";
+import StatesTable from "./StatesTable";
+import { Box, Button, CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import ConfirmModal from "./ConfirmModal";
 
-interface StatesTableProps {
-  rows: Array<IState>;
-  onDelete: (id: string) => void;
-}
+const StatesGridLayout = () => {
+  const [selectedRow, setSelectedRow] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
-  const columns: GridColDef[] = [
-    {
-      field: "flag",
-      headerName: "Flag",
-      width: 150,
-      renderCell: (params) => (
-        <img
-          src={params.value}
-          alt="flag"
-          style={{ width: "50px", height: "30px", objectFit: "cover" }}
-        />
-      ),
-    },
-    { field: "name", headerName: "Name", width: 150 },
-    {
-      field: "population",
-      headerName: "Population",
-      type: "number",
-      width: 110,
-    },
-    {
-      field: "region",
-      headerName: "Region",
-      description: "This column is not sortable.",
-      width: 160,
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 200,
-      renderCell: (params) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => alert(`Edit form for ${params.row.id}`)}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => onDelete(params.row.id)}
-          >
-            Delete
-          </Button>
-        </div>
-      ),
-    },
-  ];
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { data, error, isLoading } = useQuery<IState[], Error>({
+    queryKey: ["states"],
+    queryFn: fetchStates,
+  });
+  // useEffect(() => {
+  //   if (data) {
+  //     toast.success("State successfully updated");
+  //   }
+  // }, [data]);
+  const handleDelete = async () => {
+    if (selectedRow) {
+      toast
+        .promise(deleteState(selectedRow), {
+          loading: "Deleting...",
+          success: "State deleted successfully!",
+          error: "Failed to delete state.",
+        })
+        .then(() => queryClient.invalidateQueries({ queryKey: ["states"] }));
+      setIsModalOpen(false);
+    }
+  };
+
+  const rows =
+    data?.map((state: IState) => ({
+      id: state._id,
+      ...state,
+    })) || [];
+
+  if (isLoading)
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height={400}
+      >
+        <CircularProgress />
+      </Box>
+    );
+
+  if (error) {
+    toast.error(`Failed to fetch states: ${error.message}`);
+    return <></>;
+  }
 
   return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { pageSize: 5 },
-        },
-      }}
-      pageSizeOptions={[5]}
-      disableRowSelectionOnClick
-    />
+    <Box sx={{ height: 400, width: "100%" }}>
+      <StatesTable
+        rows={rows}
+        onDelete={(id) => {
+          setSelectedRow(id);
+          setIsModalOpen(true);
+        }}
+      />
+      <Button
+        variant="outlined"
+        onClick={() => {
+          navigate("/form");
+        }}
+      >
+        Add New State
+      </Button>
+
+      <ConfirmModal
+        type="delete"
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleDelete}
+      />
+    </Box>
   );
 };
 
-export default StatesTable;
+export default StatesGridLayout;

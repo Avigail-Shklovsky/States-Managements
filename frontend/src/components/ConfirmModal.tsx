@@ -4,9 +4,15 @@ interface DeleteModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  type: string;
 }
 
-const DeleteConfirmModal: React.FC<DeleteModalProps> = ({ open, onClose, onConfirm }) => {
+const ConfirmModal: React.FC<DeleteModalProps> = ({
+  open,
+  onClose,
+  onConfirm,
+  type,
+}) => {
   return (
     <Modal
       open={open}
@@ -27,11 +33,22 @@ const DeleteConfirmModal: React.FC<DeleteModalProps> = ({ open, onClose, onConfi
         }}
       >
         <Typography id="modal-title" variant="h6" component="h2">
-          Are you sure you want to delete this state?
+          Are you sure you want to
+          {type === "delete" ? " delete this state?" : " cancel?"}
+          <Typography component="h2">
+            {type === "cancel" ? " your changes won't be saved" : ""}
+          </Typography>
         </Typography>
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, marginTop: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: 2,
+            marginTop: 2,
+          }}
+        >
           <Button variant="contained" color="error" onClick={onConfirm}>
-            Yes, Delete
+            {type === "delete" ? "Yes, Delete" : "yes, I want to go back"}
           </Button>
           <Button variant="outlined" onClick={onClose}>
             Cancel
@@ -42,4 +59,4 @@ const DeleteConfirmModal: React.FC<DeleteModalProps> = ({ open, onClose, onConfi
   );
 };
 
-export default DeleteConfirmModal;
+export default ConfirmModal;
