@@ -1,9 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
 import { IState } from "../types/state";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { currentNameStateState } from "../context/atom";
+import ActionsCell from "./ActionsCell";
 
 interface StatesTableProps {
   rows: Array<IState>;
@@ -11,9 +8,6 @@ interface StatesTableProps {
 }
 
 const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
-  const navigate = useNavigate();
-  const [, setName] = useRecoilState(currentNameStateState);
-
   const columns: GridColDef[] = [
     {
       field: "flag",
@@ -45,25 +39,11 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
       headerName: "Actions",
       width: 200,
       renderCell: (params) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              navigate(`/form/${params.row.id}`);
-              setName(params.row.name);
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => onDelete(params.row.id)}
-          >
-            Delete
-          </Button>
-        </div>
+        <ActionsCell
+          id={params.row.id}
+          name={params.row.name}
+          onDelete={onDelete}
+        />
       ),
     },
   ];
