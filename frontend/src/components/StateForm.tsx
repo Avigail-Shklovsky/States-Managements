@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 import { currentNameStateState } from "../context/atom";
 import { useStateAPI } from "../hooks/useStateAPI";
 import { useModal } from "../hooks/useModal";
-import { useFetchState } from "../hooks/useFetchState";
+import { useFetchState } from "../hooks/useQueryStateById";
 import { useState, useEffect } from "react";
 
 const validationSchema = Yup.object().shape({

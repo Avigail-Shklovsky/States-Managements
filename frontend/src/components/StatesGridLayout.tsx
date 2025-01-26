@@ -1,47 +1,27 @@
-import {  useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchStates, deleteState } from "../services/statesApi";
-import { IState } from "../types/state";
-import toast from "react-hot-toast";
-import StatesTable from "./StatesTable";
+import { useState } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import StatesTable from "./StatesTable";
+import { useModal } from "../hooks/useModal";
+import { useStates } from "../hooks/useStates";
+import { useDeleteState } from "../hooks/useDeleteState";
 import ConfirmModal from "./ConfirmModal";
+import toast from "react-hot-toast";
+import { IState } from "../types/state";
 
 const StatesGridLayout = () => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const queryClient = useQueryClient();
+  const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-
-  const { data, error, isLoading } = useQuery<IState[], Error>({
-    queryKey: ["states"],
-    queryFn: fetchStates,
-  });
-  // useEffect(() => {
-  //   if (data) {
-  //     toast.success("State successfully updated");
-  //   }
-  // }, [data]);
-  const handleDelete = async () => {
-    if (selectedRow) {
-      toast
-        .promise(deleteState(selectedRow), {
-          loading: "Deleting...",
-          success: "State deleted successfully!",
-          error: "Failed to delete state.",
-        })
-        .then(() => queryClient.invalidateQueries({ queryKey: ["states"] }));
-      setIsModalOpen(false);
-    }
-  };
-
-  const rows =
-    data?.map((state: IState) => ({
-      id: state._id,
-      ...state,
-    })) || [];
+  
+  // Using the custom hooks
+  const { data, error, isLoading} = useStates();
+  const { handleDelete } = useDeleteState();
+  
+  const rows = data?.map((state:IState) => ({
+    id: state._id,
+    ...state,
+  })) || [];
 
   if (isLoading)
     return (
@@ -55,6 +35,8 @@ const StatesGridLayout = () => {
       </Box>
     );
 
+    
+
   if (error) {
     toast.error(`Failed to fetch states: ${error.message}`);
     return <></>;
@@ -66,14 +48,12 @@ const StatesGridLayout = () => {
         rows={rows}
         onDelete={(id) => {
           setSelectedRow(id);
-          setIsModalOpen(true);
+          openModal();
         }}
       />
       <Button
         variant="outlined"
-        onClick={() => {
-          navigate("/form");
-        }}
+        onClick={() => navigate("/form")}
       >
         Add New State
       </Button>
@@ -81,8 +61,13 @@ const StatesGridLayout = () => {
       <ConfirmModal
         type="delete"
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={handleDelete}
+        onClose={closeModal}
+        onConfirm={() => {
+          if (selectedRow) {
+            handleDelete(selectedRow);
+            closeModal();
+          }
+        }}
       />
     </Box>
   );
