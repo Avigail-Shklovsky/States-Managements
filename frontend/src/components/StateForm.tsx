@@ -1,79 +1,68 @@
-import { Formik, FormikValues, FormikHelpers, Form, Field } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box } from "@mui/material";
 import { FormValues } from "../types/formValues";
 import { useNavigate, useParams } from "react-router-dom";
-import { addState, updateState } from "../services/statesApi";
 import { IState } from "../types/state";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 import { useRecoilState } from "recoil";
 import { currentNameStateState } from "../context/atom";
-import toast from "react-hot-toast";
+import { useStateAPI } from "../hooks/useStateAPI";
+import { useModal } from "../hooks/useModal";
+import { useFetchState } from "../hooks/useFetchState";
+import { useState, useEffect } from "react";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  flag: Yup.string().required("Flag URL is required"),
+  population: Yup.number()
+    .positive("Population must be a positive number")
+    .required("Population is required"),
+  region: Yup.string().required("Region is required"),
+});
 
 const StateForm: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [, setName] = useRecoilState(currentNameStateState);
 
-  const { id } = useParams();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const { handleSaveState } = useStateAPI(id); 
+  const { isModalOpen, openModal, closeModal } = useModal(); 
 
-  // Retrieve the state from the cache if it exists
-  const cachedStates = queryClient.getQueryData<IState[]>(["states"]);
-  const stateData = cachedStates?.find((state) => String(state._id) === id);
-
-  // Set initial values based on the state data or default values
-  const initialValues: FormValues = stateData || {
+  // Use the custom hook to fetch the state data
+  const stateData = useFetchState(id);
+  
+  const [initialValues, setInitialValues] = useState<FormValues>({
     name: "",
     flag: "",
     population: 0,
     region: "",
-  };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    flag: Yup.string().required("Flag URL is required"),
-    population: Yup.number()
-      .positive("Population must be a positive number")
-      .required("Population is required"),
-    region: Yup.string().required("Region is required"),
   });
 
-  const handleSubmit = async (
-    values: FormikValues,
-    { setSubmitting }: FormikHelpers<FormValues>
-  ) => {
-    try {
-      if (id) {
-        // Update state
-        await updateState(values as unknown as IState);
-      } else {
-        // Add new state
-        const result = await addState(values as unknown as IState);
-        console.log(result);
-
-        if (result._id) toast.success("State saved successfully!");
-      }
-
-      // Invalidate the query to refresh the table
-      queryClient.invalidateQueries({ queryKey: ["states"] });
-      setSubmitting(false);
-      navigate(`/`);
-      setName("");
-    } catch (error) {
-      toast.error(
-        !id ? "The state is already existing." : "Failed to save state."
-      );
-      console.error("Error saving state:", error);
+  // Set the initial values based on stateData if available
+  useEffect(() => {
+    if (stateData) {
+      setInitialValues({
+        name: stateData.name,
+        flag: stateData.flag,
+        population: stateData.population,
+        region: stateData.region,
+      });
     }
+  }, [stateData]);
+
+  const handleSubmit = async (values: FormValues) => {
+    await handleSaveState(values as unknown as IState);
+    setName("");
+    navigate(`/`);
   };
+
   return (
     <div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
+        enableReinitialize // This ensures the form reinitializes with updated initialValues
         onSubmit={handleSubmit}
       >
         {({ dirty, touched, errors, isValid }) => (
@@ -145,7 +134,7 @@ const StateForm: React.FC = () => {
               variant="outlined"
               color="primary"
               size="large"
-              onClick={() => setIsModalOpen(true)}
+              onClick={openModal}
             >
               Cancel
             </Button>
@@ -155,8 +144,11 @@ const StateForm: React.FC = () => {
       <ConfirmModal
         type="cancel"
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={() => navigate("/")}
+        onClose={closeModal}
+        onConfirm={() => {
+          navigate("/");
+          setName("");
+        }}
       />
     </div>
   );

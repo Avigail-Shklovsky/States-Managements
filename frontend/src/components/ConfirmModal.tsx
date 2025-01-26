@@ -1,24 +1,38 @@
 import { Box, Button, Typography, Modal } from "@mui/material";
+import { ConfirmModalProps } from "../types/confirmModalProps";
 
-interface DeleteModalProps {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  type: string;
-}
-
-const ConfirmModal: React.FC<DeleteModalProps> = ({
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
   open,
   onClose,
   onConfirm,
-  type,
+  type = "cancel",
 }) => {
+  const modalContent = () => {
+    switch (type) {
+      case "delete":
+        return {
+          title: "Are you sure you want to delete this state?",
+          subtitle: "",
+          buttonText: "Yes, Delete",
+        };
+      case "cancel":
+      default:
+        return {
+          title: "Are you sure you want to cancel?",
+          subtitle: "Your changes won't be saved.",
+          buttonText: "Yes, I want to go back",
+        };
+    }
+  };
+
+  const { title, subtitle, buttonText } = modalContent();
   return (
     <Modal
       open={open}
       onClose={onClose}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
+      aria-live="assertive"
     >
       <Box
         sx={{
@@ -33,12 +47,9 @@ const ConfirmModal: React.FC<DeleteModalProps> = ({
         }}
       >
         <Typography id="modal-title" variant="h6" component="h2">
-          Are you sure you want to
-          {type === "delete" ? " delete this state?" : " cancel?"}
-          <Typography component="h2">
-            {type === "cancel" ? " your changes won't be saved" : ""}
-          </Typography>
+          {title}
         </Typography>
+        {subtitle && <Typography component="p">{subtitle}</Typography>}
         <Box
           sx={{
             display: "flex",
@@ -48,7 +59,7 @@ const ConfirmModal: React.FC<DeleteModalProps> = ({
           }}
         >
           <Button variant="contained" color="error" onClick={onConfirm}>
-            {type === "delete" ? "Yes, Delete" : "yes, I want to go back"}
+            {buttonText}
           </Button>
           <Button variant="outlined" onClick={onClose}>
             Cancel
