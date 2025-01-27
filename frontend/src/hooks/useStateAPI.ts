@@ -9,7 +9,7 @@ export const useStateAPI = (id: string | undefined) => {
   const handleSaveState = async (values: IState) => {
     try {
       if (id) {
-        await updateState(values);
+        await updateState({ ...values, _id: id } as unknown as IState);
         toast.success("State updated successfully!");
       } else {
         const result = await addState(values);
