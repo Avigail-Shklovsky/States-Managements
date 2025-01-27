@@ -2,8 +2,6 @@ import axios from "axios";
 import { IState } from "../types/state";
 
 export const fetchStates = async (): Promise<IState[]> => {
-  console.log("in fetch function");
-
   const response = await axios.get("http://localhost:5000/states");
   return response.data;
 };

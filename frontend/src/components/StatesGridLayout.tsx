@@ -15,10 +15,10 @@ const StatesGridLayout = () => {
   const navigate = useNavigate();
   
   // Using the custom hooks
-  const { data, error, isLoading} = useStates();
+  const { data, error, isLoading } = useStates();
   const { handleDelete } = useDeleteState();
   
-  const rows = data?.map((state:IState) => ({
+  const rows = data?.map((state: IState) => ({
     id: state._id,
     ...state,
   })) || [];
@@ -35,15 +35,13 @@ const StatesGridLayout = () => {
       </Box>
     );
 
-    
-
   if (error) {
     toast.error(`Failed to fetch states: ${error.message}`);
     return <></>;
   }
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{  width: "100%", mt: 10 }}>  {/* Add mt and calc for full viewport height minus navbar */}
       <StatesTable
         rows={rows}
         onDelete={(id) => {
