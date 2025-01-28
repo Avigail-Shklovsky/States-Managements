@@ -1,6 +1,8 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid"; // Using the free version
 import { IState } from "../types/state";
 import ActionsCell from "./ActionsCell";
+import "./StatesTable.scss";
 
 interface StatesTableProps {
   rows: Array<IState>;
@@ -12,7 +14,7 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
     {
       field: "flag",
       headerName: "Flag",
-      width: 150,
+      flex: 1, // Dynamically allocate space
       renderCell: (params) => (
         <img
           src={params.value}
@@ -21,23 +23,23 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
         />
       ),
     },
-    { field: "name", headerName: "Name", width: 150 },
+    { field: "name", headerName: "Name", flex: 1 },
     {
       field: "population",
       headerName: "Population",
       type: "number",
-      width: 110,
+      flex: 1,
     },
     {
       field: "region",
       headerName: "Region",
       description: "This column is not sortable.",
-      width: 160,
+      flex: 1,
     },
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
+      flex: 1, // Allocate more space for actions
       renderCell: (params) => (
         <ActionsCell
           id={params.row.id}
@@ -47,19 +49,22 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
       ),
     },
   ];
+  
 
   return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { pageSize: 5 },
-        },
-      }}
-      pageSizeOptions={[5]}
-      disableRowSelectionOnClick
-    />
+    <div className="responsive-table-container">
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5]}
+        disableRowSelectionOnClick
+      />
+    </div>
   );
 };
 

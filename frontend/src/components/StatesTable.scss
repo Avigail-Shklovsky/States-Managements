@@ -1,0 +1,74 @@
+.responsive-table-container {
+    width: 100%;
+    max-width: 1200px; /* Limit max width for large screens */
+    margin: 0;
+    padding: 0;
+  
+    .MuiDataGrid-root {
+      width: 100%;
+      font-size: 0.9rem;
+  
+      .MuiDataGrid-columnHeader,
+      .MuiDataGrid-cell {
+        text-align: left;
+        padding: 0.5rem;
+      }
+  
+      img {
+        width: 50px;
+        height: 30px;
+        object-fit: cover;
+      }
+  
+      /* Smaller buttons for actions on smaller screens */
+      .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center; /* Center vertically on small screens */
+  
+        button {
+          padding: 0.4rem 0.6rem;
+          font-size: 0.8rem;
+          flex-shrink: 1; /* Allow the buttons to shrink */
+          /* width: 20%; */ /* Avoid using width unless needed */
+  
+          @media (max-width: 768px) {
+            padding: 0.15rem 0.25rem;
+            font-size: 0.5rem;
+            /* background-color: purple; */
+          }
+  
+          @media (max-width: 480px) {
+            padding: 0.1rem 0.2rem;
+            font-size: 0.5rem;
+            /* width: 20%; */ /* No need to set width; allow Flexbox to handle it */
+          }
+        }
+      }
+  
+      /* Adjustments for smaller screens */
+      @media (max-width: 768px) {
+        font-size: 0.8rem;
+  
+        img {
+          width: 40px;
+          height: 25px;
+        }
+      }
+  
+      @media (max-width: 480px) {
+        font-size: 0.7rem;
+  
+        .MuiDataGrid-columnHeader,
+        .MuiDataGrid-cell {
+          padding: 0.25rem;
+        }
+  
+        img {
+          width: 35px;
+          height: 20px;
+        }
+      }
+    }
+  }
+  

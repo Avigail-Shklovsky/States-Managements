@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Typography} from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import { FormValues } from "../types/formValues";
 import { useNavigate, useParams } from "react-router-dom";
 import { IState } from "../types/state";
@@ -57,11 +57,10 @@ const StateForm: React.FC = () => {
   };
 
   return (
-    <>
-     
+    <div data-testid="state-form">
       <div className="container">
         <div className="formWrapper">
-        <Typography variant="h4" gutterBottom className="title">
+          <Typography variant="h4" gutterBottom className="title">
             {id ? "Update State" : "Create State"}
           </Typography>
           <Formik
@@ -159,7 +158,7 @@ const StateForm: React.FC = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

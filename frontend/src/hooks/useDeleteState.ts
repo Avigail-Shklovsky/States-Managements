@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteState = () => {
   const queryClient = useQueryClient();
-  
+
   const handleDelete = async (id: string) => {
     toast
       .promise(deleteState(id), {
@@ -17,3 +17,4 @@ export const useDeleteState = () => {
 
   return { handleDelete };
 };
+export default useDeleteState;
