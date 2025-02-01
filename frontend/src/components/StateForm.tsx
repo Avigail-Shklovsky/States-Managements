@@ -140,7 +140,10 @@ const StateForm: React.FC = () => {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  onClick={openModal}
+                  onClick={() => {
+                    if (dirty) openModal();
+                    else navigate(`/`);
+                  }}
                 >
                   Cancel
                 </Button>
