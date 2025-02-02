@@ -1,8 +1,6 @@
 import { log } from "console";
 import mongoose from "mongoose";
 import { SERVER } from "./config";
-// require('dotenv').config();
-// import 'dotenv/config';
 
 const connectDB = async (): Promise<void> => {
   const mongoUri = SERVER.MONGODB_URI;

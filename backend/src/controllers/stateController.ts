@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import StateModel, { IState } from "../models/state";
-import mongoSanitize from "mongo-sanitize";
 import validator from "validator";
-import { sanitizeInput } from "../utils/sanitizeInput";
+import { sanitizeString } from "../utils/sanitizeInput";
 
 // Create a new state
 export const createState = async (
@@ -11,10 +10,10 @@ export const createState = async (
 ): Promise<void> => {
   try {
     const sanitizedBody = {
-      name: sanitizeInput(req.body.name),
-      flag: sanitizeInput(req.body.flag),
+      name: sanitizeString(req.body.name),
+      flag: sanitizeString(req.body.flag),
       population: validator.isNumeric(req.body.population) ? req.body.population : 0,
-      region: sanitizeInput(req.body.region),
+      region: sanitizeString(req.body.region),
     };
 
     const newState: IState = new StateModel(sanitizedBody);
@@ -62,10 +61,10 @@ export const updateState = async (
   try {
     const { id } = req.params;
     const sanitizedBody = {
-      name: sanitizeInput(req.body.name),
-      flag: sanitizeInput(req.body.flag),
+      name: sanitizeString(req.body.name),
+      flag: sanitizeString(req.body.flag),
       population: validator.isNumeric(req.body.population) ? req.body.population : 0,
-      region: sanitizeInput(req.body.region),
+      region: sanitizeString(req.body.region),
     };
 
     const updatedState = await StateModel.findByIdAndUpdate(

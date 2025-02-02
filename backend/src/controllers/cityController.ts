@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import CityModel, { ICity } from "../models/city";
+import { sanitizeString } from "../utils/sanitizeInput";
 
 // Create a new city
 export const createCity = async (
@@ -7,12 +8,15 @@ export const createCity = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, flag, population, region } = req.body;
-    const newCity: ICity = new CityModel({ name, flag, population, region });
+    const sanitizedBody = {
+      name: sanitizeString(req.body.name)
+    };
+    const newCity: ICity = new CityModel({ sanitizedBody });
     const savedCity = await newCity.save();
     res.status(201).json(savedCity);
   } catch (error) {
-    console.error("Error in createCity:", error); // Log the error
+    console.error("Error in create City:", error);
+    
     res.status(500).json({ error: error });
   }
 };
@@ -52,11 +56,13 @@ export const updateCity = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name} = req.body;
+    const sanitizedBody = {
+      name: sanitizeString(req.body.name)
+    };
 
     const updatedCity = await CityModel.findByIdAndUpdate(
       id.toString(),
-      { name } as ICity,
+      sanitizedBody as unknown as ICity,
       { new: true }
     );
 
