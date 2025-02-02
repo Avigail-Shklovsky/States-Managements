@@ -12,6 +12,9 @@ export const sanitizeString = (input: string): string => {
     return "password"
   }
 
-  export const sanitizeAuth = (input:string[]):string[]=>{
-    return [""]
-  }
+  export const sanitizeAuth = (input: string[]): string[] => {
+    const validPermissions = ["create", "read", "update", "delete"];
+    return input.map(item => sanitizeString(item.trim())).filter(item => validPermissions.includes(item));
+  };
+  
+  

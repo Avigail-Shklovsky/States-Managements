@@ -16,7 +16,6 @@ const StateSchema: Schema = new Schema({
 
 });
 
-// Create a model using the schema
 const StateModel = mongoose.model<IState>("States", StateSchema);
 
 export default StateModel;

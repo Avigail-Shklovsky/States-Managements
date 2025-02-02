@@ -7,7 +7,6 @@ const CitySchema: Schema = new Schema({
   name: { type: String, required: true, unique: true }
 });
 
-// Create a model using the schema
 const CityModel = mongoose.model<ICity>("Cities", CitySchema);
 
 export default CityModel;
