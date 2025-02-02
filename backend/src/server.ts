@@ -6,6 +6,9 @@ import stateRoutes from "./routes/stateRoutes";
 import { SERVER } from "./config/config";
 import mongoose from "mongoose";
 import cors from "cors";
+import helmet from "helmet";
+
+
 // Load environment variables
 dotenv.config();
 
@@ -15,6 +18,21 @@ const app = express();
 // Middleware for JSON parsing
 app.use(express.json());
 app.use(cors());
+
+// Use helmet to secure Express headers
+app.use(helmet());
+
+// Add Content Security Policy (CSP)
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  })
+);
 
 
 // Connect to MongoDB and fetch initial data

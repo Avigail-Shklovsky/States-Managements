@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import StateModel, { IState } from "../models/state";
+import mongoSanitize from "mongo-sanitize";
+import validator from "validator";
+import { sanitizeInput } from "../utils/sanitizeInput";
 
 // Create a new state
 export const createState = async (
@@ -7,12 +10,18 @@ export const createState = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { name, flag, population, region } = req.body;
-    const newState: IState = new StateModel({ name, flag, population, region });
+    const sanitizedBody = {
+      name: sanitizeInput(req.body.name),
+      flag: sanitizeInput(req.body.flag),
+      population: validator.isNumeric(req.body.population) ? req.body.population : 0,
+      region: sanitizeInput(req.body.region),
+    };
+
+    const newState: IState = new StateModel(sanitizedBody);
     const savedState = await newState.save();
     res.status(201).json(savedState);
   } catch (error) {
-    console.error("Error in createState:", error); // Log the error
+    console.error("Error in createState:", error);
     res.status(500).json({ error: error });
   }
 };
@@ -52,11 +61,16 @@ export const updateState = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name, flag, population, region } = req.body;
+    const sanitizedBody = {
+      name: sanitizeInput(req.body.name),
+      flag: sanitizeInput(req.body.flag),
+      population: validator.isNumeric(req.body.population) ? req.body.population : 0,
+      region: sanitizeInput(req.body.region),
+    };
 
     const updatedState = await StateModel.findByIdAndUpdate(
       id.toString(),
-      { name, flag, population, region } as IState,
+      sanitizedBody as unknown as IState,
       { new: true }
     );
 
