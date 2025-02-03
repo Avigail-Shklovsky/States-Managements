@@ -9,7 +9,9 @@ dotenv.config();
 
 // sign up
 export const signUp = async (req: Request, res: Response) => {
-    const { firstName, lastName, userName, email, phone, profileImage, password, auth } = req.body;
+    const { firstName, lastName, userName, email, phone, password, auth } = req.body;
+    const profileImage = req.file ? req.file.path : null;
+
     try {
         if (!password) {
             res.status(400).json({ message: "Password is required" });
