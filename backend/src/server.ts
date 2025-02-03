@@ -7,6 +7,10 @@ import { SERVER } from "./config/config";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
+import userRoutes from "./routes/userRoutes";
+import cookieParser from "cookie-parser";
+import citiesRoutes from "./routes/citiesRoutes";
+import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 
@@ -15,6 +19,7 @@ const app = express();
 // Middleware for JSON parsing
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser()); 
 
 // Use helmet to secure Express headers
 app.use(helmet());
@@ -38,6 +43,9 @@ const startServer = async () => {
     await fetchStatesData();
 
     app.use("/states", stateRoutes);
+    app.use("/users",userRoutes);
+    app.use("/cities",citiesRoutes);
+    app.use("/auth",authRoutes);
 
     const PORT = SERVER.PORT || 3000;
     app.listen(PORT, () => {

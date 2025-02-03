@@ -8,10 +8,12 @@ export const createCity = async (
   res: Response
 ): Promise<void> => {
   try {
+    console.log("in create city");
+    
     const sanitizedBody = {
       name: sanitizeString(req.body.name)
     };
-    const newCity: ICity = new CityModel({ sanitizedBody });
+    const newCity: ICity = new CityModel(sanitizedBody);
     const savedCity = await newCity.save();
     res.status(201).json(savedCity);
   } catch (error) {

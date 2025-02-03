@@ -4,31 +4,32 @@ import validator from "validator";
 import { sanitizeString, sanitizePassword, sanitizeAuth, } from "../utils/sanitizeInput";
 
 // Create a new user
-export const createUser = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
-    try {
-        const sanitizedBody = {
-            firstName: sanitizeString(req.body.firstName),
-            lastName: sanitizeString(req.body.lastName),
-            userName: sanitizeString(req.body.userName),
-            email: sanitizeString(req.body.email),
-            phone: sanitizeString(req.body.phone),
-            profileImage: sanitizeString(req.body.profileImage),
-            password: sanitizePassword(req.body.password),
-            changedDate: validator.isDate(req.body.changedDate) ? req.body.date : null,
-            auth: sanitizeAuth(req.body.auth),
-        };
+// export const createUser = async (
+//     req: Request,
+//     res: Response
+// ): Promise<void> => {
+//     try {
+//         const sanitizedBody = {
+//             firstName: sanitizeString(req.body.firstName),
+//             lastName: sanitizeString(req.body.lastName),
+//             userName: sanitizeString(req.body.userName),
+//             email: sanitizeString(req.body.email),
+//             phone: sanitizeString(req.body.phone),
+//             profileImage: sanitizeString(req.body.profileImage),
+//             password: sanitizePassword(req.body.password),
+//             changedDate: validator.isDate(req.body.changedDate) ? req.body.date : null,
+//             auth: sanitizeAuth(req.body.auth),
+//         };
 
-        const newUser: IUser = new UserModel(sanitizedBody);
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-    } catch (error) {
-        console.error("Error in createUser:", error);
-        res.status(500).json({ error: error });
-    }
-};
+//         const newUser: IUser = new UserModel(sanitizedBody);
+//         const savedUser = await newUser.save();
+//         res.status(201).json(savedUser);
+//     } catch (error) {
+//         console.error("Error in createUser:", error);
+//         res.status(500).json({ error: error });
+//     }
+// };
+
 
 // Get all users
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
