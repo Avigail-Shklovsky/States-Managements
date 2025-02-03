@@ -1,5 +1,5 @@
 import { Box, Button, Typography, Modal } from "@mui/material";
-import { ConfirmModalProps } from "../types/confirmModalProps";
+import { ConfirmModalProps } from "../../types/confirmModalProps";
 import './ConfirmModal.scss';
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({

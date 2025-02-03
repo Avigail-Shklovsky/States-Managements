@@ -1,15 +1,15 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Typography } from "@mui/material";
-import { FormValues } from "../types/formValues";
+import { FormValues } from "../../types/formValues";
 import { useNavigate, useParams } from "react-router-dom";
-import { IState } from "../types/state";
+import { IState } from "../../types/state";
 import ConfirmModal from "./ConfirmModal";
 import { useRecoilState } from "recoil";
-import { currentNameStateState } from "../context/atom";
-import { useStateAPI } from "../hooks/useStateAPI";
-import { useModal } from "../hooks/useModal";
-import { useQueryStateById } from "../hooks/useQueryStateById";
+import { currentNameStateState } from "../../context/atom";
+import { useStateAPI } from "../../hooks/useStateAPI";
+import { useModal } from "../../hooks/useModal";
+import { useQueryStateById } from "../../hooks/useQueryStateById";
 import { useState, useEffect } from "react";
 import "./StateForm.scss";
 

@@ -1,8 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid"; // Using the free version
-import { IState } from "../types/state";
+import { DataGrid } from "@mui/x-data-grid"; 
 import ActionsCell from "./ActionsCell";
 import "./StatesTable.scss";
+import { IState } from "../../types/state";
 
 interface StatesTableProps {
   rows: Array<IState>;

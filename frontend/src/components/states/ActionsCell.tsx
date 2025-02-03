@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentNameStateState } from "../context/atom";
+import { currentNameStateState } from "../../context/atom";
 
 interface ActionsCellProps {
   id: string;

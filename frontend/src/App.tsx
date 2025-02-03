@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
 import "../src/styles/App.scss";
-import StatesGridLayout from "./components/StatesGridLayout";
+import StatesGridLayout from "./components/states/StatesGridLayout";
 import Navbar from "./layouts/Navbar";
-import StateForm from "./components/StateForm";
+import StateForm from "./components/states/StateForm";
 import { RecoilRoot } from "recoil";
 import "../src/styles/_global.scss"; 
 function App() {

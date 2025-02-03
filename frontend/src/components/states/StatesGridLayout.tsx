@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import StatesTable from "./StatesTable";
-import { useModal } from "../hooks/useModal";
-import { useStates } from "../hooks/useStates";
-import  useDeleteState  from "../hooks/useDeleteState"; 
+import { useModal } from "../../hooks/useModal";
+import { useStates } from "../../hooks/useStates";
+import  useDeleteState  from "../../hooks/useDeleteState"; 
 import ConfirmModal from "./ConfirmModal";
 import toast from "react-hot-toast";
-import { IState } from "../types/state";
+import { IState } from "../../types/state";
 
 const StatesGridLayout = () => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
