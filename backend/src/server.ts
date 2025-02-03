@@ -11,6 +11,7 @@ import userRoutes from "./routes/userRoutes";
 import cookieParser from "cookie-parser";
 import citiesRoutes from "./routes/citiesRoutes";
 import authRoutes from "./routes/authRoutes";
+import messageRoutes from "./routes/messageRoutes";
 
 dotenv.config();
 
@@ -46,6 +47,8 @@ const startServer = async () => {
     app.use("/users",userRoutes);
     app.use("/cities",citiesRoutes);
     app.use("/auth",authRoutes);
+    app.use("/message",messageRoutes);
+
 
     const PORT = SERVER.PORT || 3000;
     app.listen(PORT, () => {

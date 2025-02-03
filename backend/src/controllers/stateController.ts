@@ -28,7 +28,9 @@ export const createState = async (
 // Get all states
 export const getStates = async (req: Request, res: Response): Promise<void> => {
   try {
-    const states = await StateModel.find();
+    const states = await StateModel.find()
+      .populate("cities"); 
+    
     res.status(200).json(states);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -42,7 +44,7 @@ export const getStateById = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const state = await StateModel.findById(id.toString());
+    const state = await StateModel.findById(id.toString()).populate("cities");
     if (!state) {
       res.status(404).json({ message: "State not found" });
       return;

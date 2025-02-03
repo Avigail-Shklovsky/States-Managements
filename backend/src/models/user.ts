@@ -10,8 +10,8 @@ export interface IUser extends Document {
   password:string;
   changedDate:Date;
   auth:string[]
-
 }
+
 const UserSchema: Schema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
