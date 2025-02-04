@@ -7,6 +7,7 @@ import { RecoilRoot } from "recoil";
 import "../src/styles/_global.scss"; 
 import SignIn from "./components/users/SignIn";
 import SignUpUpdate from "./components/users/SignUpUpdate";
+import Profile from "./components/users/Profile";
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<StatesGridLayout />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUpUpdate />} />
             <Route path="/form/:id?" element={<StateForm />} />
           </Routes>

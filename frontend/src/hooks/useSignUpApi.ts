@@ -22,6 +22,7 @@ export const useSignUpApi = (id: string | undefined) => {
 
       // Invalidate the query to refresh the states table
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      return result;
     } catch (error) {
       toast.error("Failed to sign up.");
       console.error("Error signing up:", error);

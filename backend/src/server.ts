@@ -19,7 +19,14 @@ const app = express();
 
 // Middleware for JSON parsing
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Change to your frontend port
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(cookieParser()); 
 
 // Use helmet to secure Express headers
@@ -32,7 +39,7 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:"],
+      imgSrc: ["'self'", "data:", "http://localhost:5000"],
     },
   })
 );
@@ -48,7 +55,12 @@ const startServer = async () => {
     app.use("/cities",citiesRoutes);
     app.use("/auth",authRoutes);
     app.use("/message",messageRoutes);
-
+    app.use("/uploads", express.static("uploads", {
+      setHeaders: (res) => {
+        res.set("Cross-Origin-Resource-Policy", "cross-origin");
+      },
+    }));
+    
 
     const PORT = SERVER.PORT || 3000;
     app.listen(PORT, () => {

@@ -7,6 +7,7 @@ import { useState } from "react";
 import "../states/StateForm.scss";
 import { FileField } from "../FileFieldInput";
 import { useSignUpApi } from "../../hooks/useSignUpApi";
+import { useAuth } from "../../hooks/useAuth";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
@@ -32,6 +33,7 @@ const SignUpUpdate: React.FC = () => {
   const navigate = useNavigate();
 
   const { handleSignUp } = useSignUpApi(id);
+  const { handleLoginLocalStorage } = useAuth();
 
   //   const stateData = useQueryStateById(id);
 
@@ -81,9 +83,9 @@ const SignUpUpdate: React.FC = () => {
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-    
     try {
-      await handleSignUp(formData); // Ensure this function supports FormData
+     const response =  await handleSignUp(formData); // Ensure this function supports FormData
+     handleLoginLocalStorage(response)
       navigate(`/`);
     } catch (error) {
       console.error("Error submitting form:", error);

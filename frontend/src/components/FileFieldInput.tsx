@@ -9,15 +9,15 @@ interface FileFieldProps extends FieldProps {
 
 export const FileField: React.FC<FileFieldProps> = ({ field, form, label }) => {
   const [fileName, setFileName] = useState<string | null>(null);
-  const error = form.errors[field.name]; // Get error from Formik
-  const touched = form.touched[field.name]; // Check if field was touched
-  const theme = useTheme(); 
+  const error = form.errors[field.name];
+  const touched = form.touched[field.name];
+  const theme = useTheme();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    form.setFieldValue(field.name, file); // Update Formik state
-    form.setFieldTouched(field.name, true, false); // Mark field as touched
-    setFileName(file ? file.name : null); // Store file name
+    form.setFieldValue(field.name, file);
+    form.setFieldTouched(field.name, true, false);
+    setFileName(file ? file.name : null);
   };
 
   return (
@@ -35,14 +35,14 @@ export const FileField: React.FC<FileFieldProps> = ({ field, form, label }) => {
         </Button>
       </label>
 
-      {/* Show selected file name */}
       {fileName && (
         <Typography sx={{ color: "green" }}>✔ {fileName}</Typography>
       )}
 
-      {/* Show validation error message */}
       {touched && error && typeof error === "string" && (
-        <Typography sx={{ color: theme.palette.error.main, fontSize: "0.85rem" }}>
+        <Typography
+          sx={{ color: theme.palette.error.main, fontSize: "0.85rem" }}
+        >
           {error}
         </Typography>
       )}
