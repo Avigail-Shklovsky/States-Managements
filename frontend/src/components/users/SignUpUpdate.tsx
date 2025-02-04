@@ -2,7 +2,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { SignUpFormValues } from "../../types/signUpFormValues";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import "../states/StateForm.scss";
 import { FileField } from "../FileFieldInput";
@@ -13,17 +13,17 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string().required("Last Name is required"),
   userName: Yup.string().required("Username is required"),
   phone: Yup.string()
-  .matches(/^\d{7,15}$/, "Phone number must be 7-15 digits")
-  .required("Phone number is required"),
+    .matches(/^\d{7,15}$/, "Phone number must be 7-15 digits")
+    .required("Phone number is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   profileImage: Yup.mixed()
-  .test("required", "Profile image is required", (value) => {
-    return value && value instanceof File;
-  })
-  .test("fileType", "Only image files are allowed", (value) => {
-    return value instanceof File && ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
-  }),
+    .test("required", "Profile image is required", (value) => {
+      return value && value instanceof File;
+    })
+    .test("fileType", "Only image files are allowed", (value) => {
+      return value instanceof File && ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+    }),
 });
 
 
@@ -78,10 +78,10 @@ const SignUpUpdate: React.FC = () => {
       console.error("No file uploaded or invalid file format:", values.profileImage);
     }
 
-    // 🔹 Log FormData properly
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
+    
     try {
       await handleSignUp(formData); // Ensure this function supports FormData
       navigate(`/`);
@@ -200,6 +200,15 @@ const SignUpUpdate: React.FC = () => {
                 >
                   Sign Up
                 </Button>
+
+                <Box mt={2} textAlign="center">
+                  <Typography variant="body2">
+                    Already have an account?{" "}
+                    <Link to="/signin" style={{ textDecoration: "none", color: "#1976d2" }}>
+                      Sign in here
+                    </Link>
+                  </Typography>
+                </Box>
 
 
               </Form>
