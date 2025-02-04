@@ -142,7 +142,10 @@ const StateForm: React.FC = () => {
                   size="large"
                   onClick={() => {
                     if (dirty) openModal();
-                    else navigate(`/`);
+                    else {
+                      navigate(`/`);
+                      setName("");
+                    };
                   }}
                 >
                   Cancel
@@ -156,7 +159,6 @@ const StateForm: React.FC = () => {
             onClose={closeModal}
             onConfirm={() => {
               navigate("/");
-              setName("");
             }}
           />
         </div>

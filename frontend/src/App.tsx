@@ -5,6 +5,7 @@ import Navbar from "./layouts/Navbar";
 import StateForm from "./components/states/StateForm";
 import { RecoilRoot } from "recoil";
 import "../src/styles/_global.scss"; 
+import SignUpUpdate from "./components/users/SignUpUpdate";
 function App() {
 
   return (
@@ -13,6 +14,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<StatesGridLayout />} />
+            <Route path="/signup" element={<SignUpUpdate />} />
             <Route path="/form/:id?" element={<StateForm />} />
           </Routes>
         </RecoilRoot>

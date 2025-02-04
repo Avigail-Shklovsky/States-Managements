@@ -14,10 +14,10 @@ export const useStates = () => {
 
   useEffect(() => {
     // Check if toast was already shown during this app session
-    const hasAnnounced = localStorage.getItem("statesFetched");
+    // const hasAnnounced = localStorage.getItem("statesFetched");
 
-    if (!hasAnnounced && data && !isFetching) {
-      toast.success("States fetched and cached successfully! 🎉");
+    if ( data && !isFetching) {
+      toast.success("States fetched and cached successfully! ");
       localStorage.setItem("statesFetched", "true"); // Mark as shown
     }
   }, [data, isFetching]);

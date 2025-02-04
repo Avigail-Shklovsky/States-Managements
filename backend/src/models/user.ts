@@ -23,9 +23,6 @@ const UserSchema: Schema = new Schema({
     changedDate : { type: Date, required: true},
     auth :{ type: [String], required: true}
 
-
- 
-
 });
 
 const UserModel = mongoose.model<IUser>("Users", UserSchema);
