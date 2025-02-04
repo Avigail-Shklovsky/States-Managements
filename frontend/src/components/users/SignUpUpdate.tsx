@@ -3,10 +3,6 @@ import * as Yup from "yup";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { SignUpFormValues } from "../../types/signUpFormValues";
 import { useNavigate, useParams } from "react-router-dom";
-import ConfirmModal from "../states/ConfirmModal";
-import { useRecoilState } from "recoil";
-import { currentNameStateState } from "../../context/atom";
-import { useModal } from "../../hooks/useModal";
 import { useState } from "react";
 import "../states/StateForm.scss";
 import { FileField } from "../FileFieldInput";
@@ -16,23 +12,26 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last Name is required"),
   userName: Yup.string().required("Username is required"),
+  phone: Yup.string()
+  .matches(/^\d{7,15}$/, "Phone number must be 7-15 digits")
+  .required("Phone number is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  phone: Yup.string().required("Phone number is required"),
   password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   profileImage: Yup.mixed()
-    .test("fileType", "Only image files are allowed", (value) => {
-      if (!value) return true; // Allow empty file (optional)
-      return value instanceof File;
-    }),
+  .test("required", "Profile image is required", (value) => {
+    return value && value instanceof File;
+  })
+  .test("fileType", "Only image files are allowed", (value) => {
+    return value instanceof File && ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+  }),
 });
+
 
 const SignUpUpdate: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [, setName] = useRecoilState(currentNameStateState);
 
   const { handleSignUp } = useSignUpApi(id);
-  const { isModalOpen, openModal, closeModal } = useModal();
 
   //   const stateData = useQueryStateById(id);
 
@@ -62,7 +61,7 @@ const SignUpUpdate: React.FC = () => {
 
   const handleSubmit = async (values: SignUpFormValues) => {
     const formData = new FormData();
-  
+
     formData.append("firstName", values.firstName);
     formData.append("lastName", values.lastName);
     formData.append("userName", values.userName);
@@ -71,26 +70,26 @@ const SignUpUpdate: React.FC = () => {
     formData.append("password", values.password);
     formData.append("changedDate", values.changedDate.toISOString());
     formData.append("auth", JSON.stringify(values.auth));
-  
-   // Ensure profileImage is a File
-  if (values.profileImage && values.profileImage as any instanceof File) {
-    formData.append("profileImage", values.profileImage);
-  } else {
-    console.error("No file uploaded or invalid file format:", values.profileImage);
-  }
 
-  // 🔹 Log FormData properly
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}:`, value);
-  }
-    try {      
+    // Ensure profileImage is a File
+    if (values.profileImage && values.profileImage as any instanceof File) {
+      formData.append("profileImage", values.profileImage);
+    } else {
+      console.error("No file uploaded or invalid file format:", values.profileImage);
+    }
+
+    // 🔹 Log FormData properly
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    try {
       await handleSignUp(formData); // Ensure this function supports FormData
       navigate(`/`);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
-  
+
   return (
     <div data-testid="state-form">
       <div className="container">
@@ -104,7 +103,7 @@ const SignUpUpdate: React.FC = () => {
             enableReinitialize
             onSubmit={handleSubmit}
           >
-            {({ dirty, touched, errors }) => (
+            {({ touched, errors }) => (
               <Form>
                 <Field
                   name="firstName"
@@ -186,26 +185,9 @@ const SignUpUpdate: React.FC = () => {
                 />
                 <Box height={14} />
 
-                {/* <Field
-                  name="profileImage"
-                  type="file"
-                //   as={FileField}
-                  variant="outlined"
-                  color="primary"
-                  label="Profile Image"
-                  fullWidth
-                  error={Boolean(errors.phone) && Boolean(touched.phone)}
-                  helperText={Boolean(touched.phone) && errors.phone}
-                /> */}
-                {/* <Field
-                  name="profileImage"
-                  label="Upload Profile Image"
-                  component={FileField}
-                  error={Boolean(errors.phone) && Boolean(touched.phone)}
-                  helperText={Boolean(touched.phone) && errors.phone}
-                /> */}
 
-<Field name="profileImage" label="Upload Profile Image" component={FileField} />
+                <Field name="profileImage" label="Upload Profile Image" component={FileField} error={Boolean(errors.profileImage) && Boolean(touched.profileImage)}
+                  helperText={Boolean(touched.profileImage) && errors.profileImage} />
 
                 <Box height={14} />
 
@@ -219,30 +201,11 @@ const SignUpUpdate: React.FC = () => {
                   Sign Up
                 </Button>
 
-                <Button
-                  type="button"
-                  variant="outlined"
-                  color="primary"
-                  size="large"
-                  onClick={() => {
-                    if (dirty) openModal();
-                    else navigate(`/`);
-                  }}
-                >
-                  Cancel
-                </Button>
+
               </Form>
             )}
           </Formik>
-          <ConfirmModal
-            type="cancel"
-            open={isModalOpen}
-            onClose={closeModal}
-            onConfirm={() => {
-              navigate("/");
-              setName("");
-            }}
-          />
+
         </div>
       </div>
     </div>
