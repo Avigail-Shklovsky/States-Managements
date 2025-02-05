@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import connectDB from "./config/connectDB";
 import fetchStatesData from "./services/fetchStatesData";
 import stateRoutes from "./routes/stateRoutes";
-import { SERVER } from "./config/config";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
@@ -62,7 +61,7 @@ const startServer = async () => {
     }));
     
 
-    const PORT = SERVER.PORT || 3000;
+    const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

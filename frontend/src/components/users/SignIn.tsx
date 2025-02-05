@@ -7,15 +7,15 @@ import { useAuth } from "../../hooks/useAuth";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Username is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const mutation = useSignInApi();
   const { handleLoginLocalStorage } = useAuth();
-
-
 
   const handleSubmit = async (
     values: { userName: string; password: string },
@@ -31,7 +31,6 @@ const SignIn: React.FC = () => {
       },
     });
   };
-  
 
   return (
     <div className="container">
@@ -69,23 +68,38 @@ const SignIn: React.FC = () => {
               />
               <Box height={14} />
 
-              <Button type="submit" variant="contained" color="primary" size="large">
-              {mutation.isPending ? "Signing in..." : "Sign In"}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+              >
+                {mutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
             </Form>
           )}
         </Formik>
 
-      
-      <Box mt={2} textAlign="center">
-        <Typography variant="body2">
-          Don't have an account?{" "}
-          <Link to="/signup" style={{ textDecoration: "none", color: "#1976d2" }}>
-            Sign up here
+        <Box mt={2} textAlign="center">
+          <Typography variant="body2">
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", color: "#1976d2" }}
+            >
+              Sign up here
+            </Link>
+          </Typography>
+        </Box>
+
+        <Box mt={1} textAlign="center">
+          <Link
+            to="/forgot-password"
+            style={{ textDecoration: "none", color: "#1976d2" }}
+          >
+            <Typography variant="body2"> Forgot Password?</Typography>
           </Link>
-        </Typography>
-      </Box>
-  
+        </Box>
       </div>
     </div>
   );
