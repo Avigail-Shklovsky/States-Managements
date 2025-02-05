@@ -7,28 +7,29 @@ import { useAuth } from "../../hooks/useAuth";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
+  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
 });
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
-
-  const {handleSignIn} = useSignInApi();
+  const mutation = useSignInApi();
   const { handleLoginLocalStorage } = useAuth();
+
+
 
   const handleSubmit = async (
     values: { userName: string; password: string },
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    try {
-     const response= await handleSignIn(values.userName, values.password);     
-      handleLoginLocalStorage(response)
-      navigate("/"); 
-    } catch (error) {
-      console.error("Sign in failed:", error);
-    } finally {
-      setSubmitting(false);
-    }
+    mutation.mutate(values, {
+      onSuccess: (response) => {
+        handleLoginLocalStorage(response);
+        navigate("/");
+      },
+      onSettled: () => {
+        setSubmitting(false);
+      },
+    });
   };
   
 
@@ -69,7 +70,7 @@ const SignIn: React.FC = () => {
               <Box height={14} />
 
               <Button type="submit" variant="contained" color="primary" size="large">
-                Sign In
+              {mutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
             </Form>
           )}

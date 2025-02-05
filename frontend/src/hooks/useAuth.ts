@@ -10,7 +10,7 @@ export function useAuth() {
     const fetchUser = async () => {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser)); // Restore user from localStorage
+        setUser(JSON.parse(storedUser)); 
       } else {
         setUser(null);
       }
