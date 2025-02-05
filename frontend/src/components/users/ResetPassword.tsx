@@ -20,7 +20,7 @@ const ResetPassword: React.FC = () => {
     const handleSubmit = async (values: { password: string }) => {
       if (token) {
         mutation.mutate(
-          { token, password: values.password }, // Correct structure
+          { token, password: values.password },
           {
             onSuccess: () => {
               setResetSuccess(true);

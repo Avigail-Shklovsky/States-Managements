@@ -17,5 +17,5 @@ export const isAuth = atom({
 
 export const currentUserState = atom<IUser | null>({
   key: "currentUserState",
-  default: null, // Start as null before fetching
+  default: null, 
 });
