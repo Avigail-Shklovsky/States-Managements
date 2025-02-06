@@ -73,13 +73,7 @@ export const updateUser = async (
     try {
         // Handle the multipart form-data
         const { id } = req.params;
-        console.log("id: ", id);
-        console.log("body: ", req.body);
-        
-        
         const profileImage = req.file ? req.file.path : null;
-console.log("profileImage: ", profileImage);
-
         const sanitizedBody = {
             firstName: sanitizeString(req.body.firstName),
             lastName: sanitizeString(req.body.lastName),
@@ -91,9 +85,7 @@ console.log("profileImage: ", profileImage);
             auth: req.body.auth,
             profileImage
         };
-        console.log("sanitize body",sanitizedBody);
         
-
         // Update the user in the database
         const updatedUser = await UserModel.findByIdAndUpdate(
             id.toString(),

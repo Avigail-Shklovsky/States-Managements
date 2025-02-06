@@ -76,7 +76,6 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
   });
 
   const handleSubmit = async (values: SignUpFormValues) => {
-    console.log("in submit");
 
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]) => {
@@ -90,12 +89,8 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       }
     });
   
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
 
     if (mode === "signup") {
-      console.log("signup");
       
 
       handleSignUp(formData, {
@@ -105,10 +100,8 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
         },
       });
     } else {
-      console.log("edit");
 
       if (location.state.userid) {
-        console.log("user id", location.state.userid);
         const userId = location.state.userid;
         try {
           handleUpdateProfile({

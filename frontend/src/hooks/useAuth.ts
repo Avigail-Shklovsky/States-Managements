@@ -20,7 +20,6 @@ export function useAuth() {
   }, []);
 
   const handleLoginLocalStorage = (userData: any) => {
-    console.log(userData);
     
     localStorage.setItem("user", JSON.stringify(userData.user)); // Save session
     setUser(userData.user);

@@ -8,7 +8,6 @@ export const createCity = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log("in create city");
     
     const sanitizedBody = {
       name: sanitizeString(req.body.name)
