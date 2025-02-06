@@ -10,6 +10,7 @@ export interface IUser extends Document {
   password:string;
   changedDate:Date;
   auth:string[]
+  messages: string[]
 }
 
 const UserSchema: Schema = new Schema({
@@ -21,7 +22,8 @@ const UserSchema: Schema = new Schema({
     profileImage :  { type: String, required: true},
     password :  { type: String, required: true},
     changedDate : { type: Date, required: true},
-    auth :{ type: [String], required: true}
+    auth :{ type: [String], required: true},
+    messages:[{ type: mongoose.Schema.Types.ObjectId, ref: "Messages" }]
 
 });
 

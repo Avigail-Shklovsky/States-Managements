@@ -1,40 +1,10 @@
 import { Request, Response } from "express";
 import UserModel, { IUser } from "../models/user";
-import validator from "validator";
-import { sanitizeString, sanitizePassword, sanitizeAuth, } from "../utils/sanitizeInput";
+import { sanitizeString } from "../utils/sanitizeInput";
 import multer from "multer";
-import { log } from "console";
-import { Login } from "@mui/icons-material";
+
 
 const upload = multer({ dest: 'uploads/' }); // Temporary file storage location
-
-// Create a new user
-// export const createUser = async (
-//     req: Request,
-//     res: Response
-// ): Promise<void> => {
-//     try {
-//         const sanitizedBody = {
-//             firstName: sanitizeString(req.body.firstName),
-//             lastName: sanitizeString(req.body.lastName),
-//             userName: sanitizeString(req.body.userName),
-//             email: sanitizeString(req.body.email),
-//             phone: sanitizeString(req.body.phone),
-//             profileImage: sanitizeString(req.body.profileImage),
-//             password: sanitizePassword(req.body.password),
-//             changedDate: validator.isDate(req.body.changedDate) ? req.body.date : null,
-//             auth: sanitizeAuth(req.body.auth),
-//         };
-
-//         const newUser: IUser = new UserModel(sanitizedBody);
-//         const savedUser = await newUser.save();
-//         res.status(201).json(savedUser);
-//     } catch (error) {
-//         console.error("Error in createUser:", error);
-//         res.status(500).json({ error: error });
-//     }
-// };
-
 
 // Get all users
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -65,7 +35,6 @@ export const getUserById = async (
 };
 
 // Update a user
-// Update a user with file handling
 export const updateUser = async (
     req: Request,
     res: Response
@@ -83,7 +52,8 @@ export const updateUser = async (
             password: req.body.password,
             changedDate: req.body.changedDate,
             auth: req.body.auth,
-            profileImage
+            profileImage,
+            messages: req.body.messages || [], 
         };
         
         // Update the user in the database
@@ -101,35 +71,6 @@ export const updateUser = async (
     }
 };
 
-// export const updateUser = async (
-//     req: Request,
-//     res: Response
-// ): Promise<void> => {
-//     try {
-//         const { id } = req.params;
-//         const sanitizedBody = {
-//             firstName: sanitizeString(req.body.firstName),
-//             lastName: sanitizeString(req.body.lastName),
-//             userName: sanitizeString(req.body.userName),
-//             email: sanitizeString(req.body.email),
-//             phone: sanitizeString(req.body.phone),
-//             profileImage: sanitizeString(req.body.profileImage),
-//             password: sanitizePassword(req.body.password),
-//             changedDate: validator.isDate(req.body.changedDate) ? req.body.date : null,
-//             auth: sanitizeAuth(req.body.auth),
-//         };
-
-//         const updatedUser = await UserModel.findByIdAndUpdate(
-//             id.toString(),
-//             sanitizedBody as unknown as IUser,
-//             { new: true }
-//         );
-
-//         res.status(200).json(updatedUser);
-//     } catch (error) {
-//         res.status(500).json({ error: error });
-//     }
-// };
 
 // Delete a user
 export const deleteUser = async (
