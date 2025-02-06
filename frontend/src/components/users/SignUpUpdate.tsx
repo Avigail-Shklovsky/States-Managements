@@ -34,6 +34,7 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       password: "",
       changedDate: new Date(),
       auth: ["read"],
+      messages: [],
     }
   );
 

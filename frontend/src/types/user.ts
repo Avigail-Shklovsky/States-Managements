@@ -11,5 +11,6 @@ export interface IUser {
     profileImage:string;
     password:string;
     changedDate:Date;
-    auth:string[]
+    auth:string[];
+    messages: string[];
   }

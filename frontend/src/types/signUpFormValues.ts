@@ -7,6 +7,7 @@ export interface SignUpFormValues  {
     profileImage:string;
     password:string;
     changedDate:Date;
-    auth:string[]
+    auth:string[];
+    messages:string[];
   }
   
