@@ -10,6 +10,7 @@ import SignUpUpdate from "./components/users/SignUpUpdate";
 import Profile from "./components/users/Profile";
 import ForgotPassword from "./components/users/ForgotPassword";
 import ResetPassword from "./components/users/ResetPassword";
+import PermissionRequestForm from "./components/permissions/PermissionRequest";
 
 function App() {
   
@@ -26,6 +27,7 @@ function App() {
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/form/:id?" element={<StateForm />} />
+            <Route path="/permission-form" element={<PermissionRequestForm/>}  />
           </Routes>
         </RecoilRoot>
     </>
