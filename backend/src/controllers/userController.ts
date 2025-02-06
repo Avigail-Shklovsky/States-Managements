@@ -3,6 +3,8 @@ import UserModel, { IUser } from "../models/user";
 import validator from "validator";
 import { sanitizeString, sanitizePassword, sanitizeAuth, } from "../utils/sanitizeInput";
 import multer from "multer";
+import { log } from "console";
+import { Login } from "@mui/icons-material";
 
 const upload = multer({ dest: 'uploads/' }); // Temporary file storage location
 
@@ -71,7 +73,12 @@ export const updateUser = async (
     try {
         // Handle the multipart form-data
         const { id } = req.params;
+        console.log("id: ", id);
+        console.log("body: ", req.body);
+        
+        
         const profileImage = req.file ? req.file.path : null;
+console.log("profileImage: ", profileImage);
 
         const sanitizedBody = {
             firstName: sanitizeString(req.body.firstName),
@@ -79,11 +86,13 @@ export const updateUser = async (
             userName: sanitizeString(req.body.userName),
             email: sanitizeString(req.body.email),
             phone: sanitizeString(req.body.phone),
-            password: sanitizePassword(req.body.password),
-            changedDate: req.body.changedDate && validator.isDate(req.body.changedDate) ? req.body.changedDate : null,
-            auth: sanitizeAuth(req.body.auth),
+            password: req.body.password,
+            changedDate: req.body.changedDate,
+            auth: req.body.auth,
             profileImage
         };
+        console.log("sanitize body",sanitizedBody);
+        
 
         // Update the user in the database
         const updatedUser = await UserModel.findByIdAndUpdate(
