@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Typography, Avatar } from "@mui/material";
+import { TextField, Button, Box, Typography} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSignUpApi } from "../../hooks/useSignUpApi";
@@ -76,23 +76,21 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
   });
 
   const handleSubmit = async (values: SignUpFormValues) => {
-
     const formData = new FormData();
+  
     Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        // For file fields, append the file directly
-        if (key === 'profileImage' && value instanceof File) {
-          formData.append(key, value);
-        } else {
-          formData.append(key, value.toString());
-        }
+      if (key === "profileImage") {
+        if (value instanceof File) {
+          formData.append(key, value); // Append new file if uploaded
+        } else if (mode === "edit" && initialValues.profileImage) {
+          formData.append(key, initialValues.profileImage); // Retain existing image
+         }
+      } else if (value) {
+        formData.append(key, value.toString());
       }
     });
   
-
     if (mode === "signup") {
-      
-
       handleSignUp(formData, {
         onSuccess: (response) => {
           handleLoginLocalStorage(response);
@@ -100,14 +98,10 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
         },
       });
     } else {
-
-      if (location.state.userid) {
+      if (location.state?.userid) {
         const userId = location.state.userid;
         try {
-          handleUpdateProfile({
-            userId,
-            formData,
-          });
+          handleUpdateProfile({ userId, formData });
           navigate("/profile");
         } catch (error) {
           console.error("Failed to update profile:", error);
@@ -115,6 +109,8 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       }
     }
   };
+  
+  
 
   return (
     <div data-testid="state-form">
@@ -199,12 +195,6 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
                     />
                     <Box height={14} />
                   </>
-                )}
-                {mode === "edit" && (
-                  <Avatar
-                    src={`http://localhost:5000/${location.state.profileImage}`}
-                    sx={{ width: 40, height: 40 }}
-                  />
                 )}
                 <Field
                   name="profileImage"

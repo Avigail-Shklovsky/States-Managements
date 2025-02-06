@@ -13,6 +13,7 @@ export const useStateAPI = (id: string | undefined) => {
         toast.success("State updated successfully!");
       } else {
         const result = await addState(values);
+        
         if (result._id) toast.success("State saved successfully!");
       }
 

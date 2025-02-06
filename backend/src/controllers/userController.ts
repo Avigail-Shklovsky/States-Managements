@@ -73,7 +73,7 @@ export const updateUser = async (
     try {
         // Handle the multipart form-data
         const { id } = req.params;
-        const profileImage = req.file ? req.file.path : null;
+        const profileImage = req.file ? req.file.path : req.body.profileImage;
         const sanitizedBody = {
             firstName: sanitizeString(req.body.firstName),
             lastName: sanitizeString(req.body.lastName),
