@@ -50,7 +50,7 @@ const startServer = async () => {
     await fetchStatesData();
 
     app.use("/states", stateRoutes);
-    app.use("/users",userRoutes);
+    app.use("/user",userRoutes);
     app.use("/cities",citiesRoutes);
     app.use("/auth",authRoutes);
     app.use("/message",messageRoutes);

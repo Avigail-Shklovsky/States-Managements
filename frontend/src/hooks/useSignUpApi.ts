@@ -7,7 +7,7 @@ export const useSignUpApi = () => {
   const mutation = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {
-      if (data?.user?._id) {
+      if (data?._id) {
         toast.success("Signed up successfully!");
       }
     },

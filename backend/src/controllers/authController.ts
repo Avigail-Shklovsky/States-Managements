@@ -12,9 +12,15 @@ const passwordResetTokens: { [key: string]: string } = {};
 
 
 export const signUp = async (req: Request, res: Response) => {
+  console.log("from sign up server");
+  
   const { firstName, lastName, userName, email, phone, password, auth } =
     req.body;
+    console.log(req.file?.path);
+    
   const profileImage = req.file ? req.file.path : null;
+  console.log(firstName,lastName, userName, email, phone, password, auth,profileImage);
+  
 
   try {
     if (!password) {

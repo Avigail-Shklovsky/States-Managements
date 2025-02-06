@@ -12,9 +12,10 @@ export const sanitizeString = (input: string): string => {
     return "password"
   }
 
-  export const sanitizeAuth = (input: string[]): string[] => {
+  export const sanitizeAuth = (input: string[] | undefined): string[] => {
+    if (!Array.isArray(input)) return []; 
     const validPermissions = ["create", "read", "update", "delete"];
-    return input.map(item => sanitizeString(item.trim())).filter(item => validPermissions.includes(item));
-  };
-  
-  
+    return input
+        .map(item => sanitizeString(item.trim()))
+        .filter(item => validPermissions.includes(item)); 
+};
