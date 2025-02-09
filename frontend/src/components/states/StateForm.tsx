@@ -7,11 +7,11 @@ import { IState } from "../../types/state";
 import ConfirmModal from "./ConfirmModal";
 import { useRecoilState } from "recoil";
 import { currentNameStateState } from "../../context/atom";
-import { useStateAPI } from "../../hooks/useStateAPI";
 import { useModal } from "../../hooks/useModal";
-import { useQueryStateById } from "../../hooks/useQueryStateById";
 import { useState, useEffect } from "react";
 import "./StateForm.scss";
+import { useStateAPI } from "../../hooks/states/useStateAPI";
+import { useQueryStateById } from "../../hooks/states/useQueryStateById";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),

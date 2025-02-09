@@ -1,7 +1,7 @@
-import { addState, updateState } from "../services/statesApi";
-import { IState } from "../types/state";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { IState } from "../../types/state";
+import { addState, updateState } from "../../services/statesApi";
 
 export const useStateAPI = (id: string | undefined) => {
   const queryClient = useQueryClient();

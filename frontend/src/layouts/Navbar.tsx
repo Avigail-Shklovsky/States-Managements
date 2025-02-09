@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { signout } from "../services/authApi";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/auth/useAuth";
 import { useNavigate } from "react-router";
 
 export default function ButtonAppBar() {

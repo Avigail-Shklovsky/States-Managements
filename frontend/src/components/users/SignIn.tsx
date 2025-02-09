@@ -2,8 +2,8 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useSignInApi } from "../../hooks/useSignInApi";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/auth/useAuth";
+import { useSignInApi } from "../../hooks/auth/useSignInApi";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Username is required"),

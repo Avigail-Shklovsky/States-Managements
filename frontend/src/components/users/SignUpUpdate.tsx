@@ -3,12 +3,12 @@ import * as Yup from "yup";
 import { TextField, Button, Box, Typography} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSignUpApi } from "../../hooks/useSignUpApi";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/auth/useAuth";
 import { FileField } from "../FileFieldInput";
 import { SignUpFormValues } from "../../types/signUpFormValues";
 import { useUpdateProfileApi } from "../../hooks/useUpdateProfileApi";
 import { useLocation } from "react-router-dom";
+import { useSignUpApi } from "../../hooks/auth/useSignUpApi";
 
 type Props = {
   mode: "signup" | "edit";

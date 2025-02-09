@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useForgotPasswordApi } from "../../hooks/useForgotPasswordApi";
+import { useForgotPasswordApi } from "../../hooks/auth/useForgotPasswordApi";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),

@@ -1,7 +1,7 @@
 // hooks/useAuth.ts
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { currentUserState } from "../context/atom";
+import { currentUserState } from "../../context/atom";
 
 export function useAuth() {
   const [user, setUser] = useRecoilState(currentUserState);

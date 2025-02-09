@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { IState } from "../types/state";
+import { IState } from "../../types/state";
 
 export const useQueryStateById = (id: string | undefined) => {
   const queryClient = useQueryClient();
