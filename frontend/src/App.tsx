@@ -11,6 +11,8 @@ import Profile from "./components/users/Profile";
 import ForgotPassword from "./components/users/ForgotPassword";
 import ResetPassword from "./components/users/ResetPassword";
 import PermissionRequestForm from "./components/permissions/PermissionRequest";
+import Unauthorized from "./components/Unauthorized";
+import AdminDashboard from "./components/admin/AdminDashboard";
 
 function App() {
   
@@ -28,6 +30,9 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/form/:id?" element={<StateForm />} />
             <Route path="/permission-form" element={<PermissionRequestForm/>}  />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
           </Routes>
         </RecoilRoot>
     </>

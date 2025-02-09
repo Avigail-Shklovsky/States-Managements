@@ -13,6 +13,8 @@ const PermissionRequestForm: React.FC = () => {
   const currentUser = useRecoilValue(currentUserState);
 
   const userPermissions = currentUser?.auth || []; // Assuming 'auth' array contains the user's permissions
+  
+  
 
   useEffect(() => {
     if (!currentUser) {
@@ -67,7 +69,7 @@ const PermissionRequestForm: React.FC = () => {
           </div>
 
           <FormControl component="fieldset" fullWidth required>
-            <FormLabel component="legend">Select Permission</FormLabel>
+            <FormLabel component="legend">Select Requested Permission</FormLabel>
             <RadioGroup
               value={permission}
               onChange={(e) => setPermission(e.target.value)}
