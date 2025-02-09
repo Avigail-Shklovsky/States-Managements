@@ -25,10 +25,10 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<SignUpUpdate mode="signup" user={null} />} />
-            <Route path="/edit-profile" element={<SignUpUpdate mode="edit" />} />
+            <Route path="/edit-profile/:id?" element={<SignUpUpdate mode="edit" />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/form/:id?" element={<StateForm />} />
+            <Route path="/state-form/:id?" element={<StateForm />} />
             <Route path="/permission-form" element={<PermissionRequestForm/>}  />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />

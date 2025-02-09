@@ -1,14 +1,15 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Typography} from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { FileField } from "../FileFieldInput";
 import { SignUpFormValues } from "../../types/signUpFormValues";
-import { useUpdateProfileApi } from "../../hooks/useUpdateProfileApi";
 import { useLocation } from "react-router-dom";
 import { useSignUpApi } from "../../hooks/auth/useSignUpApi";
+import { useUpdateProfileApi } from "../../hooks/users/useUpdateProfileApi";
+import { useQueryUserById } from "../../hooks/users/useQueryUserbyId";
 
 type Props = {
   mode: "signup" | "edit";
@@ -17,6 +18,9 @@ type Props = {
 };
 
 const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
+  const {id} =useParams()
+  const userData = useQueryUserById(id);
+
   const navigate = useNavigate();
   const { mutate: handleSignUp, isPending: isSignUpPending } = useSignUpApi();
   const { mutate: handleUpdateProfile, isPending: isUpdatePending } =
@@ -39,8 +43,14 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
   );
 
   useEffect(() => {
-    if (mode === "edit" && location.state?.user) {
+
+    if (mode === "edit" && location.state?.user &&!id) {
       setInitialValues(location.state.user);
+    }
+    else if (mode === "edit" ){
+      console.log(userData);
+      
+      setInitialValues(userData!)
     }
   }, [mode, location.state]);
 
@@ -82,9 +92,9 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
     Object.entries(values).forEach(([key, value]) => {
       if (key === "profileImage") {
         if (value instanceof File) {
-          formData.append(key, value); // Append new file if uploaded
+          formData.append(key, value); 
         } else if (mode === "edit" && initialValues.profileImage) {
-          formData.append(key, initialValues.profileImage); // Retain existing image
+          formData.append(key, initialValues.profileImage);
          }
       } else if (value) {
         formData.append(key, value.toString());

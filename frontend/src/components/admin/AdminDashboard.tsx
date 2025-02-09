@@ -32,7 +32,7 @@ const AdminDashboard = () => {
           }}
         >
           <List>
-            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageusers')}}>
+            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageUsers')}}>
               <ListItemText primary="Manage Users" />
             </ListItem>
             <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }}>

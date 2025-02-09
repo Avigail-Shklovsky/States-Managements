@@ -45,6 +45,7 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
           id={params.row.id}
           name={params.row.name}
           onDelete={onDelete}
+          editPath="state-form"
         />
       ),
     },
@@ -64,6 +65,8 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
         pageSizeOptions={[5]}
         disableRowSelectionOnClick
       />
+
+
     </div>
   );
 };

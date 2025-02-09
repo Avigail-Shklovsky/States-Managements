@@ -10,9 +10,15 @@ interface ActionsCellProps {
   id: string;
   name: string;
   onDelete: (id: string) => void;
+  editPath: string;
 }
 
-const ActionsCell: React.FC<ActionsCellProps> = ({ id, name, onDelete }) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({
+  id,
+  name,
+  onDelete,
+  editPath,
+}) => {
   const navigate = useNavigate();
   const [, setName] = useRecoilState(currentNameStateState);
   return (
@@ -24,13 +30,17 @@ const ActionsCell: React.FC<ActionsCellProps> = ({ id, name, onDelete }) => {
       >
         <DeleteIcon />
       </IconButton>
-      {/* If you want to add an Edit button, you can use the following: */}
       <IconButton
         color="primary"
         aria-label="edit"
         onClick={() => {
-          navigate(`/form/${id}`);
-          setName(name);
+          if (editPath.includes("state-form")) {
+            navigate(`/${editPath}/${id}`);
+            setName(name);
+          }
+          else{
+            navigate(`/${editPath}/${id}`, { state: { mode: "edit", userid:id.toString() } });
+          }
         }}
       >
         <EditIcon />
