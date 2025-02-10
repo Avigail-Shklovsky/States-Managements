@@ -19,3 +19,7 @@ export const sanitizeString = (input: string): string => {
         .map(item => sanitizeString(item.trim()))
         .filter(item => validPermissions.includes(item)); 
 };
+
+export const isValidDate=(value: any): boolean =>{
+  return typeof value === "string" && !isNaN(Date.parse(value));
+}
