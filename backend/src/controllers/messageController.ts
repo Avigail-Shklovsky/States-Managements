@@ -21,7 +21,7 @@ export const createMessage = async (
         : new Date(),
       dateClose: validator.isDate(req.body.dateClose)
         ? req.body.dateClose
-        : new Date(),
+        : null,
     };
     const user =await  UserModel.findById(req.body.userId);
     if (!user) {
@@ -96,7 +96,7 @@ export const updateMessage = async (
           : new Date(),
         dateClose: validator.isDate(req.body.dateClose)
           ? req.body.dateClose
-          : new Date(),
+          : null,
       };
   
       // Find the message by ID
