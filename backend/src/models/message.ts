@@ -14,7 +14,7 @@ const MessageSchema: Schema = new Schema({
     read: { type: Boolean, required: true },
     approved :  { type: Boolean, required: true },
     dateOpen :  { type: Date, required: true },
-    dateClose : { type: Date, required: true}, 
+    dateClose : { type: Date}, 
 
 });
 
