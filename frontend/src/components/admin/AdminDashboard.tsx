@@ -1,4 +1,14 @@
-import { Typography, List, ListItem, ListItemText, Box, CssBaseline, Drawer, Toolbar, AppBar } from "@mui/material";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  CssBaseline,
+  Drawer,
+  Toolbar,
+  AppBar,
+} from "@mui/material";
 import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useState } from "react";
 import AdminUsers from "./AdminUsers";
@@ -9,10 +19,10 @@ import { useMessages } from "../../hooks/messages/useMessages";
 const drawerWidth = 240;
 
 const AdminDashboard = () => {
-  useAdminAuth(); 
-  useUsers()
-  useMessages()
-  const [currentPage, setCurrentPage] = useState<string>('dashboard'); 
+  useAdminAuth();
+  useUsers();
+  useMessages();
+  const [currentPage, setCurrentPage] = useState<string>("dashboard");
 
   const handleMenuClick = (page: string) => {
     setCurrentPage(page);
@@ -33,31 +43,46 @@ const AdminDashboard = () => {
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box", mt: 8 },
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: "border-box",
+              mt: 8,
+            },
           }}
         >
           <List>
-            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageUsers')}}>
+            <ListItem
+              component="button"
+              sx={{ backgroundColor: "white", border: "none" }}
+              onClick={() => {
+                handleMenuClick("manageUsers");
+              }}
+            >
               <ListItemText primary="Manage Users" />
             </ListItem>
-            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageMessages')}}>
+            <ListItem
+              component="button"
+              sx={{ backgroundColor: "white", border: "none" }}
+              onClick={() => {
+                handleMenuClick("manageMessages");
+              }}
+            >
               <ListItemText primary="Messages" />
             </ListItem>
-            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }}>
+            <ListItem
+              component="button"
+              sx={{ backgroundColor: "white", border: "none" }}
+            >
               <ListItemText primary="Logout" />
             </ListItem>
           </List>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-          {/* <Typography variant="h4" fontWeight="bold" gutterBottom>
-            Admin Dashboard
-          </Typography> */}
-          {currentPage === 'dashboard' && <Typography variant="body1">Welcome to the admin panel.</Typography>}
-
-          {currentPage === 'manageUsers' && <AdminUsers />}
-          {currentPage === 'manageMessages' && <AdminMessages />}
-
-
+          {currentPage === "dashboard" && (
+            <Typography variant="body1">Welcome to the admin panel.</Typography>
+          )}
+          {currentPage === "manageUsers" && <AdminUsers />}
+          {currentPage === "manageMessages" && <AdminMessages />}
         </Box>
       </Box>
     </Box>

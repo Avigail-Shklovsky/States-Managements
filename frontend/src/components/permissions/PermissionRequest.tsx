@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormHelperText, Typography } from '@mui/material';
 import { usePermissionRequest } from '../../hooks/messages/usePermissionRequest';
-import { Types } from 'mongoose'; // Assuming Types is used for ObjectId
+import { Types } from 'mongoose';
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from '../../context/atom';
 
@@ -12,7 +12,7 @@ const PermissionRequestForm: React.FC = () => {
   const [error, setError] = useState<string>('');
   const currentUser = useRecoilValue(currentUserState);
 
-  const userPermissions = currentUser?.auth || []; // Assuming 'auth' array contains the user's permissions
+  const userPermissions = currentUser?.auth || []; 
   
   
 
@@ -33,18 +33,16 @@ const PermissionRequestForm: React.FC = () => {
       return;
     }
 
-    // Create the message object
+
     const message = {
-      _id: new Types.ObjectId(), // Generate a new ObjectId or use another method
-      userId: currentUser!._id.toString(), // Populate with actual userId
+      _id: new Types.ObjectId(),
+      userId: currentUser!._id.toString(),
       actionType: permission,
       read: false,
       approved: false,
       dateOpen: new Date(),
       dateClose: new Date(),
     };
-
-    // Trigger the mutation to send the request
     mutation.mutate(message);
   };
 
@@ -54,7 +52,6 @@ const PermissionRequestForm: React.FC = () => {
         {error && <div style={{ color: 'red' }}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          {/* Display current permissions */}
           <div>
             <Typography variant="h6">Your current permissions:</Typography>
             <ul>
@@ -82,7 +79,7 @@ const PermissionRequestForm: React.FC = () => {
                   value={perm}
                   control={<Radio />}
                   label={perm.charAt(0).toUpperCase() + perm.slice(1)}
-                  disabled={userPermissions.includes(perm)} // Disable already assigned permissions
+                  disabled={userPermissions.includes(perm)} 
                 />
               ))}
             </RadioGroup>

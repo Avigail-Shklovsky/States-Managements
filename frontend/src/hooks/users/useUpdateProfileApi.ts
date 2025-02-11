@@ -8,7 +8,6 @@ export const useUpdateProfileApi = () => {
 
     const [, setUser] = useRecoilState(currentUserState);
   
-  // Use mutateAsync to directly call the mutation in async functions
   const mutation = useMutation({
     mutationFn: ({ userId, formData }: { userId: string; formData: FormData }) =>
       updateProfile(userId, formData),

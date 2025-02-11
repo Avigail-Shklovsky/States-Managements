@@ -15,12 +15,10 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(): State {
-    // Update state to render fallback UI
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // You can log error details to an error reporting service here
     console.error('Error caught by Error Boundary:', error, errorInfo);
   }
 

@@ -23,7 +23,6 @@ export default function Profile() {
       navigate("/signin");
     },
     onError: (error) => {
-      // Handle error gracefully
       console.error("Error deleting user:", error);
     },
   });
