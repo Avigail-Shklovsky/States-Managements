@@ -48,9 +48,9 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
     if (mode === "edit" && location.state?.user &&!id) {
       setInitialValues(location.state.user);
     }
-    else if (mode === "edit" ){
+    else if (mode === "edit"  && userData){
       
-      setInitialValues(userData!)
+      setInitialValues(userData)
     }
   }, [mode, location.state]);
 

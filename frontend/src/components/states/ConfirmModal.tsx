@@ -12,8 +12,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     switch (type) {
       case "delete":
         return {
-          title: "Are you sure you want to delete this state?",
-          subtitle: "",
+          title: "Are you sure you want to delete?",
+          subtitle: "There's no way back",
           buttonText: "Yes, Delete",
         };
       case "cancel":

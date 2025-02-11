@@ -6,8 +6,6 @@ import {
   Box,
   CssBaseline,
   Drawer,
-  Toolbar,
-  AppBar,
 } from "@mui/material";
 import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useState } from "react";
@@ -30,13 +28,7 @@ const AdminDashboard = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Admin Panel
-          </Typography>
-        </Toolbar>
-      </AppBar>
+  
       <Box sx={{ display: "flex", width: "100%", mt: 8 }}>
         <Drawer
           variant="permanent"
