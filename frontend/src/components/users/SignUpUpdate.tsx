@@ -11,6 +11,7 @@ import { useSignUpApi } from "../../hooks/auth/useSignUpApi";
 import { useUpdateProfileApi } from "../../hooks/users/useUpdateProfileApi";
 import { useQueryUserById } from "../../hooks/users/useQueryUserbyId";
 
+
 type Props = {
   mode: "signup" | "edit";
   user?: SignUpFormValues | null;
@@ -48,7 +49,6 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       setInitialValues(location.state.user);
     }
     else if (mode === "edit" ){
-      console.log(userData);
       
       setInitialValues(userData!)
     }
@@ -112,8 +112,8 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       if (location.state?.userid) {
         const userId = location.state.userid;
         try {
-          handleUpdateProfile({ userId, formData });
-          navigate("/profile");
+       handleUpdateProfile({ userId, formData });
+          navigate(-1)
         } catch (error) {
           console.error("Failed to update profile:", error);
         }

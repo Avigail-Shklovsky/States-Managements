@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormHelperText, Typography } from '@mui/material';
-import { usePermissionRequest } from '../../hooks/usePermissionRequest';
+import { usePermissionRequest } from '../../hooks/messages/usePermissionRequest';
 import { Types } from 'mongoose'; // Assuming Types is used for ObjectId
 import { useRecoilValue } from 'recoil';
 import { currentUserState } from '../../context/atom';

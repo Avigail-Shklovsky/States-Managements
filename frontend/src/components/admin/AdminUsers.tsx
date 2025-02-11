@@ -10,7 +10,6 @@ import { useState } from "react";
 import ConfirmModal from "../states/ConfirmModal";
 import useDeleteUser from "../../hooks/users/useDeleteUser";
 import { useUsers } from "../../hooks/users/useUsers";
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

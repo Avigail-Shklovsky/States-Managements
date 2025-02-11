@@ -2,11 +2,16 @@ import { Typography, List, ListItem, ListItemText, Box, CssBaseline, Drawer, Too
 import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useState } from "react";
 import AdminUsers from "./AdminUsers";
+import AdminMessages from "./AdminMessages";
+import { useUsers } from "../../hooks/users/useUsers";
+import { useMessages } from "../../hooks/messages/useMessages";
 
 const drawerWidth = 240;
 
 const AdminDashboard = () => {
   useAdminAuth(); 
+  useUsers()
+  useMessages()
   const [currentPage, setCurrentPage] = useState<string>('dashboard'); 
 
   const handleMenuClick = (page: string) => {
@@ -35,8 +40,8 @@ const AdminDashboard = () => {
             <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageUsers')}}>
               <ListItemText primary="Manage Users" />
             </ListItem>
-            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }}>
-              <ListItemText primary="Settings" />
+            <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }} onClick={()=>{handleMenuClick('manageMessages')}}>
+              <ListItemText primary="Messages" />
             </ListItem>
             <ListItem component="button" sx={{backgroundColor:'white',  border:'none' }}>
               <ListItemText primary="Logout" />
@@ -50,6 +55,9 @@ const AdminDashboard = () => {
           {currentPage === 'dashboard' && <Typography variant="body1">Welcome to the admin panel.</Typography>}
 
           {currentPage === 'manageUsers' && <AdminUsers />}
+          {currentPage === 'manageMessages' && <AdminMessages />}
+
+
         </Box>
       </Box>
     </Box>

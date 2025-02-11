@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { addMessage } from "../services/messageApi";
+import { addMessage } from "../../services/messageApi";
 import { useNavigate } from "react-router";
 
 export const usePermissionRequest = () => {

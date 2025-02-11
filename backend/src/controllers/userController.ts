@@ -34,7 +34,7 @@ export const getUserById = async (
     }
 };
 
-// Update a user
+// Update a user with image
 export const updateUser = async (
     req: Request,
     res: Response
@@ -71,6 +71,38 @@ export const updateUser = async (
     }
 };
 
+// update user without image
+export const updateUserWithoutImage = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        
+        const existingUser = await UserModel.findById(id);
+        if (!existingUser) {
+             res.status(404).json({ error: "User not found" });
+             return;
+        }
+        
+        const sanitizedBody = {
+            firstName: req.body.firstName !== undefined ? sanitizeString(req.body.firstName) : existingUser.firstName,
+            lastName: req.body.lastName !== undefined ? sanitizeString(req.body.lastName) : existingUser.lastName,
+            userName: req.body.userName !== undefined ? sanitizeString(req.body.userName) : existingUser.userName,
+            email: req.body.email !== undefined ? sanitizeString(req.body.email) : existingUser.email,
+            phone: req.body.phone !== undefined ? sanitizeString(req.body.phone) : existingUser.phone,
+            password: existingUser.password, // Keep existing password
+            changedDate: existingUser.changedDate, // Keep existing date
+            auth: req.body.auth !== undefined ? req.body.auth : existingUser.auth, // Preserve auth
+            messages: req.body.messages !== undefined ? req.body.messages : existingUser.messages, // Preserve messages
+        };
+        
+        const updatedUser = await UserModel.findByIdAndUpdate(id, sanitizedBody, { new: true });
+        
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error updating user without image:", error);
+        res.status(500).json({ error: error || "Internal server error" });
+    }
+};
 
 // Delete a user
 export const deleteUser = async (

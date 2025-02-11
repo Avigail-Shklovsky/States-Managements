@@ -48,6 +48,9 @@ export default function ButtonAppBar() {
 
           {user ? (
             <div>
+              {/* {user.email=="9013825@gmail.com"?<>
+                <MenuItem onClick={()=>{navigate("/admin-dashboard")}}>Admin Dashboard</MenuItem>
+              </>:<></>} */}
               <IconButton
                 size="large"
                 aria-label="account of current user"
