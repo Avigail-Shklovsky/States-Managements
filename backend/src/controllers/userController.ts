@@ -40,7 +40,6 @@ export const updateUser = async (
     res: Response
 ): Promise<void> => {
     try {
-        // Handle the multipart form-data
         const { id } = req.params;
         const profileImage = req.file ? req.file.path : req.body.profileImage;
         const sanitizedBody = {
@@ -50,20 +49,18 @@ export const updateUser = async (
             email: sanitizeString(req.body.email),
             phone: sanitizeString(req.body.phone),
             password: req.body.password,
-            changedDate: req.body.changedDate,
+            changedDate: new Date(),
             auth: req.body.auth,
             profileImage,
             messages: req.body.messages || [], 
         };
         
-        // Update the user in the database
         const updatedUser = await UserModel.findByIdAndUpdate(
             id.toString(),
             sanitizedBody as unknown as IUser,
             { new: true }
         );
 
-        // Return the updated user
         res.status(200).json(updatedUser);
     } catch (error) {
         console.error("Error updating user:", error);
@@ -88,10 +85,10 @@ export const updateUserWithoutImage = async (req: Request, res: Response): Promi
             userName: req.body.userName !== undefined ? sanitizeString(req.body.userName) : existingUser.userName,
             email: req.body.email !== undefined ? sanitizeString(req.body.email) : existingUser.email,
             phone: req.body.phone !== undefined ? sanitizeString(req.body.phone) : existingUser.phone,
-            password: existingUser.password, // Keep existing password
-            changedDate: existingUser.changedDate, // Keep existing date
-            auth: req.body.auth !== undefined ? req.body.auth : existingUser.auth, // Preserve auth
-            messages: req.body.messages !== undefined ? req.body.messages : existingUser.messages, // Preserve messages
+            password: existingUser.password, 
+            changedDate: new Date(), 
+            auth: req.body.auth !== undefined ? req.body.auth : existingUser.auth, 
+            messages: req.body.messages !== undefined ? req.body.messages : existingUser.messages, 
         };
         
         const updatedUser = await UserModel.findByIdAndUpdate(id, sanitizedBody, { new: true });
