@@ -273,7 +273,6 @@ const Profile = () => {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
-
         {/* Drawer */}
         <Drawer
           variant="permanent"
@@ -388,12 +387,8 @@ const Profile = () => {
             </Container>
           )}
 
-{currentPage === "permission-form" && (
-            <Container>
-             
-              < PermissionRequestForm></PermissionRequestForm>
-      
-            </Container>
+          {currentPage === "permission-form" && (
+            <PermissionRequestForm></PermissionRequestForm>
           )}
 
           {currentPage === "edit-profile" && (
