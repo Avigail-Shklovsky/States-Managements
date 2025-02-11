@@ -7,5 +7,5 @@ export interface IMessage  {
     read: boolean;
     approved : boolean;
     dateOpen:Date;
-    dateClose:Date;
+    dateClose?:Date;
   }

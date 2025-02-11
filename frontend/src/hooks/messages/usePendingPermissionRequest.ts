@@ -1,10 +1,12 @@
-import { useMessages } from "./useMessages"; // Fetch messages from cache
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../context/atom";
+import { useQueryClient } from "@tanstack/react-query";
+import { IMessage } from "../../types/message";
 
 export const usePendingPermissionRequest = (permission: string) => {
   const currentUser = useRecoilValue(currentUserState);
-  const { data: messages } = useMessages(); // React Query cached messages
+  const queryClient = useQueryClient();
+  const messages = queryClient.getQueryData<IMessage[]>(["messages"]);
 
   if (!currentUser || !messages || !permission) return false;
 
@@ -12,8 +14,8 @@ export const usePendingPermissionRequest = (permission: string) => {
     return (
       msg.userId === currentUser._id.toString() &&
       msg.actionType === permission &&
-      !msg.approved && // Request is still pending
-      (!msg.dateClose || new Date(msg.dateClose) > new Date()) // Not closed
+      !msg.approved && 
+      (!msg.dateClose || new Date(msg.dateClose) > new Date()) 
     );
   });
 };

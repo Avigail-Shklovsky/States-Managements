@@ -239,6 +239,7 @@ import SignUpUpdate from "./SignUpUpdate";
 import ConfirmModal from "../states/ConfirmModal";
 import { useModal } from "../../hooks/useModal";
 import PermissionRequestForm from "../permissions/PermissionRequest";
+import { useMessages } from "../../hooks/messages/useMessages";
 
 const drawerWidth = 240;
 
@@ -248,6 +249,7 @@ const Profile = () => {
   const setUser = useSetRecoilState(currentUserState);
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
+  useMessages();
 
   const handleMenuClick = (page: string) => {
     setCurrentPage(page);
