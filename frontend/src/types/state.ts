@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { ICity } from "./city";
 
 export interface IState {
   _id: Types.ObjectId;
@@ -6,4 +7,5 @@ export interface IState {
   flag: string;
   population: number;
   region: string;
+  cities: ICity[];
 }

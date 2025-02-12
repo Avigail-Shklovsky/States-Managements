@@ -1,23 +1,36 @@
 import { Request, Response } from "express";
 import CityModel, { ICity } from "../models/city";
 import { sanitizeString } from "../utils/sanitizeInput";
+import StateModel from "../models/state";
 
 // Create a new city
-export const createCity = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const createCity = async (req: Request, res: Response): Promise<void> => {
   try {
-    
-    const sanitizedBody = {
-      name: sanitizeString(req.body.name)
-    };
-    const newCity: ICity = new CityModel(sanitizedBody);
+    const { name, stateId } = req.body;
+
+    if (!stateId) {
+      res.status(400).json({ error: "State ID is required" });
+      return;
+    }
+    const sanitizedBody = { name: sanitizeString(name) };
+
+    const newCity = new CityModel(sanitizedBody);
     const savedCity = await newCity.save();
-    res.status(201).json(savedCity);
+
+    const updatedState = await StateModel.findByIdAndUpdate(
+      stateId,
+      { $push: { cities: savedCity._id } },
+      { new: true }
+    );
+
+    if (!updatedState) {
+      res.status(404).json({ error: "State not found" });
+      return;
+    }
+
+    res.status(201).json({savedCity,stateId});
   } catch (error) {
-    console.error("Error in create City:", error);
-    
+    console.error("Error in createCity:", error);
     res.status(500).json({ error: error });
   }
 };
@@ -74,20 +87,24 @@ export const updateCity = async (
 };
 
 // Delete a City
-export const deleteCity = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const deleteCity = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const CityToDelete = await CityModel.findByIdAndDelete(id);
 
-    if (!CityToDelete) {
+    const cityToDelete = await CityModel.findByIdAndDelete(id);
+    if (!cityToDelete) {
       res.status(404).json({ message: "City not found" });
       return;
     }
+
+    await StateModel.updateOne(
+      { cities: id }, 
+      { $pull: { cities: id } } 
+    );
+
     res.status(200).json({ message: "City deleted successfully" });
   } catch (error) {
+    console.error("Error deleting city:", error);
     res.status(500).json({ error: error });
   }
 };
