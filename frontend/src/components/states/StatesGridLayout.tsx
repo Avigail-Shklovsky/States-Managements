@@ -53,7 +53,7 @@ const StatesGridLayout = () => {
             openModal();
           }}
         />
-        <Button variant="outlined" onClick={() => navigate("/form")}>
+        <Button variant="outlined" onClick={() => navigate("/state-form")}>
           Add New State
         </Button>
         <ConfirmModal

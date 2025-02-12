@@ -72,58 +72,79 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
               alignItems: "center",
             }}
           >
-{cities.map((city) =>
-  editingCity && editingCity.cityId === city._id.toString() ? (
-    <TextField
-      key={city._id.toString()}
-      size="small"
-      value={editingCity.name}
-      onChange={(e) =>
-        setEditingCity({ ...editingCity, name: e.target.value }) // Update the name in editingCity
-      }
-      onBlur={() => {
-        if (editingCity.name.trim()) {
-          // Call the mutation to update the city
-          onEditCity({
-            city: {
-              _id: new Types.ObjectId(editingCity.cityId), // Convert string to ObjectId
-              name: editingCity.name,
-            },
-          });
-                 }
-        setEditingCity(null); // Close the editing state
-      }}
-      autoFocus
-    />
-  ) : (
-    <span
-      key={city._id.toString()}
-      style={{ display: "flex", alignItems: "center", gap: 4 }}
-    >
-      {city.name}
-      <IconButton
-        size="small"
-        onClick={() =>
-          setEditingCity({
-            stateId,
-            cityId: city._id.toString(),
-            name: city.name,
-          })
-        }
-      >
-        <Edit fontSize="small" />
-      </IconButton>
+            {cities.map((city) => (
+              <span
+  key={city._id.toString()}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 4,
+    padding: "6px 10px",
+    borderRadius: "10px",
+    border: "1px solid #d1d1d1", // Light gray border
+    background: "transparent", // No background
+    fontSize: "14px",
+    fontWeight: 500,
+    transition: "border-color 0.2s ease",
+  }}
+>
 
-      <IconButton
-        size="small"
-        onClick={() => onDeleteCity(city._id.toString())}
-      >
-        <Delete fontSize="small" />
-      </IconButton>
-    </span>
-  )
-)}
-
+                {editingCity && editingCity.cityId === city._id.toString() ? (
+                  <TextField
+                    size="small"
+                    value={editingCity.name}
+                    onChange={(e) =>
+                      setEditingCity({ ...editingCity, name: e.target.value })
+                    }
+                    onBlur={() => {
+                      if (editingCity.name.trim()) {
+                        onEditCity({
+                          city: {
+                            _id: new Types.ObjectId(editingCity.cityId),
+                            name: editingCity.name,
+                          },
+                        });
+                      }
+                      setEditingCity(null);
+                    }}
+                    autoFocus
+                    sx={{ width: "120px" }}
+                  />
+                ) : (
+                  <>
+                    <span>{city.name}</span>
+                    <IconButton
+                      size="small"
+                      onClick={() =>
+                        setEditingCity({
+                          stateId,
+                          cityId: city._id.toString(),
+                          name: city.name,
+                        })
+                      }
+                      sx={{
+                        color: "#1976d2",
+                        "&:hover": { background: "rgba(25, 118, 210, 0.1)" },
+                      }}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+    
+                    <IconButton
+                      size="small"
+                      onClick={() => onDeleteCity(city._id.toString())}
+                      sx={{
+                        color: "#d32f2f",
+                        "&:hover": { background: "rgba(211, 47, 47, 0.1)" },
+                      }}
+                    >
+                      <Delete fontSize="small" />
+                    </IconButton>
+                  </>
+                )}
+              </span>
+            ))}
+    
             {editingStateId === stateId ? (
               <>
                 <TextField
@@ -131,28 +152,36 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
                   value={newCityName}
                   onChange={(e) => setNewCityName(e.target.value)}
                   onKeyPress={(e) =>
-                    e.key === "Enter" &&
-                    onAddCity({ stateId, cityName: newCityName })
+                    e.key === "Enter" && onAddCity({ stateId, cityName: newCityName })
                   }
                   autoFocus
+                  sx={{ width: "120px" }}
                 />
-
+    
                 <IconButton
                   size="small"
                   onClick={() => {
                     if (newCityName.trim()) {
                       onAddCity({ stateId, cityName: newCityName });
-                      setNewCityName(""); // Reset the input field
-                      setEditingStateId(null); // Close the city input field
+                      setNewCityName("");
+                      setEditingStateId(null);
                     }
+                  }}
+                  sx={{
+                    color: "#2e7d32",
+                    "&:hover": { background: "rgba(46, 125, 50, 0.1)" },
                   }}
                 >
                   <Check fontSize="small" />
                 </IconButton>
-
+    
                 <IconButton
                   size="small"
                   onClick={() => setEditingStateId(null)}
+                  sx={{
+                    color: "#757575",
+                    "&:hover": { background: "rgba(117, 117, 117, 0.1)" },
+                  }}
                 >
                   <Close fontSize="small" />
                 </IconButton>
@@ -161,6 +190,10 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
               <IconButton
                 size="small"
                 onClick={() => setEditingStateId(stateId)}
+                sx={{
+                  color: "#1976d2",
+                  "&:hover": { background: "rgba(25, 118, 210, 0.1)" },
+                }}
               >
                 <Add fontSize="small" />
               </IconButton>
@@ -168,7 +201,9 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
           </div>
         );
       },
-    },
+    }
+    
+    ,
     {
       field: "actions",
       headerName: "Actions",
@@ -186,17 +221,19 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
 
   return (
     <div className="responsive-table-container">
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        disableRowSelectionOnClick
-      />
+<DataGrid
+  rows={rows}
+  columns={columns}
+  initialState={{
+    pagination: {
+      paginationModel: { pageSize: 10 },
+    },
+  }}
+  pageSizeOptions={[5, 10]}
+  disableRowSelectionOnClick
+  sx={{ width: "100vw" }} // Full screen width
+  />
+
     </div>
   );
 };
