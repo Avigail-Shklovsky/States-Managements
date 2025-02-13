@@ -2,22 +2,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; // Full viewport height to center vertically
-    padding: 20px; // Ensure there's some padding around the form for smaller screens
+    height: 100vh;
+    padding: 20px;
   }
   
   .formWrapper {
     width: 100%;
-    max-width: 500px; // Limit the form width for better readability
-    background-color: #fff; // Optional: Add a background color for better contrast
+    max-width: 500px; 
+    background-color: #fff; 
     padding: 24px;
-    border-radius: 8px; // Add rounded corners
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Add a soft shadow
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
   }
   .title {
-    text-align: center; /* Centers the text horizontally */
+    text-align: center; 
     font-weight: bolder;
-    color: #1976d2; /* Primary color or any other color */
-    margin-bottom: 50px; /* Adds space below the title */
+    color: #1976d2; 
+    margin-bottom: 50px;
   }
   

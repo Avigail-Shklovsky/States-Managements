@@ -13,6 +13,7 @@ import AdminUsers from "./AdminUsers";
 import AdminMessages from "./AdminMessages";
 import { useUsers } from "../../hooks/users/useUsers";
 import { useMessages } from "../../hooks/messages/useMessages";
+import { useNavigate } from "react-router";
 
 const drawerWidth = 240;
 
@@ -21,7 +22,7 @@ const AdminDashboard = () => {
   useUsers();
   useMessages();
   const [currentPage, setCurrentPage] = useState<string>("dashboard");
-
+const navigate = useNavigate()
   const handleMenuClick = (page: string) => {
     setCurrentPage(page);
   };
@@ -59,13 +60,14 @@ const AdminDashboard = () => {
                 handleMenuClick("manageMessages");
               }}
             >
-              <ListItemText primary="Messages" />
+              <ListItemText primary="Permissions Requests" />
             </ListItem>
             <ListItem
               component="button"
+              onClick={()=>{navigate("/")}}
               sx={{ backgroundColor: "white", border: "none" }}
             >
-              <ListItemText primary="Logout" />
+              <ListItemText primary="Exit Dashboard" />
             </ListItem>
           </List>
         </Drawer>

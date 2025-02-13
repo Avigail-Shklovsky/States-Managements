@@ -8,12 +8,13 @@ import toast from "react-hot-toast";
 import { IState } from "../../types/state";
 import { useStates } from "../../hooks/states/useStates";
 import useDeleteState from "../../hooks/states/useDeleteState";
+import useHasPermission from "../../hooks/auth/useHasPermission";
 
 const StatesGridLayout = () => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-
+const hasCreatePermission = useHasPermission("create");
   // Using the custom hooks
   const { data, error, isLoading } = useStates();
   const { handleDelete } = useDeleteState(); 
@@ -53,7 +54,7 @@ const StatesGridLayout = () => {
             openModal();
           }}
         />
-        <Button variant="outlined" onClick={() => navigate("/state-form")}>
+        <Button variant="outlined" disabled={!hasCreatePermission} onClick={() => navigate("/state-form")}>
           Add New State
         </Button>
         <ConfirmModal
