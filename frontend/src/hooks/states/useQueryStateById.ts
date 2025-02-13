@@ -4,8 +4,8 @@ import { IState } from "../../types/state";
 export const useQueryStateById = (id: string | undefined) => {
   const queryClient = useQueryClient();
   const cachedStates = queryClient.getQueryData<IState[]>(["states"]);
-  
+
   const stateData = cachedStates?.find((state) => String(state._id) === id);
-  
+
   return stateData;
 };

@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Typography} from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
@@ -11,15 +11,14 @@ import { useSignUpApi } from "../../hooks/auth/useSignUpApi";
 import { useUpdateProfileApi } from "../../hooks/users/useUpdateProfileApi";
 import { useQueryUserById } from "../../hooks/users/useQueryUserbyId";
 
-
 type Props = {
   mode: "signup" | "edit";
   user?: SignUpFormValues | null;
   userId?: string;
 };
 
-const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
-  const {id} =useParams()
+const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
+  const { id } = useParams();
   const userData = useQueryUserById(id);
 
   const navigate = useNavigate();
@@ -44,13 +43,10 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
   );
 
   useEffect(() => {
-
-    if (mode === "edit" && location.state?.user &&!id) {
+    if (mode === "edit" && location.state?.user && !id) {
       setInitialValues(location.state.user);
-    }
-    else if (mode === "edit"  && userData){
-      
-      setInitialValues(userData)
+    } else if (mode === "edit" && userData) {
+      setInitialValues(userData);
     }
   }, [mode, location.state]);
 
@@ -88,19 +84,19 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
 
   const handleSubmit = async (values: SignUpFormValues) => {
     const formData = new FormData();
-  
+
     Object.entries(values).forEach(([key, value]) => {
       if (key === "profileImage") {
         if (value instanceof File) {
-          formData.append(key, value); 
+          formData.append(key, value);
         } else if (mode === "edit" && initialValues.profileImage) {
           formData.append(key, initialValues.profileImage);
-         }
+        }
       } else if (value) {
         formData.append(key, value.toString());
       }
     });
-  
+
     if (mode === "signup") {
       handleSignUp(formData, {
         onSuccess: (response) => {
@@ -112,16 +108,14 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null}) => {
       if (location.state?.userid) {
         const userId = location.state.userid;
         try {
-       handleUpdateProfile({ userId, formData });
-          navigate(-1)
+          handleUpdateProfile({ userId, formData });
+          navigate(-1);
         } catch (error) {
           console.error("Failed to update profile:", error);
         }
       }
     }
   };
-  
-  
 
   return (
     <div data-testid="state-form">

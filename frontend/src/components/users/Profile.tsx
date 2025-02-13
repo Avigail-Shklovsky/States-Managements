@@ -1,19 +1,6 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  Box,
-  CssBaseline,
-  Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Container,
-  Button,
-  Avatar,
-  Grid,
-  Paper,
-} from "@mui/material";
+import {Box,CssBaseline,Typography,Drawer,List,ListItem,ListItemText,Container,Button,Avatar,Grid,Paper} from "@mui/material";
 import { currentUserState } from "../../context/atom";
 import { useNavigate } from "react-router-dom";
 import { deleteUser } from "../../services/userApi";
@@ -36,7 +23,7 @@ const Profile = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState<string>("profile");
-  const isAdmin = useAdminAuth(false); 
+  const isAdmin = useAdminAuth(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);

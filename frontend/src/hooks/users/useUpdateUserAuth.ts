@@ -21,7 +21,6 @@ export const useUpdateUserAuth = (id: string, permissionType: string) => {
       if (data?._id) {
         toast.success("Profile updated successfully!");
         queryClient.setQueryData(["user", id], data);
-
       }
     },
     onError: () => {
@@ -29,5 +28,5 @@ export const useUpdateUserAuth = (id: string, permissionType: string) => {
     },
   });
 
-  return { mutation, updatedUser};
+  return { mutation, updatedUser };
 };

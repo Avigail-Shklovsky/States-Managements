@@ -1,4 +1,3 @@
-
 import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteUser } from "../../services/userApi";

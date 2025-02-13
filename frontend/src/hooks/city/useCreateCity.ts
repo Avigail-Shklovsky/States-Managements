@@ -11,29 +11,33 @@ export interface CreateCityResponse {
 export const useCreateCity = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<CreateCityResponse, Error, { stateId: string; cityName: string }>({
-    mutationFn: ({ stateId, cityName }) => addCity({ stateId, cityName }), // Create new city
+  const mutation = useMutation<
+    CreateCityResponse,
+    Error,
+    { stateId: string; cityName: string }
+  >({
+    mutationFn: ({ stateId, cityName }) => addCity({ stateId, cityName }),
 
     onSuccess: (data) => {
       if (data?.savedCity?._id && data?.stateId) {
         toast.success("The new city has been added successfully.");
 
-        // Update the states cache by adding the new city to the corresponding state's cities array
-        queryClient.setQueryData(["states"], (oldData: IState[] | undefined) => {
-          if (!oldData) return oldData; // Return the old data if no states exist
+        queryClient.setQueryData(
+          ["states"],
+          (oldData: IState[] | undefined) => {
+            if (!oldData) return oldData;
 
-          // Find the state by its ID and add the new city to its cities array
-          return oldData.map((state) =>
-            state._id.toString() === data.stateId // Ensure we're adding the city to the correct state
-              ? {
-                  ...state,
-                  cities: [...state.cities, data.savedCity], // Add the new city to the state's cities array
-                }
-              : state
-          );
-        });
+            return oldData.map((state) =>
+              state._id.toString() === data.stateId
+                ? {
+                    ...state,
+                    cities: [...state.cities, data.savedCity],
+                  }
+                : state
+            );
+          }
+        );
 
-        // Optionally, invalidate the query to re-fetch data, if necessary
         queryClient.invalidateQueries({ queryKey: ["states"] });
       }
     },

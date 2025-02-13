@@ -5,15 +5,19 @@ import { updateProfile } from "../../services/userApi";
 import { currentUserState } from "../../context/atom";
 
 export const useUpdateProfileApi = () => {
+  const [, setUser] = useRecoilState(currentUserState);
 
-    const [, setUser] = useRecoilState(currentUserState);
-  
   const mutation = useMutation({
-    mutationFn: ({ userId, formData }: { userId: string; formData: FormData }) =>
-      updateProfile(userId, formData),
+    mutationFn: ({
+      userId,
+      formData,
+    }: {
+      userId: string;
+      formData: FormData;
+    }) => updateProfile(userId, formData),
     onSuccess: (data) => {
       if (data?._id) {
-        setUser(data)
+        setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
 
         toast.success("Profile updated successfully!");

@@ -12,10 +12,8 @@ export const useUsers = () => {
   });
 
   useEffect(() => {
-
-    if ( data && !isFetching) {
-      // toast.success("States fetched and cached successfully! ");
-      localStorage.setItem("statesFetched", "true"); // Mark as shown
+    if (data && !isFetching) {
+      localStorage.setItem("statesFetched", "true");
     }
   }, [data, isFetching]);
 

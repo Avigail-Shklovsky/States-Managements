@@ -13,11 +13,10 @@ export const useStateAPI = (id: string | undefined) => {
         toast.success("State updated successfully!");
       } else {
         const result = await addState(values);
-        
+
         if (result._id) toast.success("State saved successfully!");
       }
 
-      // Invalidate the query to refresh the states table
       queryClient.invalidateQueries({ queryKey: ["states"] });
     } catch (error) {
       toast.error("Failed to save state.");

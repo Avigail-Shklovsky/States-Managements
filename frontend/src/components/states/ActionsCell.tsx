@@ -31,7 +31,7 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
     <div className="action-buttons">
       <IconButton
         onClick={() => onDelete(id)}
-        color="error" // Red color for delete action
+        color="error"
         aria-label="delete"
         disabled={!hasDeletePermission}
       >

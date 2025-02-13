@@ -42,15 +42,23 @@ export default function ButtonAppBar() {
     <Box sx={{ flexGrow: 1 }} position="sticky">
       <AppBar>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              cursor: "pointer",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+            onClick={() => navigate("/")}
+          >
             States Management
           </Typography>
 
           {user ? (
             <div>
-              {/* {user.email=="9013825@gmail.com"?<>
-                <MenuItem onClick={()=>{navigate("/admin-dashboard")}}>Admin Dashboard</MenuItem>
-              </>:<></>} */}
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -59,7 +67,10 @@ export default function ButtonAppBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <Avatar  src={`http://localhost:5000/${user.profileImage}`} alt={user.firstName} />
+                <Avatar
+                  src={`http://localhost:5000/${user.profileImage}`}
+                  alt={user.firstName}
+                />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -70,7 +81,9 @@ export default function ButtonAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+                <MenuItem onClick={() => navigate("/profile")}>
+                  Profile
+                </MenuItem>
                 <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
               </Menu>
             </div>

@@ -22,14 +22,14 @@ const AdminDashboard = () => {
   useUsers();
   useMessages();
   const [currentPage, setCurrentPage] = useState<string>("dashboard");
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleMenuClick = (page: string) => {
     setCurrentPage(page);
   };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-  
+
       <Box sx={{ display: "flex", width: "100%", mt: 8 }}>
         <Drawer
           variant="permanent"
@@ -64,7 +64,9 @@ const navigate = useNavigate()
             </ListItem>
             <ListItem
               component="button"
-              onClick={()=>{navigate("/")}}
+              onClick={() => {
+                navigate("/");
+              }}
               sx={{ backgroundColor: "white", border: "none" }}
             >
               <ListItemText primary="Exit Dashboard" />

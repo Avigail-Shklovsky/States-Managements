@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { signUp } from "../../services/authApi";
 
 export const useSignUpApi = () => {
-
   const mutation = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {

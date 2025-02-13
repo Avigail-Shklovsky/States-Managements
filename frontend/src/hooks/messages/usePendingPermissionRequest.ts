@@ -14,8 +14,8 @@ export const usePendingPermissionRequest = (permission: string) => {
     return (
       msg.userId === currentUser._id.toString() &&
       msg.actionType === permission &&
-      !msg.approved && 
-      (!msg.dateClose || new Date(msg.dateClose) > new Date()) 
+      !msg.approved &&
+      (!msg.dateClose || new Date(msg.dateClose) > new Date())
     );
   });
 };

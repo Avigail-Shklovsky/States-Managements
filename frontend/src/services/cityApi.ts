@@ -12,14 +12,22 @@ export const deleteCity = async (id: string): Promise<ICity[]> => {
   return response.data;
 };
 
-export const addCity = async ({ stateId, cityName }: { stateId: string; cityName: string }): Promise<CreateCityResponse> => {
-    const response = await axios.post("http://localhost:5000/cities", { name: cityName, stateId });
-    return {
-      savedCity: response.data.savedCity,
-      stateId: response.data.stateId,     
-    };
+export const addCity = async ({
+  stateId,
+  cityName,
+}: {
+  stateId: string;
+  cityName: string;
+}): Promise<CreateCityResponse> => {
+  const response = await axios.post("http://localhost:5000/cities", {
+    name: cityName,
+    stateId,
+  });
+  return {
+    savedCity: response.data.savedCity,
+    stateId: response.data.stateId,
   };
-  
+};
 
 export const updateCity = async (updatedCity: ICity): Promise<ICity> => {
   const response = await axios.put(

@@ -14,10 +14,9 @@ const StatesGridLayout = () => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-const hasCreatePermission = useHasPermission("create");
-  // Using the custom hooks
+  const hasCreatePermission = useHasPermission("create");
   const { data, error, isLoading } = useStates();
-  const { handleDelete } = useDeleteState(); 
+  const { handleDelete } = useDeleteState();
 
   const rows =
     data?.map((state: IState) => ({
@@ -45,8 +44,6 @@ const hasCreatePermission = useHasPermission("create");
   return (
     <div data-testid="states-grid-layout">
       <Box sx={{ width: "100%", mt: 10 }}>
-        {" "}
-        {/* Add mt and calc for full viewport height minus navbar */}
         <StatesTable
           rows={rows}
           onDelete={(id) => {
@@ -54,7 +51,11 @@ const hasCreatePermission = useHasPermission("create");
             openModal();
           }}
         />
-        <Button variant="outlined" disabled={!hasCreatePermission} onClick={() => navigate("/state-form")}>
+        <Button
+          variant="outlined"
+          disabled={!hasCreatePermission}
+          onClick={() => navigate("/state-form")}
+        >
           Add New State
         </Button>
         <ConfirmModal

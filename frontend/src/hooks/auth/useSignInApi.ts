@@ -4,7 +4,13 @@ import { signIn } from "../../services/authApi";
 
 export const useSignInApi = () => {
   const mutation = useMutation({
-    mutationFn: async ({ userName, password }: { userName: string; password: string }) => {
+    mutationFn: async ({
+      userName,
+      password,
+    }: {
+      userName: string;
+      password: string;
+    }) => {
       const result = await signIn(userName, password);
       return result;
     },

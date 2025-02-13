@@ -2,17 +2,25 @@ import axios from "axios";
 import { IUser } from "../types/user";
 
 export const signUp = async (formData: FormData): Promise<IUser> => {
-  const response = await axios.post("http://localhost:5000/auth/signup", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await axios.post(
+    "http://localhost:5000/auth/signup",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response.data;
 };
 
-export const signIn = async (userName: string, password: string): Promise<IUser> => {
+export const signIn = async (
+  userName: string,
+  password: string
+): Promise<IUser> => {
   const response = await axios.post("http://localhost:5000/auth/signin", {
-    userName, password
+    userName,
+    password,
   });
   return response.data;
 };
@@ -23,11 +31,23 @@ export const signout = async (): Promise<void> => {
 };
 
 export const sendResetEmail = async (data: { email: string }) => {
-  const response = await axios.post('http://localhost:5000/auth/forgot-password', data);
+  const response = await axios.post(
+    "http://localhost:5000/auth/forgot-password",
+    data
+  );
   return response.data;
 };
 
-export const resetPassword = async ({ token, password }: { token: string; password: string }) => {
-  const response = await axios.post(`http://localhost:5000/auth/reset-password`, { token, newPassword: password });
+export const resetPassword = async ({
+  token,
+  password,
+}: {
+  token: string;
+  password: string;
+}) => {
+  const response = await axios.post(
+    `http://localhost:5000/auth/reset-password`,
+    { token, newPassword: password }
+  );
   return response.data;
 };

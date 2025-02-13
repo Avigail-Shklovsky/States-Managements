@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-} from "@mui/material";
+import {Button,FormControl,FormLabel,RadioGroup,FormControlLabel,Radio,Typography} from "@mui/material";
 import { usePermissionRequest } from "../../hooks/messages/usePermissionRequest";
 import { Types } from "mongoose";
 import { useRecoilValue } from "recoil";
@@ -30,18 +22,18 @@ const PermissionRequestForm: React.FC = () => {
     }
   }, [currentUser]);
 
-  
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!permission) {
       setError("Please select a permission");
       return;
     }
-  if (isPending) {
-    setError("Your request for this permission is still pending. Please wait.");
-    return;
-  }
+    if (isPending) {
+      setError(
+        "Your request for this permission is still pending. Please wait."
+      );
+      return;
+    }
     const message = {
       _id: new Types.ObjectId(),
       userId: currentUser!._id.toString(),

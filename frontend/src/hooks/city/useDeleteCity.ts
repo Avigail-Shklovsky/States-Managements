@@ -14,14 +14,19 @@ export const useDeleteCity = () => {
         error: "Failed to delete city.",
       })
       .then(() => {
-        queryClient.setQueryData(["states"], (oldData: IState[] | undefined) => {
-          if (!oldData) return oldData;
+        queryClient.setQueryData(
+          ["states"],
+          (oldData: IState[] | undefined) => {
+            if (!oldData) return oldData;
 
-          return oldData.map((state) => ({
-            ...state,
-            cities: state.cities.filter((city) => city._id.toString() !== cityId),
-          }));
-        });
+            return oldData.map((state) => ({
+              ...state,
+              cities: state.cities.filter(
+                (city) => city._id.toString() !== cityId
+              ),
+            }));
+          }
+        );
       });
   };
 

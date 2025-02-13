@@ -13,14 +13,19 @@ export const deleteMessage = async (id: string): Promise<IMessage[]> => {
 
 export const addMessage = async (newMessage: IMessage): Promise<IMessage> => {
   console.log(newMessage);
-  
-  const response = await axios.post("http://localhost:5000/message", newMessage);
+
+  const response = await axios.post(
+    "http://localhost:5000/message",
+    newMessage
+  );
   return response.data;
 };
 
-export const updateMessage = async (updatedMessage: IMessage): Promise<IMessage> => {
+export const updateMessage = async (
+  updatedMessage: IMessage
+): Promise<IMessage> => {
   console.log(updatedMessage);
-  
+
   const response = await axios.put(
     `http://localhost:5000/message/${updatedMessage._id}`,
     updatedMessage

@@ -12,16 +12,19 @@ export const useUpdateCityById = () => {
     onSuccess: (data) => {
       if (data?._id) {
         toast.success("City updated successfully!");
-        
-        queryClient.setQueryData(["states"], (oldData: IState[] | undefined) => {
-          if (!oldData) return oldData;
-          return oldData.map((state) => ({
-            ...state,
-            cities: state.cities.map((city) =>
-              city._id === data._id ? data : city
-            ),
-          }));
-        });
+
+        queryClient.setQueryData(
+          ["states"],
+          (oldData: IState[] | undefined) => {
+            if (!oldData) return oldData;
+            return oldData.map((state) => ({
+              ...state,
+              cities: state.cities.map((city) =>
+                city._id === data._id ? data : city
+              ),
+            }));
+          }
+        );
         queryClient.invalidateQueries({ queryKey: ["states"] });
       }
     },
