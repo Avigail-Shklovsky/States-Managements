@@ -42,20 +42,28 @@ export default function ButtonAppBar() {
     <Box sx={{ flexGrow: 1 }} position="sticky">
       <AppBar>
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              flexGrow: 1,
-              cursor: "pointer",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={() => navigate("/")}
-          >
-            States Management
-          </Typography>
+<Box
+  sx={{
+    flexGrow: 1,
+    display: { sm: "flex", md: "block" }, // Center on small screens
+    justifyContent: { sm: "center", md: "flex-start" }, // Center on small screens
+  }}
+>
+  <Typography
+    variant="h6"
+    component="div"
+    sx={{
+      cursor: "pointer",
+      "&:hover": {
+        textDecoration: "underline",
+      },
+    }}
+    onClick={() => navigate("/")}
+  >
+    States Management
+  </Typography>
+</Box>
+
 
           {user ? (
             <div>

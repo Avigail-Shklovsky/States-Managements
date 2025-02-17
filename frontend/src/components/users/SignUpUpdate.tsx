@@ -1,6 +1,12 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
@@ -118,129 +124,138 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
   };
 
   return (
-    <div data-testid="state-form">
-      <div className="container">
-        <div className="formWrapper">
-          <Typography variant="h4" gutterBottom className="title">
-            {mode === "signup" ? "Sign Up" : "Edit Profile"}
-          </Typography>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            enableReinitialize
-          >
-            {({ touched, errors }) => (
-              <Form>
-                <Field
-                  name="firstName"
-                  as={TextField}
-                  variant="outlined"
-                  label="First Name"
-                  fullWidth
-                  error={
-                    Boolean(errors.firstName) && Boolean(touched.firstName)
-                  }
-                  helperText={touched.firstName && errors.firstName}
-                />
-                <Box height={14} />
-                <Field
-                  name="lastName"
-                  as={TextField}
-                  variant="outlined"
-                  label="Last Name"
-                  fullWidth
-                  error={Boolean(errors.lastName) && Boolean(touched.lastName)}
-                  helperText={touched.lastName && errors.lastName}
-                />
-                <Box height={14} />
-                <Field
-                  name="userName"
-                  as={TextField}
-                  variant="outlined"
-                  label="Username"
-                  fullWidth
-                  error={Boolean(errors.userName) && Boolean(touched.userName)}
-                  helperText={touched.userName && errors.userName}
-                />
-                <Box height={14} />
-                <Field
-                  name="email"
-                  as={TextField}
-                  variant="outlined"
-                  label="Email"
-                  fullWidth
-                  error={Boolean(errors.email) && Boolean(touched.email)}
-                  helperText={touched.email && errors.email}
-                />
-                <Box height={14} />
-                <Field
-                  name="phone"
-                  as={TextField}
-                  variant="outlined"
-                  label="Phone"
-                  fullWidth
-                  error={Boolean(errors.phone) && Boolean(touched.phone)}
-                  helperText={touched.phone && errors.phone}
-                />
-                <Box height={14} />
-                {mode === "signup" && (
-                  <>
-                    <Field
-                      name="password"
-                      type="password"
-                      as={TextField}
-                      variant="outlined"
-                      label="Password"
-                      fullWidth
-                      error={
-                        Boolean(errors.password) && Boolean(touched.password)
-                      }
-                      helperText={touched.password && errors.password}
-                    />
-                    <Box height={14} />
-                  </>
-                )}
-                <Field
-                  name="profileImage"
-                  label="Upload Profile Image"
-                  component={FileField}
-                />
-                <Box height={14} />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  disabled={isSignUpPending || isUpdatePending}
-                >
-                  {mode === "signup"
-                    ? isSignUpPending
-                      ? "Signing Up..."
-                      : "Sign Up"
-                    : isUpdatePending
-                    ? "Updating..."
-                    : "Update Profile"}
-                </Button>
-                {mode === "signup" && (
-                  <Box mt={2} textAlign="center">
-                    <Typography variant="body2">
-                      Already have an account?{" "}
-                      <Link
-                        to="/signin"
-                        style={{ textDecoration: "none", color: "#1976d2" }}
-                      >
-                        Sign in here
-                      </Link>
-                    </Typography>
-                  </Box>
-                )}
-              </Form>
-            )}
-          </Formik>
+    <Container maxWidth="sm" sx={{ mt: { xs: 0, md: 2 }, mb: { xs: 2, md: 4 } }}>
+      <div data-testid="state-form">
+        <div className="container">
+          <div className="formWrapper">
+            <Typography variant="h4" gutterBottom className="title">
+              {mode === "signup" ? "Sign Up" : "Edit Profile"}
+            </Typography>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+              enableReinitialize
+            >
+              {({ touched, errors }) => (
+                <Form>
+                  <Field
+                    name="firstName"
+                    as={TextField}
+                    variant="outlined"
+                    label="First Name"
+                    fullWidth
+                    error={
+                      Boolean(errors.firstName) && Boolean(touched.firstName)
+                    }
+                    helperText={touched.firstName && errors.firstName}
+                  />
+                  <Box height={14} />
+                  <Field
+                    name="lastName"
+                    as={TextField}
+                    variant="outlined"
+                    label="Last Name"
+                    fullWidth
+                    error={
+                      Boolean(errors.lastName) && Boolean(touched.lastName)
+                    }
+                    helperText={touched.lastName && errors.lastName}
+                  />
+                  <Box height={14} />
+                  <Field
+                    name="userName"
+                    as={TextField}
+                    variant="outlined"
+                    label="Username"
+                    fullWidth
+                    error={
+                      Boolean(errors.userName) && Boolean(touched.userName)
+                    }
+                    helperText={touched.userName && errors.userName}
+                  />
+                  <Box height={14} />
+                  <Field
+                    name="email"
+                    as={TextField}
+                    variant="outlined"
+                    label="Email"
+                    fullWidth
+                    error={Boolean(errors.email) && Boolean(touched.email)}
+                    helperText={touched.email && errors.email}
+                  />
+                  <Box height={14} />
+                  <Field
+                    name="phone"
+                    as={TextField}
+                    variant="outlined"
+                    label="Phone"
+                    fullWidth
+                    error={Boolean(errors.phone) && Boolean(touched.phone)}
+                    helperText={touched.phone && errors.phone}
+                  />
+                  <Box height={14} />
+                  {mode === "signup" && (
+                    <>
+                      <Field
+                        name="password"
+                        type="password"
+                        as={TextField}
+                        variant="outlined"
+                        label="Password"
+                        fullWidth
+                        error={
+                          Boolean(errors.password) && Boolean(touched.password)
+                        }
+                        helperText={touched.password && errors.password}
+                      />
+                      <Box height={14} />
+                    </>
+                  )}
+                  <Field
+                    name="profileImage"
+                    label="Upload Profile Image"
+                    component={FileField}
+                  />
+                  <Box height={14} />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    disabled={isSignUpPending || isUpdatePending}
+                  >
+                    {mode === "signup"
+                      ? isSignUpPending
+                        ? "Signing Up..."
+                        : "Sign Up"
+                      : isUpdatePending
+                      ? "Updating..."
+                      : "Update Profile"}
+                  </Button>
+                  {mode === "signup" && (
+                    <Box mt={2} textAlign="center">
+                      <Typography variant="body2">
+                        Already have an account?{" "}
+                        <Link
+                          to="/signin"
+                          style={{
+                            textDecoration: "none",
+                            color: "#1976d2",
+                          }}
+                        >
+                          Sign in here
+                        </Link>
+                      </Typography>
+                    </Box>
+                  )}
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
