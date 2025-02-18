@@ -157,7 +157,7 @@ const Profile = () => {
         )}
         {currentPage === "permissions" && (
           <Container>
-            <Paper sx={{ padding: 3, boxShadow: 3, backgroundColor: "#ffffff", width:"80%" }}>
+            <Paper sx={{ padding: 3, boxShadow: 3, backgroundColor: "#ffffff", width:"100%" }}>
               <UserPermissions userId={user._id.toString()} />
             </Paper>
           </Container>

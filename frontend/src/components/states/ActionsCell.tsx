@@ -28,7 +28,7 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
 
 
   return (
-    <div className="action-buttons">
+    <div>
       <IconButton
         onClick={() => onDelete(id)}
         color="error"
