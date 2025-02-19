@@ -1,25 +1,15 @@
-import {
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Box,
-  CssBaseline,
-  Drawer,
-  AppBar,
-  Toolbar,
-  IconButton,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import {Box,CssBaseline,Drawer,AppBar,Toolbar,Typography,IconButton,useTheme,useMediaQuery} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useState } from "react";
-import AdminUsers from "./AdminUsers";
-import AdminMessages from "./AdminMessages";
+import { useNavigate } from "react-router";
+
+import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useUsers } from "../../hooks/users/useUsers";
 import { useMessages } from "../../hooks/messages/useMessages";
-import { useNavigate } from "react-router";
+
+import AdminUsers from "./AdminUsers";
+import AdminMessages from "./messages/AdminMessages";
+import Sidebar from "../SideBar";
 
 const drawerWidth = 240;
 
@@ -27,55 +17,49 @@ const AdminDashboard = () => {
   useAdminAuth();
   useUsers();
   useMessages();
-  const [currentPage, setCurrentPage] = useState<string>("dashboard");
-  const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState<string>("dashboard");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleMenuClick = (page: string) => {
-    setCurrentPage(page);
-    if (isMobile) {
-      setMobileOpen(false);
-    }
-  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawerContent = (
-    <List>
-      <ListItem
-        component="button"
-        sx={{ backgroundColor: "white", border: "none" }}
-        onClick={() => {
-          handleMenuClick("manageUsers");
-        }}
-      >
-        <ListItemText primary="Manage Users" />
-      </ListItem>
-      <ListItem
-        component="button"
-        sx={{ backgroundColor: "white", border: "none" }}
-        onClick={() => {
-          handleMenuClick("manageMessages");
-        }}
-      >
-        <ListItemText primary="Permissions Requests" />
-      </ListItem>
-      <ListItem
-        component="button"
-        onClick={() => {
-          navigate("/");
-        }}
-        sx={{ backgroundColor: "white", border: "none" }}
-      >
-        <ListItemText primary="Exit Dashboard" />
-      </ListItem>
-    </List>
-  );
+  const handleMenuClick = (page: string) => {
+    if (page === "exit") {
+      navigate("/");
+    } else {
+      setCurrentPage(page);
+    }
+    if (isMobile) {
+      setMobileOpen(false);
+    }
+  };
+
+  const pages = {
+    dashboard: {
+      label: "Dashboard",
+      component: () => (
+        <Typography variant="body1">
+          Welcome to the admin panel.
+        </Typography>
+      ),
+    },
+    manageUsers: {
+      label: "Manage Users",
+      component: AdminUsers,
+    },
+    manageMessages: {
+      label: "Permissions Requests",
+      component: AdminMessages,
+    },
+  };
+
+  const ContentComponent =
+    pages[currentPage as keyof typeof pages].component;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -100,52 +84,42 @@ const AdminDashboard = () => {
         </AppBar>
       )}
 
-      <Box sx={{ display: "flex", width: "100%", mt: isMobile ? 7 : 8 }}>
-        {isMobile ? (
-          <Drawer
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true, 
-            }}
-            sx={{
-              display: { xs: "block", sm: "none" },
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-          >
-            {drawerContent}
-          </Drawer>
-        ) : (
-          <Drawer
-            variant="permanent"
-            sx={{
+      <Box component="nav">
+        <Drawer
+          variant={isMobile ? "temporary" : "permanent"}
+          open={isMobile ? mobileOpen : true}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block", sm: "block" },
+            "& .MuiDrawer-paper": {
               width: drawerWidth,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                width: drawerWidth,
-                boxSizing: "border-box",
-                mt: 8,
-              },
-            }}
-            open
-          >
-            {drawerContent}
-          </Drawer>
-        )}
+              boxSizing: "border-box",
+              ...(isMobile ? {} : { top: 64 }), 
+            },
+          }}
+        >
+          <Sidebar
+            currentPage={currentPage}
+            onMenuClick={handleMenuClick}
+            pages={pages}
+          />
+        </Drawer>
+      </Box>
 
-        <Box component="main" sx={{ flexGrow:1, p: 3, mt: isMobile ? 7 : 8 }}>
-          {currentPage === "dashboard" && (
-            <Typography variant="body1">
-              Welcome to the admin panel.
-            </Typography>
-          )}
-          {currentPage === "manageUsers" && <AdminUsers />}
-          {currentPage === "manageMessages" && <AdminMessages />}
-        </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          mt: isMobile ? 7 : 8,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <ContentComponent />
       </Box>
     </Box>
   );
