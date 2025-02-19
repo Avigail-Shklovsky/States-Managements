@@ -15,7 +15,7 @@ import { IUser } from "../../types/user";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const UsernameCell: React.FC<{ userId: string }> = ({ userId }) => {
+const UsernameCell: React.FC<{ userId: string }> = ({ userId }) => {
   const user = useQueryUserById(userId);
   return <>{user ? <> {user.userName}</> : "Loading..."}</>;
 };
@@ -261,46 +261,3 @@ const AdminMessages: React.FC = () => {
 };
 
 export default AdminMessages;
-
-// import React from "react";
-// import { Box } from "@mui/material";
-// import { useTheme, useMediaQuery } from "@mui/material";
-// import { IMessage } from "../../../types/message";
-// import { formatDate } from "../../../utils/dateFormatter";
-// import AdminMessagesGrid from "./AdminMessagesGrid";
-// import { useQueryUserById } from "../../../hooks/users/useQueryUserbyId";
-// import AdminMessagesPaperList from "./AdminMessagesPaperList";
-
-// interface AdminMessagesProps {
-//   messages: IMessage[];
-//   updateMessage: (message: IMessage) => void;
-// }
-
-// const AdminMessages: React.FC<AdminMessagesProps> = ({ messages, updateMessage }) => {
-//   const theme = useTheme();
-//   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-
-  
-//   const rows = (messages ?? []).map((message) => ({
-//     id: message._id.toString(),
-//     userId: message.userId,
-//     actionType: message.actionType,
-//     approved: message.approved,
-//     dateOpen: formatDate(message.dateOpen),
-//     dateClose: message.dateClose ? formatDate(message.dateClose) : "Open",
-//     originalMessage: message,
-//   }));
-
-//   return (
-//     <Box sx={{ width: "100%", p: 2 }}>
-//       {isSmallScreen ? (
-//         <AdminMessagesPaperList rows={rows} updateMessage={updateMessage} />
-//       ) : (
-//         <AdminMessagesGrid rows={rows}  />
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default AdminMessages;
