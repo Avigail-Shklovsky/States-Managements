@@ -1,24 +1,37 @@
-import { Box, CircularProgress, Typography, Divider, Paper, useTheme, useMediaQuery } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import ActionsCell from "../states/ActionsCell";
-import { useModal } from "../../hooks/useModal";
-import { useState } from "react";
-import ConfirmModal from "../states/ConfirmModal";
-import useDeleteUser from "../../hooks/users/useDeleteUser";
 import { useUsers } from "../../hooks/users/useUsers";
+import useDeleteUser from "../../hooks/users/useDeleteUser";
+import { useModal } from "../../hooks/useModal";
+import ConfirmModal from "../states/ConfirmModal";
+import AdminUserCard, { UserRow } from "./AdminUserCard";
+import ActionsCell from "../states/ActionsCell";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const AdminGrid = () => {
+
+const formatDate = (date: Date | string | null | undefined): string =>
+  date
+    ? dayjs(date).tz("Asia/Jerusalem").format("MMM D, YYYY, hh:mm A")
+    : "N/A";
+
+const AdminGrid: React.FC = () => {
   const { data, error, isLoading } = useUsers();
-  const [selectedRow, setSelectedRow] = useState<string | null>(null);
-  const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDelete } = useDeleteUser();
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -48,32 +61,35 @@ const AdminGrid = () => {
       flex: 1,
       width: 50,
       renderCell: (params) => (
-        <ActionsCell
-          id={params.row.id}
-          name={""}
-          onDelete={(id) => {
-            setSelectedRow(id);
-            openModal();
-          }}
-          editPath="edit-profile"
-        />
+        <Box>
+          <Box>
+            <ActionsCell
+              id={params.row.id}
+              name={""}
+              onDelete={(id) => {
+                setSelectedRow(id);
+                openModal();
+              }}
+              editPath="edit-profile"
+            />
+          </Box>
+        </Box>
       ),
     },
   ];
 
-  const rows = data?.map((user) => ({
-    id: user._id.toString(),
-    profilePicture: user.profileImage,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    userName: user.userName,
-    email: user.email,
-    phone: user.phone,
-    lastUpdated: dayjs(user.changedDate)
-      .tz("Asia/Jerusalem")
-      .format("MMM D, YYYY, hh:mm A"),
-    permissions: user.auth.join(", "),
-  }));
+  const rows: UserRow[] =
+    data?.map((user) => ({
+      id: user._id.toString(),
+      profilePicture: user.profileImage,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      phone: user.phone,
+      lastUpdated: formatDate(user.changedDate),
+      permissions: user.auth.join(", "),
+    })) || [];
 
   if (isLoading)
     return (
@@ -88,69 +104,22 @@ const AdminGrid = () => {
   }
 
   return (
-    // Outer container with overflowX allows horizontal scroll on small screens.
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
         Admin User Management
       </Typography>
       {isSmallScreen ? (
         <>
-          {rows && rows.length > 0 ? (
+          {rows.length > 0 ? (
             rows.map((row) => (
-              <Paper
+              <AdminUserCard
                 key={row.id}
-                sx={{
-                  width: "100%", // Full-width card for responsiveness
-                  p: 2,
-                  mb: 2,
-                  boxShadow: 3,
-                  borderRadius: 2,
+                row={row}
+                onDelete={(id) => {
+                  setSelectedRow(id);
+                  openModal();
                 }}
-              >
-                <Box display="flex" alignItems="center">
-                  <img
-                    src={`http://localhost:5000/${row.profilePicture}`}
-                    alt="Profile"
-                    style={{
-                      width: "45px",
-                      height: "45px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <Box ml={2}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      {row.firstName} {row.lastName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {row.userName}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Divider sx={{ my: 1 }} />
-                <Typography variant="body2">
-                  <strong>Email:</strong> {row.email}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Phone:</strong> {row.phone}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Last Updated:</strong> {row.lastUpdated}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Permissions:</strong> {row.permissions}
-                </Typography>
-                <Box mt={2}>
-                  <ActionsCell
-                    id={row.id}
-                    name={""}
-                    onDelete={(id) => {
-                      setSelectedRow(id);
-                      openModal();
-                    }}
-                    editPath="edit-profile"
-                  />
-                </Box>
-              </Paper>
+              />
             ))
           ) : (
             <Typography variant="body2" color="text.secondary">
@@ -161,12 +130,10 @@ const AdminGrid = () => {
       ) : (
         <Box sx={{ height: 400, minWidth: 1200 }}>
           <DataGrid
-            rows={rows || []}
+            rows={rows}
             columns={columns}
             initialState={{
-              pagination: {
-                paginationModel: { pageSize: 5 },
-              },
+              pagination: { paginationModel: { pageSize: 5 } },
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
