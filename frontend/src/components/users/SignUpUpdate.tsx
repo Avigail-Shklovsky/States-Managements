@@ -23,7 +23,7 @@ type Props = {
   userId?: string;
 };
 
-const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
+const SignUpUpdate: React.FC<Props> = ({ mode, user = null,userId="" }) => {
   const { id } = useParams();
   const userData = useQueryUserById(id);
 
@@ -89,6 +89,7 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
   });
 
   const handleSubmit = async (values: SignUpFormValues) => {
+    
     const formData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
@@ -98,10 +99,13 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
         } else if (mode === "edit" && initialValues.profileImage) {
           formData.append(key, initialValues.profileImage);
         }
+      } else if (Array.isArray(value)) {
+        value.forEach((item) => formData.append(key, item)); 
       } else if (value) {
         formData.append(key, value.toString());
       }
     });
+    
 
     if (mode === "signup") {
       handleSignUp(formData, {
@@ -111,8 +115,7 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
         },
       });
     } else {
-      if (location.state?.userid) {
-        const userId = location.state.userid;
+      if (user) {
         try {
           handleUpdateProfile({ userId, formData });
           navigate(-1);
@@ -224,6 +227,7 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null }) => {
                     color="primary"
                     size="large"
                     disabled={isSignUpPending || isUpdatePending}
+                    // onClick={handleSubmit}
                   >
                     {mode === "signup"
                       ? isSignUpPending

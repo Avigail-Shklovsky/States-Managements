@@ -43,7 +43,7 @@ const StatesGridLayout = () => {
 
   return (
     <div data-testid="states-grid-layout">
-      <Box sx={{ width: "100%", mt: 10 }}>
+      <Box sx={{ width: "100%", mt:10 }}>
         <StatesTable
           rows={rows}
           onDelete={(id) => {
