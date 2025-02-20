@@ -3,10 +3,10 @@ import { vi } from "vitest";
 import { MemoryRouter } from "react-router-dom"; // Add MemoryRouter
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"; // Add QueryClientProvider
 import { RecoilRoot } from "recoil"; // Add RecoilRoot
-import StatesGridLayout from "../components/StatesGridLayout"; // Adjust the import path
-import { useStates } from "../hooks/useStates";
 import { Types } from "mongoose";
 import { IState } from "../types/state";
+import { useStates } from "../hooks/states/useStates";
+import StatesGridLayout from "../components/states/StatesGridLayout";
 
 // Mock the hooks
 vi.mock("../hooks/useStates", () => ({

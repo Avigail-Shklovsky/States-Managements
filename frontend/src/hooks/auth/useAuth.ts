@@ -1,4 +1,3 @@
-// hooks/useAuth.ts
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../context/atom";

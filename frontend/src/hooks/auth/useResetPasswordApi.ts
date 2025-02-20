@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { resetPassword } from "../../services/authApi";
 
-export const useForgotPasswordApi = () => {
+export const useResetPasswordApi = () => {
   const mutation = useMutation({
     mutationFn: ({ token, password }: { token: string; password: string }) =>
       resetPassword({ token, password }),
