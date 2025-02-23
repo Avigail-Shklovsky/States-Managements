@@ -10,7 +10,6 @@ dotenv.config();
 
 const passwordResetTokens: { [key: string]: string } = {};
 
-
 export const signUp = async (req: Request, res: Response) => {
   
   const { firstName, lastName, userName, email, phone, password, auth } =
@@ -71,7 +70,6 @@ export const signIn = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.token;
 
-    // If a token exists, verify it
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!);
@@ -83,7 +81,6 @@ export const signIn = async (req: Request, res: Response) => {
       }
     }
 
-    // If no token, proceed with login
     const user = await UserModel.findOne({ userName });
     if (!user) {
       res.status(400).json({ message: "User not found" });
@@ -101,7 +98,6 @@ export const signIn = async (req: Request, res: Response) => {
     });
     res.cookie("token", newToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
     });
     res
       .status(200)

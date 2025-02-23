@@ -16,7 +16,6 @@ dotenv.config();
 
 const app = express();
 
-// Middleware for JSON parsing
 app.use(express.json());
 app.use(
   cors({
@@ -28,10 +27,7 @@ app.use(
 );
 app.use(cookieParser()); 
 
-// Use helmet to secure Express headers
-app.use(helmet());
-
-// Add Content Security Policy (CSP)
+//  xss protection
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -73,7 +69,6 @@ const startServer = async () => {
 
 startServer();
 
-// Handle graceful shutdown
 process.on("SIGINT", async () => {
   console.log("Closing MongoDB connection");
   await mongoose.connection.close();
