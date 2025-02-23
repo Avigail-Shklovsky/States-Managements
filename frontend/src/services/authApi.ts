@@ -14,15 +14,19 @@ export const signUp = async (formData: FormData): Promise<IUser> => {
   return response.data;
 };
 
-export const signIn = async (
-  userName: string,
-  password: string
-): Promise<IUser> => {
-  const response = await axios.post("http://localhost:5000/auth/signin", {
-    userName,
-    password,
-  });
-  return response.data;
+export const signIn = async (userName: string, password: string) => {
+  try {
+    const response = await axios.post("http://localhost:5000/auth/signin", {
+      userName,
+      password,
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw error;
+    }
+    throw new Error("Network error, please try again.");
+  }
 };
 
 export const signout = async (): Promise<void> => {

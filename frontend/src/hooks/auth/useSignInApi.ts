@@ -19,8 +19,12 @@ export const useSignInApi = () => {
         toast.success("Signed in successfully!");
       }
     },
-    onError: () => {
-      toast.error("Failed to sign in.");
+    onError: (error: any) => {
+      if (error.response?.status === 429) {
+        toast.error("Too many login attempts. Please try again later.");
+      } else {
+        toast.error("Failed to sign in.");
+      }
     },
   });
 
