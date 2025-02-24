@@ -1,121 +1,78 @@
 import { Request, Response } from "express";
-import UserModel, { IUser } from "../models/user";
-import { sanitizeString } from "../utils/sanitizeInput";
 import multer from "multer";
+import {
+    getUsersService,
+    getUserByIdService,
+    updateUserService,
+    updateUserWithoutImageService,
+    deleteUserService
+} from "../services/userService";
 
-
-const upload = multer({ dest: 'uploads/' }); // Temporary file storage location
+const upload = multer({ dest: 'uploads/' });
 
 // Get all users
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-        const users = await UserModel.find();
+        const users = await getUsersService();
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ error });
     }
 };
 
-// Get user by id
-export const getUserById = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+// Get user by ID
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
-        const user = await UserModel.findById(id.toString());
+        const user = await getUserByIdService(req.params.id);
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
         }
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ error });
     }
 };
 
 // Update a user with image
-export const updateUser = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+export const updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
         const profileImage = req.file ? req.file.path : req.body.profileImage;
-        const sanitizedBody = {
-            firstName: sanitizeString(req.body.firstName),
-            lastName: sanitizeString(req.body.lastName),
-            userName: sanitizeString(req.body.userName),
-            email: sanitizeString(req.body.email),
-            phone: sanitizeString(req.body.phone),
-            password: req.body.password,
-            changedDate: new Date(),
-            auth: req.body.auth,
-            profileImage,
-            messages: req.body.messages || [], 
-        };
-        
-        const updatedUser = await UserModel.findByIdAndUpdate(
-            id.toString(),
-            sanitizedBody as unknown as IUser,
-            { new: true }
-        );
-
+        const updatedUser = await updateUserService(req.params.id, req.body, profileImage);
+        if (!updatedUser) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
         res.status(200).json(updatedUser);
     } catch (error) {
-        console.error("Error updating user:", error);
-        res.status(500).json({ error: error || "Internal server error" });
+        res.status(500).json({ error });
     }
 };
 
-// update user without image
+// Update a user without image
 export const updateUserWithoutImage = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
-        
-        const existingUser = await UserModel.findById(id);
-        if (!existingUser) {
-             res.status(404).json({ error: "User not found" });
-             return;
+        const updatedUser = await updateUserWithoutImageService(req.params.id, req.body);
+        if (!updatedUser) {
+            res.status(404).json({ error: "User not found" });
+            return;
         }
-        
-        const sanitizedBody = {
-            firstName: req.body.firstName !== undefined ? sanitizeString(req.body.firstName) : existingUser.firstName,
-            lastName: req.body.lastName !== undefined ? sanitizeString(req.body.lastName) : existingUser.lastName,
-            userName: req.body.userName !== undefined ? sanitizeString(req.body.userName) : existingUser.userName,
-            email: req.body.email !== undefined ? sanitizeString(req.body.email) : existingUser.email,
-            phone: req.body.phone !== undefined ? sanitizeString(req.body.phone) : existingUser.phone,
-            password: existingUser.password, 
-            changedDate: new Date(), 
-            auth: req.body.auth !== undefined ? req.body.auth : existingUser.auth, 
-            messages: req.body.messages !== undefined ? req.body.messages : existingUser.messages, 
-        };
-        
-        const updatedUser = await UserModel.findByIdAndUpdate(id, sanitizedBody, { new: true });
-        
-
         res.status(200).json(updatedUser);
     } catch (error) {
-        console.error("Error updating user without image:", error);
-        res.status(500).json({ error: error || "Internal server error" });
+        res.status(500).json({ error });
     }
 };
 
 // Delete a user
-export const deleteUser = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id } = req.params;
-        const userToDelete = await UserModel.findByIdAndDelete(id);
-
+        const userToDelete = await deleteUserService(req.params.id);
         if (!userToDelete) {
             res.status(404).json({ message: "User not found" });
             return;
         }
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ error });
     }
 };
