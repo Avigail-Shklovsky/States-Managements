@@ -109,7 +109,7 @@ const SignUpUpdate: React.FC<Props> = ({ mode, user = null,userId="" }) => {
 
     if (mode === "signup") {
       handleSignUp(formData, {
-        onSuccess: (response) => {
+        onSuccess: (response) => {          
           handleLoginLocalStorage(response);
           navigate("/");
         },

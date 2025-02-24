@@ -20,7 +20,7 @@ export function useAuth() {
 
   const handleLoginLocalStorage = (userData: any) => {
     localStorage.setItem("user", JSON.stringify(userData.user)); 
-    setUser(userData.user);
+    setUser(userData.user.user);
   };
 
   const logout = () => {

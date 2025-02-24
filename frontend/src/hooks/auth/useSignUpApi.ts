@@ -8,9 +8,10 @@ export const useSignUpApi = () => {
     onSuccess: (data) => {
       if (data?._id) {
         toast.success("Signed up successfully!");
+        
       }
     },
-    onError: () => {
+    onError: (error) => {
       toast.error("Failed to sign up.");
     },
   });
