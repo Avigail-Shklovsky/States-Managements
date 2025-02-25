@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IMessage } from "../types/message";
+import { IMessage } from "../../types/message";
 
 export const fetchMessages = async (): Promise<IMessage[]> => {
   const response = await axios.get("http://localhost:5000/message");

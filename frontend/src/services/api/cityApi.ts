@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ICity } from "../types/city";
-import { CreateCityResponse } from "../hooks/city/useCreateCity";
+import { ICity } from "../../types/city";
+import { CreateCityResponse } from "../../hooks/city/useCreateCity";
 
 export const fetchCities = async (): Promise<ICity[]> => {
   const response = await axios.get("http://localhost:5000/cities");

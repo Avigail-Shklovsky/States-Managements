@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser } from "../types/user";
+import { IUser } from "../../types/user";
 
 export const signUp = async (formData: FormData): Promise<IUser> => {
   const response = await axios.post(

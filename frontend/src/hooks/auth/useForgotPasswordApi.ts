@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { sendResetEmail } from "../../services/authApi";
+import { sendResetEmail } from "../../services/api/authApi";
 
 export const useForgotPasswordApi = () => {
   const mutation = useMutation({

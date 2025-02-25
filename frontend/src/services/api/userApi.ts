@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser } from "../types/user";
+import { IUser } from "../../types/user";
 
 export const fetchUsers = async (): Promise<IUser[]> => {
   const response = await axios.get("http://localhost:5000/user");

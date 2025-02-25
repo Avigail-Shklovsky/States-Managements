@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { fetchMessages } from "../../services/messageApi";
+import { fetchMessages } from "../../services/api/messageApi";
 import { IMessage } from "../../types/message";
 
 export const useMessages = () => {

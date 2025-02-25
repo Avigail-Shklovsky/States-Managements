@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteCity } from "../../services/cityApi";
+import { deleteCity } from "../../services/api/cityApi";
 import { IState } from "../../types/state";
 
 export const useDeleteCity = () => {

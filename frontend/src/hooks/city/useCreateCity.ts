@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { addCity } from "../../services/cityApi";
+import { addCity } from "../../services/api/cityApi";
 import { ICity } from "../../types/city";
 import { IState } from "../../types/state";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IState } from "../types/state";
+import { IState } from "../../types/state";
 
 export const fetchStates = async (): Promise<IState[]> => {
   const response = await axios.get("http://localhost:5000/states");

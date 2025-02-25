@@ -20,7 +20,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { currentUserState } from "../../context/atom";
 import { useNavigate, useLocation } from "react-router-dom";
-import { deleteUser } from "../../services/userApi";
+import { deleteUser } from "../../services/api/userApi";
 import UserPermissions from "./UserMessagesHistory";
 import dayjs from "dayjs";
 import ConfirmModal from "../states/ConfirmModal";

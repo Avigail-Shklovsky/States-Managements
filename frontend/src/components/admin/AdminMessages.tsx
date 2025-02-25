@@ -1,25 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import {
-  Box,
-  CircularProgress,
-  Typography,
-  Paper,
-  Divider,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { useMessages } from "../../hooks/messages/useMessages";
-import { useQueryUserById } from "../../hooks/users/useQueryUserbyId";
-import { useUpdateMessageById } from "../../hooks/messages/useUpdateMessageById";
-import { useUpdateUserAuth } from "../../hooks/users/useUpdateUserAuth";
+import { Box, CircularProgress, Paper, Divider, useMediaQuery, useTheme } from "@mui/material";
+import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import toast from "react-hot-toast";
+import UsernameCell from "../UsernameCell";
+import ApprovalActions from "../ApprovalActions";
+import { useMessagesService } from "../../services/messagesService";
+import { approveMessage } from "../../services/messagesService";
+import { useUpdateUserAuth } from "../../hooks/users/useUpdateUserAuth";
 import { IMessage } from "../../types/message";
 import { IUser } from "../../types/user";
-import ApprovalActions from "../ApprovalActions";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -28,22 +20,12 @@ const formatDate = (date: Date | string | null | undefined): string => {
   return date ? dayjs(date).tz("Asia/Jerusalem").format("MMM D, YYYY, hh:mm A") : "Open";
 };
 
-
 const isMessageClosed = (message: IMessage): boolean => {
   return !!message.dateClose && dayjs(message.dateClose).isBefore(dayjs());
 };
 
-
-const UsernameCell: React.FC<{ userId: string }> = ({ userId }) => {
-  const user = useQueryUserById(userId);
-  return <>{user ? user.userName : "Loading..."}</>;
-};
-
-
 const AdminMessages: React.FC = () => {
-  const { data, error, isLoading } = useMessages();
-  const { mutate: updateMessageById } = useUpdateMessageById();
-
+  const { data, error, isLoading, updateMessageById } = useMessagesService();
   const [userId, setUserId] = useState<string | null>(null);
   const [permissionType, setPermissionType] = useState<string | null>(null);
   const [isApproved, setIsApproved] = useState<boolean>(false);
@@ -60,16 +42,8 @@ const AdminMessages: React.FC = () => {
     }
   }, [userId, isApproved, isLoading, updatedUser, updateUserAuth]);
 
-
   const handleApproval = (message: IMessage, status: boolean) => {
-    const newMessage: IMessage = {
-      ...message,
-      approved: status,
-      _id: message._id,
-      read: true,
-      dateClose: new Date(),
-    };
-
+    const newMessage = approveMessage(message, status);
     updateMessageById({ message: newMessage });
 
     if (status) {
@@ -86,11 +60,7 @@ const AdminMessages: React.FC = () => {
       field: "username",
       headerName: "Username",
       width: 130,
-      renderCell: (params) => (
-        <Typography variant="body2" sx={{ textAlign: "center" }}>
-          <UsernameCell userId={params.row.userId} />
-        </Typography>
-      ),
+      renderCell: (params) => <UsernameCell userId={params.row.userId} />,
     },
     { field: "actionType", headerName: "Action Type", width: 130 },
     { field: "dateOpen", headerName: "Open Date", width: 180 },
@@ -151,25 +121,9 @@ const AdminMessages: React.FC = () => {
                 opacity: row.isClosed ? 0.8 : 1,
               }}
             >
-              <Box display="flex" alignItems="center">
-                <Typography variant="body2" fontWeight="bold">
-                  <strong>Username: </strong>
-                  <UsernameCell userId={row.userId} />
-                </Typography>
-              </Box>
               <Divider sx={{ my: 1 }} />
-              <Typography variant="body2">
-                <strong>Action Type:</strong> {row.actionType}
-              </Typography>
-              <Typography variant="body2">
-                <strong>Open Date:</strong> {row.dateOpen}
-              </Typography>
-              <Typography variant="body2">
-                <strong>Close Date:</strong> {row.dateClose}
-              </Typography>
-              <Box mt={2}>
-                <ApprovalActions message={row.originalMessage} onApproval={handleApproval} />
-              </Box>
+              <UsernameCell userId={row.userId} />
+              <ApprovalActions message={row.originalMessage} onApproval={handleApproval} />
             </Paper>
           ))}
         </Box>
@@ -177,7 +131,6 @@ const AdminMessages: React.FC = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
           pageSizeOptions={[5, 10]}
           disableRowSelectionOnClick
           getRowClassName={(params) => (params.row.isClosed ? "closed-row" : "")}

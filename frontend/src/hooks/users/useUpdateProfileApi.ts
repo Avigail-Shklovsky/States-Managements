@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
-import { updateProfile } from "../../services/userApi";
+import { updateProfile } from "../../services/api/userApi";
 import { currentUserState } from "../../context/atom";
 
 export const useUpdateProfileApi = () => {

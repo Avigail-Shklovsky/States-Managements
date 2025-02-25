@@ -9,7 +9,7 @@ import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { signout } from "../services/authApi";
+import { signout } from "../services/api/authApi";
 import { useAuth } from "../hooks/auth/useAuth";
 import { useNavigate } from "react-router";
 

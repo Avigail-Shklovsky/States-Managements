@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { fetchUsers } from "../../services/userApi";
+import { fetchUsers } from "../../services/api/userApi";
 import { IUser } from "../../types/user";
 
 export const useUsers = () => {

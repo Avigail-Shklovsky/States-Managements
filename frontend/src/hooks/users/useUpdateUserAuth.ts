@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { updateUserWithoutImage } from "../../services/userApi";
+import { updateUserWithoutImage } from "../../services/api/userApi";
 import { IUser } from "../../types/user";
 import { useQueryUserById } from "./useQueryUserbyId";
 
