@@ -18,9 +18,9 @@ export function useAuth() {
     fetchUser();
   }, []);
 
-  const handleLoginLocalStorage = (userData: any) => {
-    localStorage.setItem("user", JSON.stringify(userData.user)); 
-    setUser(userData.user.user);
+  const handleUserLocalStorage = (userData: any) => {
+    localStorage.setItem("user", JSON.stringify(userData.user));     
+    setUser(userData.user);
   };
 
   const logout = () => {
@@ -28,5 +28,5 @@ export function useAuth() {
     setUser(null);
   };
 
-  return { user, handleLoginLocalStorage, logout };
+  return { user, handleUserLocalStorage, logout };
 }

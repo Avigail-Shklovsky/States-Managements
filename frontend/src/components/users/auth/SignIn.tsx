@@ -2,8 +2,8 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/auth/useAuth";
-import { useSignInApi } from "../../hooks/auth/useSignInApi";
+import { useAuth } from "../../../hooks/auth/useAuth";
+import { useSignInApi } from "../../../hooks/auth/useSignInApi";
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Username is required"),
@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const mutation = useSignInApi();
-  const { handleLoginLocalStorage } = useAuth();
+  const { handleUserLocalStorage } = useAuth();
 
   const handleSubmit = async (
     values: { userName: string; password: string },
@@ -23,7 +23,8 @@ const SignIn: React.FC = () => {
   ) => {
     mutation.mutate(values, {
       onSuccess: (response) => {
-        handleLoginLocalStorage(response);
+        handleUserLocalStorage(response);
+
         navigate("/");
       },
       onSettled: () => {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useResetPasswordApi } from "../../hooks/auth/useResetPasswordApi"; 
+import { useResetPasswordApi } from "../../../hooks/auth/useResetPasswordApi";
 
 
 const validationSchema = Yup.object().shape({

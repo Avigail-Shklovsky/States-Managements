@@ -11,7 +11,7 @@ export const useSignUpApi = () => {
         
       }
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Failed to sign up.");
     },
   });

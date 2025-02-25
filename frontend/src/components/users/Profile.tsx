@@ -23,12 +23,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { deleteUser } from "../../services/userApi";
 import UserPermissions from "./UserMessagesHistory";
 import dayjs from "dayjs";
-import SignUpUpdate from "./SignUpUpdate";
 import ConfirmModal from "../states/ConfirmModal";
 import { useModal } from "../../hooks/useModal";
 import PermissionRequestForm from "../permissions/PermissionRequest";
 import { useMessages } from "../../hooks/messages/useMessages";
 import useAdminAuth from "../../hooks/auth/useAdminAuth";
+import SignUpUpdate from "./auth/SignUpUpdate";
 
 const drawerWidth = 240;
 
@@ -164,10 +164,10 @@ const Profile = () => {
         )}
         {currentPage === "permission-form" && <PermissionRequestForm />}
         {currentPage === "edit-profile" && (
-          <Container>
-            <SignUpUpdate mode="edit" user={user} userId={user._id.toString()} />
-          </Container>
-        )}
+  <Container>
+    <SignUpUpdate mode="edit" />
+  </Container>
+)}
       </Box>
       <ConfirmModal type="delete" open={isModalOpen} onClose={closeModal} onConfirm={handleDeleteUser} />
     </Box>

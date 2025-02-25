@@ -14,12 +14,13 @@ export const signUp = async (req: Request, res: Response) => {
   }
 };
 
-export const signIn = async (req: Request, res: Response) => {
+export const signIn = async (req: Request, res: Response): Promise<void> => {
   const { userName, password } = req.body;
-  
+
   try {
     if (req.cookies.token) {
-      return res.status(200).json({ message: "User already logged in" });
+      res.status(200).json({ message: "User already logged in" });
+      return;
     }
 
     const { user, token } = await signInService(userName, password);
@@ -36,13 +37,14 @@ export const signOut = (req: Request, res: Response) => {
   res.status(200).json({ message: "User signed out successfully" });
 };
 
-export const sendResetEmail = async (req: Request, res: Response) => {
+export const sendResetEmail = async (req: Request, res: Response): Promise<void> => {
   const { email } = req.body;
 
   try {
     const resetToken = await sendResetEmailService(email);
     if (!resetToken) {
-      return res.status(200).json({ message: "If an account exists, a reset link has been sent." });
+      res.status(200).json({ message: "If an account exists, a reset link has been sent." });
+      return;
     }
 
     const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
