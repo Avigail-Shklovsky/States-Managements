@@ -12,13 +12,12 @@ import { approveMessage } from "../../services/messagesService";
 import { useUpdateUserAuth } from "../../hooks/users/useUpdateUserAuth";
 import { IMessage } from "../../types/message";
 import { IUser } from "../../types/user";
+import { formatDate } from "../../utils/formatDate";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const formatDate = (date: Date | string | null | undefined): string => {
-  return date ? dayjs(date).tz("Asia/Jerusalem").format("MMM D, YYYY, hh:mm A") : "Open";
-};
+
 
 const isMessageClosed = (message: IMessage): boolean => {
   return !!message.dateClose && dayjs(message.dateClose).isBefore(dayjs());

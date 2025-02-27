@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Divider, Paper } from "@mui/material";
-import ActionsCell from "../states/ActionsCell";
+import ActionsCell from "../../states/ActionsCell";
+import { formatDate } from "../../../utils/formatDate";
 
 export interface UserRow {
   id: string;
@@ -16,10 +17,22 @@ export interface UserRow {
 
 interface AdminUserCardProps {
   row: UserRow;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
+  ActionsComponent?: React.FC<{
+    id: string;
+    name: string;
+    onDelete: (id: string) => void;
+    editPath: string;
+  }>;
 }
 
-const AdminUserCard: React.FC<AdminUserCardProps> = ({ row, onDelete }) => (
+
+
+const AdminUserCard: React.FC<AdminUserCardProps> = ({
+  row,
+  onDelete,
+  ActionsComponent = ActionsCell,
+}) => (
   <Paper
     key={row.id}
     sx={{
@@ -57,19 +70,21 @@ const AdminUserCard: React.FC<AdminUserCardProps> = ({ row, onDelete }) => (
       <strong>Phone:</strong> {row.phone}
     </Typography>
     <Typography variant="body2">
-      <strong>Last Updated:</strong> {row.lastUpdated}
+      <strong>Last Updated:</strong> {formatDate(row.lastUpdated)}
     </Typography>
     <Typography variant="body2">
       <strong>Permissions:</strong> {row.permissions}
     </Typography>
-    <Box mt={2}>
-      <ActionsCell
-        id={row.id}
-        name={""}
-        onDelete={onDelete}
-        editPath="edit-profile"
-      />
-    </Box>
+    {onDelete && (
+      <Box mt={2}>
+        <ActionsComponent
+          id={row.id}
+          name={`${row.firstName} ${row.lastName}`}
+          onDelete={onDelete}
+          editPath="edit-profile"
+        />
+      </Box>
+    )}
   </Paper>
 );
 

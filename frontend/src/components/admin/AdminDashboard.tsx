@@ -11,7 +11,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import { useState } from "react";
-import AdminUsers from "./AdminUsers";
+import AdminUsers from "./users/AdminUsers";
 import AdminMessages from "./AdminMessages";
 import { useUsers } from "../../hooks/users/useUsers";
 import { useMessages } from "../../hooks/messages/useMessages";
