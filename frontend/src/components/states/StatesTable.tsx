@@ -202,6 +202,9 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
           name={params.row.name}
           onDelete={onDelete}
           editPath="state-form"
+          canDelete={hasDeletePermission}
+          canEdit={hasUpdatePermission}
+          
         />
       ),
     },

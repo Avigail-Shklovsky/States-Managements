@@ -7,7 +7,9 @@ export const createStateService = async (stateData: any): Promise<IState> => {
   const sanitizedBody = {
     name: sanitizeString(stateData.name),
     flag: sanitizeString(stateData.flag),
-    population: validator.isNumeric(stateData.population) ? stateData.population : 0,
+    population: validator.isNumeric(stateData.population.toString())
+      ? stateData.population
+      : 0,
     region: sanitizeString(stateData.region),
   };
 
@@ -21,16 +23,23 @@ export const getStatesService = async (): Promise<IState[]> => {
 };
 
 // Get state by ID
-export const getStateByIdService = async (id: string): Promise<IState | null> => {
+export const getStateByIdService = async (
+  id: string
+): Promise<IState | null> => {
   return await StateModel.findById(id).populate("cities");
 };
 
 // Update a state
-export const updateStateService = async (id: string, stateData: any): Promise<IState | null> => {
+export const updateStateService = async (
+  id: string,
+  stateData: any
+): Promise<IState | null> => {
   const sanitizedBody = {
     name: sanitizeString(stateData.name),
     flag: sanitizeString(stateData.flag),
-    population: validator.isNumeric(stateData.population) ? stateData.population : 0,
+    population: validator.isNumeric(stateData.population.toString())
+      ? stateData.population
+      : 0,
     region: sanitizeString(stateData.region),
   };
 
@@ -38,6 +47,8 @@ export const updateStateService = async (id: string, stateData: any): Promise<IS
 };
 
 // Delete a state
-export const deleteStateService = async (id: string): Promise<IState | null> => {
+export const deleteStateService = async (
+  id: string
+): Promise<IState | null> => {
   return await StateModel.findByIdAndDelete(id);
 };

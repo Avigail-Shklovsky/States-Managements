@@ -10,6 +10,10 @@ import {
 // Create a new state
 export const createState = async (req: Request, res: Response): Promise<void> => {
   try {
+    // console.log(typeof req.body.name);
+    // console.log(typeof req.body.flag);
+    // console.log(typeof req.body.population);
+    // console.log(typeof req.body.region);
     const savedState = await createStateService(req.body);
     res.status(201).json(savedState);
   } catch (error) {

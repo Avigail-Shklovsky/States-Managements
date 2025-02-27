@@ -3,54 +3,42 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { currentNameStateState } from "../../context/atom";
-import useHasPermission from "../../hooks/auth/useHasPermission";
 
 interface ActionsCellProps {
   id: string;
   name: string;
   onDelete: (id: string) => void;
   editPath: string;
-
+  canEdit: boolean;
+  canDelete: boolean;
+  onEdit?: (id: string, name: string) => void;
 }
 
 const ActionsCell: React.FC<ActionsCellProps> = ({
   id,
   name,
   onDelete,
-  editPath, 
+  editPath,
+  canEdit,
+  canDelete,
+  onEdit,
 }) => {
   const navigate = useNavigate();
-  const [, setName] = useRecoilState(currentNameStateState);
-  const hasDeletePermission = useHasPermission("delete");
-  const hasUpdatePermission = useHasPermission("update");
 
+  const handleEdit = () => {
+    if (editPath.includes("state-form")) {
+      onEdit ? onEdit(id, name) : navigate(`/${editPath}/${id}`);
+    } else {
+      navigate(`/${editPath}/${id}`, { state: { mode: "edit", userid: id.toString() } });
+    }
+  };
 
   return (
     <div>
-      <IconButton
-        onClick={() => onDelete(id)}
-        color="error"
-        aria-label="delete"
-        disabled={!hasDeletePermission}
-      >
+      <IconButton onClick={() => onDelete(id)} color="error" aria-label="delete" disabled={!canDelete}>
         <DeleteIcon />
       </IconButton>
-      <IconButton
-        color="primary"
-        aria-label="edit"
-        disabled={!hasUpdatePermission}
-        onClick={() => {
-          if (editPath.includes("state-form")) {
-            navigate(`/${editPath}/${id}`);
-            setName(name);
-          }
-          else{
-            navigate(`/${editPath}/${id}`, { state: { mode: "edit", userid:id.toString() } });
-          }
-        }}
-      >
+      <IconButton onClick={handleEdit} color="primary" aria-label="edit" disabled={!canEdit}>
         <EditIcon />
       </IconButton>
     </div>

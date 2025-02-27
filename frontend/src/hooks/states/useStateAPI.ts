@@ -11,7 +11,7 @@ export const useStateAPI = (id: string | undefined) => {
       if (id) {
         await updateState({ ...values, _id: id } as unknown as IState);
         toast.success("State updated successfully!");
-      } else {
+      } else {        
         const result = await addState(values);
 
         if (result._id) toast.success("State saved successfully!");
