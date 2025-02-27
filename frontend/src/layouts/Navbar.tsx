@@ -45,8 +45,8 @@ export default function ButtonAppBar() {
 <Box
   sx={{
     flexGrow: 1,
-    display: { sm: "flex", md: "block" }, 
-    justifyContent: { sm: "center", md: "flex-start" }, 
+    display: {xs:"flex",sm: "flex", md: "block" }, 
+    justifyContent: {xs:"center", sm: "center", md: "flex-start" }, 
   }}
 >
   <Typography

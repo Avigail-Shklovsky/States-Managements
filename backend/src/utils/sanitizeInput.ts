@@ -8,9 +8,9 @@ export const sanitizeString = (input: string): string => {
     });
   };
 
-  export const sanitizePassword = (input:string):string=>{
-    return "password"
-  }
+  // export const sanitizePassword = (input:string):string=>{
+  //   return "password"
+  // }
 
   export const sanitizeAuth = (input: string[] | undefined): string[] => {
     if (!Array.isArray(input)) return []; 

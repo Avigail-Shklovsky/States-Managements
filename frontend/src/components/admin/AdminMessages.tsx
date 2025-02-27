@@ -1,6 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, CircularProgress, Paper, Divider, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  Divider,
+  useMediaQuery,
+  useTheme,
+  Typography,
+} from "@mui/material";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -17,8 +25,6 @@ import { formatDate } from "../../utils/formatDate";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-
-
 const isMessageClosed = (message: IMessage): boolean => {
   return !!message.dateClose && dayjs(message.dateClose).isBefore(dayjs());
 };
@@ -28,13 +34,18 @@ const AdminMessages: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [permissionType, setPermissionType] = useState<string | null>(null);
   const [isApproved, setIsApproved] = useState<boolean>(false);
-  const { mutation, updatedUser } = useUpdateUserAuth(userId ?? "", permissionType ?? "");
+  const { mutation, updatedUser } = useUpdateUserAuth(
+    userId ?? "",
+    permissionType ?? ""
+  );
   const { mutate: updateUserAuth } = mutation;
   const prevUpdatedUser = useRef<IUser | null>(null);
 
   useEffect(() => {
     if (userId && isApproved && !isLoading && updatedUser) {
-      if (JSON.stringify(prevUpdatedUser.current) !== JSON.stringify(updatedUser)) {
+      if (
+        JSON.stringify(prevUpdatedUser.current) !== JSON.stringify(updatedUser)
+      ) {
         updateUserAuth(updatedUser);
         prevUpdatedUser.current = updatedUser;
       }
@@ -70,7 +81,10 @@ const AdminMessages: React.FC = () => {
       width: 200,
       align: "center",
       renderCell: (params) => (
-        <ApprovalActions message={params.row.originalMessage} onApproval={handleApproval} />
+        <ApprovalActions
+          message={params.row.originalMessage}
+          onApproval={handleApproval}
+        />
       ),
     },
   ];
@@ -89,7 +103,12 @@ const AdminMessages: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height={400}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height={400}
+      >
         <CircularProgress />
       </Box>
     );
@@ -120,9 +139,26 @@ const AdminMessages: React.FC = () => {
                 opacity: row.isClosed ? 0.8 : 1,
               }}
             >
+                <Typography variant="body2" color="textSecondary">
+                <strong> User Name:</strong>  <UsernameCell userId={row.userId} />
+              </Typography>
+             
+              <Typography variant="body2" color="textSecondary">
+                <strong> Action Type:</strong> {row.actionType}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                <strong> Open Date:</strong>
+                {row.dateOpen}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                <strong> Close Date:</strong> {row.dateClose}
+              </Typography>
               <Divider sx={{ my: 1 }} />
-              <UsernameCell userId={row.userId} />
-              <ApprovalActions message={row.originalMessage} onApproval={handleApproval} />
+
+              <ApprovalActions
+                message={row.originalMessage}
+                onApproval={handleApproval}
+              />
             </Paper>
           ))}
         </Box>
@@ -132,7 +168,9 @@ const AdminMessages: React.FC = () => {
           columns={columns}
           pageSizeOptions={[5, 10]}
           disableRowSelectionOnClick
-          getRowClassName={(params) => (params.row.isClosed ? "closed-row" : "")}
+          getRowClassName={(params) =>
+            params.row.isClosed ? "closed-row" : ""
+          }
           sx={{
             "& .closed-row": {
               backgroundColor: "#f5f5f5",

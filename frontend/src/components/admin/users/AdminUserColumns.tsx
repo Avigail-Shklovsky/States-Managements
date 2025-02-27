@@ -34,6 +34,8 @@ export const AdminUserColumns = (onDelete: (id: string) => void): GridColDef[] =
           name={""}
           onDelete={() => onDelete(params.row.id)}
           editPath="edit-profile"
+          canDelete={true}
+          canEdit={true}
         />
       </Box>
     ),

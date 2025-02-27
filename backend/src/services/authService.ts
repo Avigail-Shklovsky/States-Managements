@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/user";
 import crypto from "crypto";
 
+const passwordResetTokens: { [key: string]: string } = {};
+
 export const signUpUser = async (userData: any, file: Express.Multer.File | undefined) => {
   const { firstName, lastName, userName, email, phone, password, auth } = userData;
   const profileImage = file ? file.path : null;
@@ -38,10 +40,6 @@ export const signUpUser = async (userData: any, file: Express.Multer.File | unde
 
   return { user, token };
 };
-
-
-
-const passwordResetTokens: { [key: string]: string } = {};
 
 export const signInService = async (userName: string, password: string) => {
   const user = await UserModel.findOne({ userName });
