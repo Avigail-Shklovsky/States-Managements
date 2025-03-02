@@ -10,13 +10,30 @@ import { useStates } from "../../hooks/states/useStates";
 import useDeleteState from "../../hooks/states/useDeleteState";
 import useHasPermission from "../../hooks/auth/useHasPermission";
 
-const StatesGridLayout = () => {
+interface StatesGridLayoutProps {
+  fetchStates?: typeof useStates;
+  deleteState?: typeof useDeleteState;
+  checkPermission?: typeof useHasPermission;
+}
+
+const StatesGridLayout = ({
+  fetchStates = useStates,
+  deleteState = useDeleteState,
+  checkPermission = useHasPermission,
+}: StatesGridLayoutProps) => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-  const hasCreatePermission = useHasPermission("create");
-  const { data, error, isLoading } = useStates();
-  const { handleDelete } = useDeleteState();
+  const hasCreatePermission = checkPermission("create");
+  const { data, error, isLoading } = fetchStates();
+  const { handleDelete } = deleteState();
+
+  const handleDeleteState = () => {
+    if (selectedRow) {
+      handleDelete(selectedRow);
+      closeModal();
+    }
+  };
 
   const rows =
     data?.map((state: IState) => ({
@@ -38,12 +55,12 @@ const StatesGridLayout = () => {
 
   if (error) {
     toast.error(`Failed to fetch states: ${error.message}`);
-    return <></>;
+    return null;
   }
 
   return (
     <div data-testid="states-grid-layout">
-      <Box sx={{ width: "100%", mt:10 }}>
+      <Box sx={{ width: "100%", mt: 10 }}>
         <StatesTable
           rows={rows}
           onDelete={(id) => {
@@ -58,17 +75,7 @@ const StatesGridLayout = () => {
         >
           Add New State
         </Button>
-        <ConfirmModal
-          type="delete"
-          open={isModalOpen}
-          onClose={closeModal}
-          onConfirm={() => {
-            if (selectedRow) {
-              handleDelete(selectedRow);
-              closeModal();
-            }
-          }}
-        />
+        <ConfirmModal type="delete" open={isModalOpen} onClose={closeModal} onConfirm={handleDeleteState} />
       </Box>
     </div>
   );

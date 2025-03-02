@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import "./StateForm.scss";
 import { useStateAPI } from "../../hooks/states/useStateAPI";
 import { useQueryStateById } from "../../hooks/states/useQueryStateById";
+import { Types } from "mongoose";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -50,8 +51,25 @@ const StateForm: React.FC = () => {
     }
   }, [stateData]);
 
+  const handleCancel = (isDirty: boolean) => {
+    if (isDirty) {
+      openModal();
+    } else {
+      navigate("/");
+      setName("");
+    }
+  };
+
   const handleSubmit = async (values: FormValues) => {
-    await handleSaveState(values as unknown as IState);
+    const formattedState: IState = {
+      _id: new Types.ObjectId(),
+      name: values.name,
+      flag: values.flag,
+      population: values.population,
+      region: values.region,
+      cities: [],
+    };
+    await handleSaveState(formattedState);
     setName("");
     navigate(`/`);
   };
@@ -73,7 +91,6 @@ const StateForm: React.FC = () => {
               <Form>
                 <Field
                   name="name"
-                  type="name"
                   as={TextField}
                   variant="outlined"
                   color="primary"
@@ -86,7 +103,6 @@ const StateForm: React.FC = () => {
 
                 <Field
                   name="flag"
-                  type="flag"
                   as={TextField}
                   variant="outlined"
                   color="primary"
@@ -114,7 +130,6 @@ const StateForm: React.FC = () => {
 
                 <Field
                   name="region"
-                  type="name"
                   as={TextField}
                   variant="outlined"
                   color="primary"
@@ -140,13 +155,7 @@ const StateForm: React.FC = () => {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  onClick={() => {
-                    if (dirty) openModal();
-                    else {
-                      navigate(`/`);
-                      setName("");
-                    };
-                  }}
+                  onClick={() => handleCancel(dirty)}
                 >
                   Cancel
                 </Button>
