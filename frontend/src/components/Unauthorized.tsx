@@ -14,8 +14,8 @@ const Unauthorized = () => {
       <Button 
         component={Link} 
         to="/" 
-        variant="contained" 
-        color="primary" 
+         color="primary" 
+       variant="contained" 
         className="mt-6"
       >
         Go Back Home

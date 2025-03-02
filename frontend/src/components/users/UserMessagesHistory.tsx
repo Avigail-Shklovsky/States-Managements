@@ -73,7 +73,6 @@ const UserPermissions: React.FC<UserPermissionsProps> = ({ userId }) => {
       <Paper sx={{ boxShadow: 3, borderRadius: 2, padding: 2 }}>
         <Divider sx={{ mb: 2 }} />
         {isSmallScreen ? (
-          // Card view for small screens
           <>
             {rows && rows.length > 0 ? (
               rows.map((row) => (
@@ -82,7 +81,7 @@ const UserPermissions: React.FC<UserPermissionsProps> = ({ userId }) => {
                   sx={{
                     p: 2,
                     mb: 2,
-                    width: "100%", // Added to ensure card is wider
+                    width: "100%",
                     boxShadow: 3,
                     borderRadius: 2,
                     backgroundColor:
@@ -129,7 +128,6 @@ const UserPermissions: React.FC<UserPermissionsProps> = ({ userId }) => {
             )}
           </>
         ) : (
-          // Table view for larger screens
           <DataGrid
             rows={rows || []}
             columns={columns}

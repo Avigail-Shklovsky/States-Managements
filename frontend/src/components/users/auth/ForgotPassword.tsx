@@ -9,14 +9,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPassword: React.FC = () => {
-  const mutation = useForgotPasswordApi();
+  const { mutate, isPending } = useForgotPasswordApi(); 
   const [emailSent, setEmailSent] = useState(false);
 
   const handleSubmit = (
     values: { email: string },
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    mutation.mutate(values, {
+    mutate(values, {
       onSuccess: () => {
         setEmailSent(true);
       },
@@ -34,8 +34,7 @@ const ForgotPassword: React.FC = () => {
         </Typography>
         {emailSent ? (
           <Typography variant="body1" color="success">
-            If an account with that email exists, a password reset link has been
-            sent.
+            If an account with that email exists, a password reset link has been sent.
           </Typography>
         ) : (
           <Formik
@@ -56,13 +55,8 @@ const ForgotPassword: React.FC = () => {
                 />
                 <Box height={14} />
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                >
-                  {mutation.isPending ? "Sending..." : "Send Reset Link"}
+                <Button type="submit" variant="contained" color="primary" size="large">
+                  {isPending ? "Sending..." : "Send Reset Link"}
                 </Button>
               </Form>
             )}
