@@ -2,18 +2,19 @@ import { useState} from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Box, CssBaseline, Container, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate} from "react-router-dom";
-import { currentUserState } from "../../context/atom";
-import { deleteUser } from "../../services/api/userApi";
-import ConfirmModal from "../states/ConfirmModal";
-import { useModal } from "../../hooks/useModal";
-import useAdminAuth from "../../hooks/auth/useAdminAuth";
 import ProfileSidebar from "./ProfileSidebar";
 import UserProfile from "./UserProfile";
 import UserPermissions from "./UserMessagesHistory";
-import PermissionRequestForm from "../permissions/PermissionRequest";
-import SignUpUpdate from "./auth/SignUpUpdate";
-import { useMessages } from "../../hooks/messages/useMessages";
-import useProfileTabs from "../../hooks/users/useProfileTabs";
+import { currentUserState } from "../../../context/atom";
+import { useModal } from "../../../hooks/useModal";
+import useProfileTabs from "../../../hooks/users/useProfileTabs";
+import { useMessages } from "../../../hooks/messages/useMessages";
+import useAdminAuth from "../../../hooks/auth/useAdminAuth";
+import { deleteUser } from "../../../services/api/userApi";
+import PermissionRequestForm from "../../permissions/PermissionRequest";
+import SignUpUpdate from "../auth/SignUpUpdate";
+import ConfirmModal from "../../states/ConfirmModal";
+
 
 const Profile = () => {
   const user = useRecoilValue(currentUserState);

@@ -6,13 +6,13 @@ import StateForm from "./components/states/StateForm";
 import { RecoilRoot } from "recoil";
 import "../src/styles/_global.scss"; 
 import SignIn from "./components/users/auth/SignIn";
-import Profile from "./components/users/Profile";
 import PermissionRequestForm from "./components/permissions/PermissionRequest";
 import Unauthorized from "./components/Unauthorized";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import SignUpUpdate from "./components/users/auth/SignUpUpdate";
 import ResetPassword from "./components/users/auth/ResetPassword";
 import ForgotPassword from "./components/users/auth/ForgotPassword";
+import Profile from "./components/users/user-profile/ProfileContainer";
 
 function App() {
   

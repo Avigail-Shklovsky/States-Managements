@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { IUser } from "../../types/user";
+import { IUser } from "../../../types/user";
 
 interface UserProfileProps {
   user: IUser;
