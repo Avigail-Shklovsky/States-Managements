@@ -24,12 +24,9 @@ const SignIn: React.FC = () => {
     mutation.mutate(values, {
       onSuccess: (response) => {
         handleUserLocalStorage(response);
-
         navigate("/");
       },
-      onSettled: () => {
-        setSubmitting(false);
-      },
+      onSettled: () => setSubmitting(false),
     });
   };
 
@@ -69,12 +66,7 @@ const SignIn: React.FC = () => {
               />
               <Box height={14} />
 
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
-              >
+              <Button type="submit" variant="contained" color="primary" size="large">
                 {mutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
             </Form>
@@ -84,21 +76,15 @@ const SignIn: React.FC = () => {
         <Box mt={2} textAlign="center">
           <Typography variant="body2">
             Don't have an account?{" "}
-            <Link
-              to="/signup"
-              style={{ textDecoration: "none", color: "#1976d2" }}
-            >
+            <Link to="/signup" style={{ textDecoration: "none", color: "#1976d2" }}>
               Sign up here
             </Link>
           </Typography>
         </Box>
 
         <Box mt={1} textAlign="center">
-          <Link
-            to="/forgot-password"
-            style={{ textDecoration: "none", color: "#1976d2" }}
-          >
-            <Typography variant="body2"> Forgot Password?</Typography>
+          <Link to="/forgot-password" style={{ textDecoration: "none", color: "#1976d2" }}>
+            <Typography variant="body2">Forgot Password?</Typography>
           </Link>
         </Box>
       </div>
