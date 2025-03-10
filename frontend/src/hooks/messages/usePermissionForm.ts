@@ -4,8 +4,9 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../context/atom";
 import { usePermissionRequest } from "../../hooks/messages/usePermissionRequest";
 import { usePendingPermissionRequest } from "../../hooks/messages/usePendingPermissionRequest";
+import { ACTION_TYPES } from "../../constants";
 
-const validPermissions = ["read", "create", "update", "delete"];
+const validPermissions = [ACTION_TYPES.CREATE, ACTION_TYPES.DELETE, ACTION_TYPES.READ,ACTION_TYPES.UPDATE]
 
 export const usePermissionForm = () => {
   const [permission, setPermission] = useState<string>("");

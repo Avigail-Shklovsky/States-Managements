@@ -1,13 +1,16 @@
 import { Box, Button, Typography, Modal } from "@mui/material";
 import { ConfirmModalProps } from "../../types/confirmModalProps";
 import './ConfirmModal.scss';
+import { BASE_ACTIONS } from "../../constants";
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   open,
   onClose,
   onConfirm,
-  type = "cancel",
+  type ,
 }) => {
+
+  // CHANGE TO CONSTANTS USAGE
   const modalContent = () => {
     switch (type) {
       case "delete":
@@ -41,7 +44,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         {subtitle && <Typography className="modal-subtitle">{subtitle}</Typography>}
         <Box className="button-container">
           <Button onClick={onConfirm}>{buttonText}</Button>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose}>{BASE_ACTIONS.CANCEL}</Button>
         </Box>
       </Box>
     </Modal>

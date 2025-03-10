@@ -6,4 +6,4 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const formatDate = (date: Date | string | null | undefined): string =>
-  date ? dayjs(date).tz("Asia/Jerusalem").format("MMM D, YYYY, hh:mm A") : "N/A";
+  date ? dayjs(date).tz("Asia/Jerusalem").format("MMM D, YYYY, hh:mm A") : "open";

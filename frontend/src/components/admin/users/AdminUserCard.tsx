@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Typography, Divider, Paper } from "@mui/material";
 import ActionsCell from "../../states/ActionsCell";
 import { formatDate } from "../../../utils/formatDate";
+import {  ACTION_TYPES, PATHS, USER_PROPS_FORMAL } from "../../../constants";
+import useHasPermission from "../../../hooks/auth/useHasPermission";
 
 export interface UserRow {
   id: string;
@@ -45,7 +47,7 @@ const AdminUserCard: React.FC<AdminUserCardProps> = ({
   >
     <Box display="flex" alignItems="center">
       <img
-        src={`http://localhost:5000/${row.profilePicture}`}
+        src={`${PATHS.LOCAL_HOST_5000}/${row.profilePicture}`}
         alt="Profile"
         style={{
           width: "45px",
@@ -64,16 +66,16 @@ const AdminUserCard: React.FC<AdminUserCardProps> = ({
     </Box>
     <Divider sx={{ my: 1 }} />
     <Typography variant="body2">
-      <strong>Email:</strong> {row.email}
+      <strong>{USER_PROPS_FORMAL.EMAIL}</strong> {row.email}
     </Typography>
     <Typography variant="body2">
-      <strong>Phone:</strong> {row.phone}
+      <strong>{USER_PROPS_FORMAL.PHONE}</strong> {row.phone}
     </Typography>
     <Typography variant="body2">
-      <strong>Last Updated:</strong> {formatDate(row.lastUpdated)}
+      <strong>{USER_PROPS_FORMAL.LAST_UPDATED}</strong> {formatDate(row.lastUpdated)}
     </Typography>
     <Typography variant="body2">
-      <strong>Permissions:</strong> {row.permissions}
+      <strong>{USER_PROPS_FORMAL.PERMISSIONS}</strong> {row.permissions}
     </Typography>
     {onDelete && (
       <Box mt={2}>
@@ -81,7 +83,9 @@ const AdminUserCard: React.FC<AdminUserCardProps> = ({
           id={row.id}
           name={`${row.firstName} ${row.lastName}`}
           onDelete={onDelete}
-          editPath="edit-profile"
+          editPath={PATHS.EDIT_PROFILE}
+          canDelete={useHasPermission(ACTION_TYPES.DELETE)}
+          canEdit={useHasPermission(ACTION_TYPES.UPDATE)}
         />
       </Box>
     )}

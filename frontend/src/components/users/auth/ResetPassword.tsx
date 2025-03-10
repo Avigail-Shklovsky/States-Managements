@@ -4,6 +4,7 @@ import { Typography } from "@mui/material";
 import { useResetPasswordApi } from "../../../hooks/auth/useResetPasswordApi";
 import ResetPasswordForm from "./ResetPasswordForm";
 import toast from "react-hot-toast";
+import { PATHS, RESET_PASSWORD } from "../../../constants";
 
 const ResetPassword: React.FC = () => {
   const { token } = useParams();
@@ -18,8 +19,8 @@ const ResetPassword: React.FC = () => {
         {
           onSuccess: () => {
             setResetSuccess(true);
-            toast.success("Password reset successfully");
-            navigate(`/signin`);
+            toast.success(RESET_PASSWORD.MESSAGE_AFTER_SUCCESS);
+            navigate(PATHS.SIGNIN);
           },
         }
       );
@@ -30,11 +31,11 @@ const ResetPassword: React.FC = () => {
     <div className="container">
       <div className="formWrapper">
         <Typography variant="h4" gutterBottom className="title">
-          Reset Password
+        {RESET_PASSWORD.TITLE}
         </Typography>
         {resetSuccess ? (
           <Typography variant="body1" color="success">
-            Password reset successfully! Redirecting...
+          {RESET_PASSWORD.MESSAGE_AFTER_SUCCESS}
           </Typography>
         ) : (
           <ResetPasswordForm onSubmit={handleSubmit} />

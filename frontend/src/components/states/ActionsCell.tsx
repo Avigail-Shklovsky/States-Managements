@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import { ACTION_TYPES } from "../../constants";
 
 interface ActionsCellProps {
   id: string;
@@ -29,7 +30,7 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
     if (editPath.includes("state-form")) {
       onEdit ? onEdit(id, name) : navigate(`/${editPath}/${id}`);
     } else {
-      navigate(`/${editPath}/${id}`, { state: { mode: "edit", userid: id.toString() } });
+      navigate(`/${editPath}/${id}`, { state: { mode: ACTION_TYPES.DELETE, userid: id.toString() } });
     }
   };
 

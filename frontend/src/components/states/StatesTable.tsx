@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import { Link } from "react-router";
 import useHasPermission from "../../hooks/auth/useHasPermission";
 import CitiesCell from "./CitiesCell";
+import { ACTION_TYPES, PATHS, REQUEST_PERMISSION, STATE_PROPS, STATE_PROPS_FORMAL } from "../../constants";
 
 interface StatesTableProps {
   rows: Array<IState>;
@@ -14,14 +15,14 @@ interface StatesTableProps {
 }
 
 const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
-  const hasCreatePermission = useHasPermission("create");
-  const hasUpdatePermission = useHasPermission("update");
-  const hasDeletePermission = useHasPermission("delete");
+  const hasCreatePermission = useHasPermission(ACTION_TYPES.CREATE);
+  const hasUpdatePermission = useHasPermission(ACTION_TYPES.UPDATE);
+  const hasDeletePermission = useHasPermission(ACTION_TYPES.DELETE);
 
   const columns: GridColDef[] = [
     {
-      field: "flag",
-      headerName: "Flag",
+      field: STATE_PROPS.FLAG,
+      headerName: STATE_PROPS_FORMAL.FLAG,
       flex: 1,
       renderCell: (params) => (
         <img
@@ -31,27 +32,27 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
         />
       ),
     },
-    { field: "name", headerName: "Name", flex: 1 },
-    { field: "population", headerName: "Population", type: "number", flex: 1 },
-    { field: "region", headerName: "Region", flex: 1 },
+    { field: STATE_PROPS.NAME, headerName: STATE_PROPS_FORMAL.NAME, flex: 1 },
+    { field: STATE_PROPS.POPULATION, headerName: STATE_PROPS_FORMAL.POPULATION, type: "number", flex: 1 },
+    { field: STATE_PROPS.REGION, headerName:STATE_PROPS_FORMAL.REGION, flex: 1 },
     {
-      field: "cities",
-      headerName: "Cities",
+      field: STATE_PROPS.CITIES,
+      headerName: STATE_PROPS_FORMAL.CITIES,
       flex: 3,
       renderCell: (params) => (
         <CitiesCell stateId={params.row._id} cities={params.value} />
       ),
     },
     {
-      field: "actions",
-      headerName: "Actions",
+      field: STATE_PROPS.ACTIONS,
+      headerName: STATE_PROPS_FORMAL.ACTIONS,
       flex: 1,
       renderCell: (params) => (
         <ActionsCell
           id={params.row.id}
           name={params.row.name}
           onDelete={onDelete}
-          editPath="state-form"
+          editPath={PATHS.STATE_FORM}
           canDelete={hasDeletePermission}
           canEdit={hasUpdatePermission}
         />
@@ -81,7 +82,7 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
           color="error"
           sx={{ textAlign: "center", marginTop: 2 }}
         >
-          You don't have permission to perform certain actions.
+          {REQUEST_PERMISSION.NO_PERMISSION_ERROR}
           <br />
           <Link
             to="/profile?tab=permission-form"
@@ -92,7 +93,7 @@ const StatesTable: React.FC<StatesTableProps> = ({ rows, onDelete }) => {
               cursor: "pointer",
             }}
           >
-            Request Permission
+            {REQUEST_PERMISSION.REQUEST_LINK}
           </Link>
         </Typography>
       )}

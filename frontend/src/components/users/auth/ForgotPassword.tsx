@@ -3,9 +3,10 @@ import { TextField, Button, Typography, Box } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useForgotPasswordApi } from "../../../hooks/auth/useForgotPasswordApi";
+import { FORGOT_PASSWORD, USER_PROPS, USER_PROPS_FORMAL, YUP_ERRORS_AUTH } from "../../../constants";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
+  email: Yup.string().email(YUP_ERRORS_AUTH.EMAIL_FORMAT).required(YUP_ERRORS_AUTH.EMAIL),
 });
 
 const ForgotPassword: React.FC = () => {
@@ -30,11 +31,11 @@ const ForgotPassword: React.FC = () => {
     <div className="container">
       <div className="formWrapper">
         <Typography variant="h4" gutterBottom className="title">
-          Forgot Password
+      {FORGOT_PASSWORD.TITLE}
         </Typography>
         {emailSent ? (
           <Typography variant="body1" color="success">
-            If an account with that email exists, a password reset link has been sent.
+            {FORGOT_PASSWORD.MESSAGE_AFTER_SEND}
           </Typography>
         ) : (
           <Formik
@@ -45,10 +46,10 @@ const ForgotPassword: React.FC = () => {
             {({ touched, errors }) => (
               <Form>
                 <Field
-                  name="email"
+                  name={USER_PROPS.EMAIL}
                   as={TextField}
                   variant="outlined"
-                  label="Email"
+                  label={USER_PROPS_FORMAL.EMAIL}
                   fullWidth
                   error={Boolean(errors.email) && Boolean(touched.email)}
                   helperText={touched.email && errors.email}
@@ -56,7 +57,7 @@ const ForgotPassword: React.FC = () => {
                 <Box height={14} />
 
                 <Button type="submit" variant="contained" color="primary" size="large">
-                  {isPending ? "Sending..." : "Send Reset Link"}
+                  {isPending ? FORGOT_PASSWORD.SENDING: FORGOT_PASSWORD.SUBMIT}
                 </Button>
               </Form>
             )}

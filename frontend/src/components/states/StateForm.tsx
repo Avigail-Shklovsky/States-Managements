@@ -13,14 +13,15 @@ import "./StateForm.scss";
 import { useStateAPI } from "../../hooks/states/useStateAPI";
 import { useQueryStateById } from "../../hooks/states/useQueryStateById";
 import { Types } from "mongoose";
+import { BASE_ACTIONS, STATE_EDIT_CREATE, YUP_ERRORS_STATE } from "../../constants";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  flag: Yup.string().required("Flag URL is required"),
+  name: Yup.string().required(YUP_ERRORS_STATE.NAME),
+  flag: Yup.string().required(YUP_ERRORS_STATE.FLAG),
   population: Yup.number()
-    .positive("Population must be a positive number")
-    .required("Population is required"),
-  region: Yup.string().required("Region is required"),
+    .positive(YUP_ERRORS_STATE.POPULATION_POSITIVE)
+    .required(YUP_ERRORS_STATE.POPULATION),
+  region: Yup.string().required(YUP_ERRORS_STATE.REGION),
 });
 
 const StateForm: React.FC = () => {
@@ -79,7 +80,7 @@ const StateForm: React.FC = () => {
       <div className="container">
         <div className="formWrapper">
           <Typography variant="h4" gutterBottom className="title">
-            {id ? "Update State" : "Create State"}
+            {id ?  STATE_EDIT_CREATE.UPDATE:STATE_EDIT_CREATE.CREATE}
           </Typography>
           <Formik
             initialValues={initialValues}
@@ -147,8 +148,8 @@ const StateForm: React.FC = () => {
                   size="large"
                   disabled={!dirty || !isValid}
                 >
-                  {id ? "Update State" : "Create State"}
-                </Button>
+            {id ?  STATE_EDIT_CREATE.UPDATE:STATE_EDIT_CREATE.CREATE}
+            </Button>
 
                 <Button
                   type="button"
@@ -157,7 +158,7 @@ const StateForm: React.FC = () => {
                   size="large"
                   onClick={() => handleCancel(dirty)}
                 >
-                  Cancel
+                 {BASE_ACTIONS.CANCEL}
                 </Button>
               </Form>
             )}

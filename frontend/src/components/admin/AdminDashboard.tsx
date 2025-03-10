@@ -16,6 +16,7 @@ import AdminMessages from "./AdminMessages";
 import { useUsers } from "../../hooks/users/useUsers";
 import { useMessages } from "../../hooks/messages/useMessages";
 import AdminSidebar from "./AdminSidebar";
+import { TITLES } from "../../constants";
 
 const AdminDashboard = () => {
   useAdminAuth();
@@ -40,7 +41,9 @@ const AdminDashboard = () => {
   };
 
   const pages: Record<string, React.ReactNode> = {
-    dashboard: <Typography variant="body1">Welcome to the admin panel.</Typography>,
+    dashboard: (
+      <Typography variant="body1">{TITLES.ADMIN_DASHBOARD}</Typography>
+    ),
     manageUsers: <AdminUsers />,
     manageMessages: <AdminMessages />,
   };
@@ -62,7 +65,7 @@ const AdminDashboard = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Admin Dashboard
+              {TITLES.ADMIN_DASHBOARD}
             </Typography>
           </Toolbar>
         </AppBar>

@@ -9,6 +9,7 @@ import ConfirmModal from "../../states/ConfirmModal";
 import { formatDate } from "../../../utils/formatDate";
 import { AdminUserColumns } from "./AdminUserColumns";
 import AdminUserCard, { UserRow } from "./AdminUserCard";
+import { ACTION_TYPES, ERROR, TITLES, TOAST_MESSGAES } from "../../../constants";
 
 const AdminUsersGrid: React.FC = () => {
   const { data, error, isLoading } = useUsers();
@@ -44,14 +45,14 @@ const AdminUsersGrid: React.FC = () => {
     );
 
   if (error) {
-    toast.error(`Failed to fetch users: ${error.message}`);
+    toast.error(TOAST_MESSGAES.ERROR);
     return null;
   }
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Admin User Management
+        {TITLES.ADMIN_USER_MANAGEMENT}
       </Typography>
       {isSmallScreen ? (
         <>
@@ -61,7 +62,7 @@ const AdminUsersGrid: React.FC = () => {
             ))
           ) : (
             <Typography variant="body2" color="text.secondary">
-              No users available.
+              {ERROR.NO_DATA}
             </Typography>
           )}
         </>
@@ -80,7 +81,7 @@ const AdminUsersGrid: React.FC = () => {
       )}
 
       <ConfirmModal
-        type="delete"
+        type={ACTION_TYPES.DELETE}
         open={isModalOpen}
         onClose={closeModal}
         onConfirm={() => {

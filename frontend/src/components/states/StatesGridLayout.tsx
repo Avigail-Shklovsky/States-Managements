@@ -9,6 +9,7 @@ import { IState } from "../../types/state";
 import { useStates } from "../../hooks/states/useStates";
 import useDeleteState from "../../hooks/states/useDeleteState";
 import useHasPermission from "../../hooks/auth/useHasPermission";
+import { ACTION_TYPES, PATHS, STATE_EDIT_CREATE, TOAST_MESSGAES } from "../../constants";
 
 interface StatesGridLayoutProps {
   fetchStates?: typeof useStates;
@@ -24,7 +25,7 @@ const StatesGridLayout = ({
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-  const hasCreatePermission = checkPermission("create");
+  const hasCreatePermission = checkPermission(ACTION_TYPES.CREATE);
   const { data, error, isLoading } = fetchStates();
   const { handleDelete } = deleteState();
 
@@ -54,7 +55,7 @@ const StatesGridLayout = ({
     );
 
   if (error) {
-    toast.error(`Failed to fetch states: ${error.message}`);
+    toast.error(TOAST_MESSGAES.ERROR);
     return null;
   }
 
@@ -71,11 +72,11 @@ const StatesGridLayout = ({
         <Button
           variant="outlined"
           disabled={!hasCreatePermission}
-          onClick={() => navigate("/state-form")}
+          onClick={() => navigate(PATHS.STATE_FORM)}
         >
-          Add New State
+         {STATE_EDIT_CREATE.ADD_NEW}
         </Button>
-        <ConfirmModal type="delete" open={isModalOpen} onClose={closeModal} onConfirm={handleDeleteState} />
+        <ConfirmModal type={ACTION_TYPES.DELETE} open={isModalOpen} onClose={closeModal} onConfirm={handleDeleteState} />
       </Box>
     </div>
   );

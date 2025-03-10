@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ICity } from "../../types/city";
 import { TextField, IconButton } from "@mui/material";
-import { Add, Edit, Delete, Check, Close } from "@mui/icons-material";
+import { Add, Edit, Delete, Check, Close} from "@mui/icons-material";
 import { useCreateCity } from "../../hooks/city/useCreateCity";
 import useDeleteCity from "../../hooks/city/useDeleteCity";
 import { useUpdateCityById } from "../../hooks/city/useUpdateCity";
 import { Types } from "mongoose";
 import useHasPermission from "../../hooks/auth/useHasPermission";
+import { ACTION_TYPES } from "../../constants";
 
 interface CitiesCellProps {
   stateId: string;
@@ -25,9 +26,9 @@ const CitiesCell: React.FC<CitiesCellProps> = ({ stateId, cities }) => {
   const { handleDelete: onDeleteCity } = useDeleteCity();
   const { mutate: onEditCity } = useUpdateCityById();
 
-  const hasCreatePermission = useHasPermission("create");
-  const hasUpdatePermission = useHasPermission("update");
-  const hasDeletePermission = useHasPermission("delete");
+  const hasCreatePermission = useHasPermission(ACTION_TYPES.CREATE);
+  const hasUpdatePermission = useHasPermission(ACTION_TYPES.UPDATE);
+  const hasDeletePermission = useHasPermission(ACTION_TYPES.DELETE);
 
   return (
     <div

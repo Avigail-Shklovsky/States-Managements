@@ -1,5 +1,6 @@
 import { List, ListItem, ListItemText, Drawer } from "@mui/material";
 import { useNavigate } from "react-router";
+import { ADMIN_SIDEBAR_TITLES, ADMIN_SIDEBAR_VALUES } from "../../constants";
 
 const drawerWidth = 240;
 
@@ -23,23 +24,23 @@ const AdminSidebar = ({
       <ListItem
         component="button"
         sx={{ backgroundColor: "white", border: "none" }}
-        onClick={() => handleMenuClick("manageUsers")}
+        onClick={() => handleMenuClick(ADMIN_SIDEBAR_VALUES.USERS)}
       >
-        <ListItemText primary="Manage Users" />
+        <ListItemText primary={ADMIN_SIDEBAR_TITLES.USERS} />
       </ListItem>
       <ListItem
         component="button"
         sx={{ backgroundColor: "white", border: "none" }}
-        onClick={() => handleMenuClick("manageMessages")}
+        onClick={() => handleMenuClick(ADMIN_SIDEBAR_VALUES.REQUESTS)}
       >
-        <ListItemText primary="Permissions Requests" />
+        <ListItemText primary={ADMIN_SIDEBAR_TITLES.REQUESTS} />
       </ListItem>
       <ListItem
         component="button"
         onClick={() => navigate("/")}
         sx={{ backgroundColor: "white", border: "none" }}
       >
-        <ListItemText primary="Exit Dashboard" />
+        <ListItemText primary={ADMIN_SIDEBAR_TITLES.EXIT} />
       </ListItem>
     </List>
   );

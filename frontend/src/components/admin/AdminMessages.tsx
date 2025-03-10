@@ -21,6 +21,7 @@ import { useUpdateUserAuth } from "../../hooks/users/useUpdateUserAuth";
 import { IMessage } from "../../types/message";
 import { IUser } from "../../types/user";
 import { formatDate } from "../../utils/formatDate";
+import { MESSAGE_PROPS, MESSAGE_PROPS_FORMAL ,TOAST_MESSGAES} from "../../constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -67,17 +68,17 @@ const AdminMessages: React.FC = () => {
 
   const columns: GridColDef[] = [
     {
-      field: "username",
-      headerName: "Username",
+      field: MESSAGE_PROPS.USER_NAME,
+      headerName: MESSAGE_PROPS_FORMAL.USER_NAME,
       width: 130,
       renderCell: (params) => <UsernameCell userId={params.row.userId} />,
     },
-    { field: "actionType", headerName: "Action Type", width: 130 },
-    { field: "dateOpen", headerName: "Open Date", width: 180 },
-    { field: "dateClose", headerName: "Close Date", width: 180 },
+    { field: MESSAGE_PROPS.ACTION_TYPE, headerName: MESSAGE_PROPS_FORMAL.ACTION_TYPE, width: 130 },
+    { field: MESSAGE_PROPS.DATE_OPEN, headerName: MESSAGE_PROPS_FORMAL.DATE_OPEN, width: 180 },
+    { field: MESSAGE_PROPS.DATE_CLOSE, headerName: MESSAGE_PROPS_FORMAL.DATE_CLOSE, width: 180 },
     {
-      field: "approved",
-      headerName: "Approve?",
+      field: MESSAGE_PROPS.APPROVED,
+      headerName:MESSAGE_PROPS_FORMAL.APPROVED,
       width: 200,
       align: "center",
       renderCell: (params) => (
@@ -115,7 +116,7 @@ const AdminMessages: React.FC = () => {
   }
 
   if (error) {
-    toast.error(`Failed to fetch messages: ${error.message}`);
+    toast.error(TOAST_MESSGAES.ERROR);
     return null;
   }
 
@@ -140,18 +141,18 @@ const AdminMessages: React.FC = () => {
               }}
             >
                 <Typography variant="body2" color="textSecondary">
-                <strong> User Name:</strong>  <UsernameCell userId={row.userId} />
+                <strong>{MESSAGE_PROPS_FORMAL.USER_NAME}:</strong>  <UsernameCell userId={row.userId} />
               </Typography>
              
               <Typography variant="body2" color="textSecondary">
-                <strong> Action Type:</strong> {row.actionType}
+                <strong>{MESSAGE_PROPS_FORMAL.ACTION_TYPE}:</strong> {row.actionType}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                <strong> Open Date:</strong>
+                <strong> {MESSAGE_PROPS_FORMAL.DATE_OPEN}:</strong>
                 {row.dateOpen}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                <strong> Close Date:</strong> {row.dateClose}
+                <strong> {MESSAGE_PROPS_FORMAL.DATE_CLOSE}:</strong> {row.dateClose}
               </Typography>
               <Divider sx={{ my: 1 }} />
 
