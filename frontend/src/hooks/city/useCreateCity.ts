@@ -38,7 +38,7 @@ export const useCreateCity = () => {
           }
         );
 
-        queryClient.invalidateQueries({ queryKey: ["states"] });
+        // queryClient.invalidateQueries({ queryKey: ["states"] });
       }
     },
 

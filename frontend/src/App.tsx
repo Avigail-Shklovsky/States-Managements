@@ -32,7 +32,6 @@ function App() {
             <Route path="/permission-form" element={<PermissionRequestForm/>}  />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
           </Routes>
         </RecoilRoot>
     </>

@@ -25,10 +25,9 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
   onEdit,
 }) => {
   const navigate = useNavigate();
-
   const handleEdit = () => {
     if (editPath.includes("state-form")) {
-      onEdit ? onEdit(id, name) : navigate(`/${editPath}/${id}`);
+      onEdit ? onEdit(id, name) : navigate(`${editPath}/${id}`);
     } else {
       navigate(`/${editPath}/${id}`, { state: { mode: ACTION_TYPES.DELETE, userid: id.toString() } });
     }

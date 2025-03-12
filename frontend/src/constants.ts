@@ -1,6 +1,6 @@
 export const PATHS = {
   LOCAL_HOST_5000: "http://localhost:5000",
-  EDIT_PROFILE: "edit-profile",
+  EDIT_PROFILE: "/edit-profile",
   STATE_FORM: "/state-form",
   SIGNIN:"/signin"
 };

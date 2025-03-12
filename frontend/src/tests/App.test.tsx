@@ -108,13 +108,13 @@ describe("App Routing", () => {
 //     expect(element).toBeInTheDocument();
 //   });
 
-  test("renders StateForm on '/form' route", () => {
+  test("renders StateForm on '/state-form' route", () => {
     const queryClient = new QueryClient();
 
     render(
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
-          <MemoryRouter initialEntries={["/form"]}>
+          <MemoryRouter initialEntries={["/state-form"]}>
             <App />
           </MemoryRouter>
         </RecoilRoot>

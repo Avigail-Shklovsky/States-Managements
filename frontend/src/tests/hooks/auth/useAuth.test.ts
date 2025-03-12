@@ -19,7 +19,7 @@ describe("useAuth Hook", () => {
     const { result } = renderHook(() => useAuth(), { wrapper: RecoilRoot });
 
     act(() => {
-      result.current.handleLoginLocalStorage({ user: { id: 2, name: "New User" } });
+      result.current.handleUserLocalStorage({ user: { id: 2, name: "New User" } });
     });
 
     expect(localStorage.getItem("user")).toBe(JSON.stringify({ id: 2, name: "New User" }));

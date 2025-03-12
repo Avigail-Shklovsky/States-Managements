@@ -27,7 +27,7 @@ describe("useHasPermission", () => {
 
   it("should return false if the user does not have the permission", () => {
     const mockUser = {
-      auth: ["read", "write"],
+      auth: ["read", "create"],
     };
 
     //@ts-ignore
